@@ -1,5 +1,5 @@
 {
-    "name": "largezhou\/wechat-menu",
+    "name": "largezhou/wechat-menu",
     "description": "Package description here.",
     "license": "MIT",
     "authors": [
@@ -8,7 +8,11 @@
             "email": "largezhou@hotmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "php": ">=7.0",
+        "ext-json": "*",
+        "overtrue/wechat": "~4.0"
+    },
     "autoload": {
         "psr-4": {
             "Largezhou\\WechatMenu\\": "src"
