@@ -1,0 +1,17 @@
+{
+    "name": "largezhou\/wechat-menu",
+    "description": "Package description here.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "largezhou",
+            "email": "largezhou@hotmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Largezhou\\WechatMenu\\": "src"
+        }
+    }
+}
