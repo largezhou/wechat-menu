@@ -17,5 +17,8 @@
         "psr-4": {
             "Largezhou\\WechatMenu\\": "src"
         }
+    },
+    "config": {
+        "sort-packages": true
     }
 }
