@@ -11677,7 +11677,7 @@ process.umask = function() { return 0; };
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(8)
+  __webpack_require__(20)
 }
 var normalizeComponent = __webpack_require__(13)
 /* script */
@@ -11722,46 +11722,8 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(9);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(11)("04afe337", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-47efc53b\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Menus.vue", function() {
-     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-47efc53b\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Menus.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(10)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
-
-// exports
-
-
-/***/ }),
+/* 8 */,
+/* 9 */,
 /* 10 */
 /***/ (function(module, exports) {
 
@@ -12223,6 +12185,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'Menus'
@@ -12236,9 +12211,32 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("h1", [_vm._v("这是微信菜单管理页面")])
+  return _vm._m(0)
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "edit-area" }, [
+      _c("div", { staticClass: "preview" }, [
+        _c("div", { staticClass: "header" }, [
+          _c("span", { staticClass: "text" }, [_vm._v("公众号")])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "actions" }, [
+          _c("div", { staticClass: "action" }, [_vm._v("菜单名称")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "action active" }, [_vm._v("菜单名称")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "action add" }, [_vm._v("+")])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form" })
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -12253,6 +12251,49 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 17 */,
+/* 18 */,
+/* 19 */,
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(21);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(11)("e757b786", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-47efc53b\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/sass-loader/lib/loader.js!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Menus.vue", function() {
+     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-47efc53b\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/sass-loader/lib/loader.js!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Menus.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(10)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.edit-area[data-v-47efc53b] {\n  height: 600px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.edit-area .preview[data-v-47efc53b] {\n    min-width: 300px;\n    margin-right: 20px;\n    border: 1px solid #e7e7eb;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.edit-area .form[data-v-47efc53b] {\n    min-width: 800px;\n    width: 1000px;\n    background-color: green;\n}\n.edit-area .header[data-v-47efc53b] {\n    height: 50px;\n    background: #3a3a3e;\n    color: white;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n}\n.edit-area .actions[data-v-47efc53b] {\n    height: 50px;\n    background: #fafafa;\n    border-top: 1px solid #e7e7eb;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    line-height: 50px;\n}\n.edit-area .actions .action[data-v-47efc53b] {\n      width: 100%;\n      -webkit-box-flex: 1;\n          -ms-flex-positive: 1;\n              flex-grow: 1;\n      text-align: center;\n      cursor: pointer;\n      color: #969696;\n      overflow: hidden;\n      border-left: 1px solid #e7e7eb;\n}\n.edit-area .actions .action[data-v-47efc53b]:first-child {\n        border-left: none;\n}\n.edit-area .actions .action[data-v-47efc53b]:hover {\n        color: #000;\n}\n.edit-area .actions .action.active[data-v-47efc53b] {\n        border: 1px solid #44b549;\n        color: #44b549;\n}\n.edit-area .actions .action.add[data-v-47efc53b] {\n        font-size: 35px;\n        font-weight: 100;\n}\n", ""]);
+
+// exports
+
 
 /***/ })
 /******/ ]);
