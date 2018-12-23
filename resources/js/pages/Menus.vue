@@ -4,10 +4,16 @@
             <div class="header">
                 <span class="text">公众号</span>
             </div>
-            <div class="actions">
-                <div class="action">菜单名称</div>
-                <div class="action active">菜单名称</div>
-                <div class="action add">+</div>
+            <div class="menus">
+                <div class="menu">
+                    <span>菜单名称</span>
+                    <div class="sub-menus">
+                        <div class="menu active">子菜单名称</div>
+                        <div class="menu add">+</div>
+                    </div>
+                </div>
+                <div class="menu">菜单名称</div>
+                <div class="menu add">+</div>
             </div>
         </div>
         <div class="form">
@@ -50,21 +56,24 @@ export default {
         align-items: center;
     }
 
-    .actions {
+    .menus {
         height: 50px;
         background: #fafafa;
         border-top: 1px solid #e7e7eb;
         display: flex;
         line-height: 50px;
+        position: relative;
+        user-select: none;
 
-        .action {
-            width: 100%;
+        .menu {
             flex-grow: 1;
             text-align: center;
-            cursor: pointer;
+            cursor: move;
             color: #969696;
             overflow: hidden;
             border-left: 1px solid #e7e7eb;
+            font-size: 15px;
+            width: 33.33%;
 
             &:first-child {
                 border-left: none;
@@ -82,6 +91,23 @@ export default {
             &.add {
                 font-size: 35px;
                 font-weight: 100;
+                cursor: pointer;
+            }
+        }
+    }
+
+    .sub-menus {
+        position: absolute;
+        top: -115px;
+        left: 33.33%;
+        width: 100%;
+
+        .menu {
+            border: 1px solid #e7e7eb;
+
+            &:first-child:not(.active) {
+                border-bottom: none;
+                border-left: 1px solid #e7e7eb;
             }
         }
     }
