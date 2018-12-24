@@ -19,6 +19,16 @@ class Config
     }
 
     /**
+     * 返回用来设置前端 axios 请求的 baseURL 元素
+     *
+     * @return string
+     */
+    public static function renderPrefixEl(): string
+    {
+        return '<div id="wechat-menu-prefix" data-prefix="'.static::$routePrefix.'"></div>';
+    }
+
+    /**
      * 设置微信公众号的配置
      *
      * @param array $config

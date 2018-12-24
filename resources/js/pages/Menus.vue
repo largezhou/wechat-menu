@@ -22,8 +22,26 @@
 </template>
 
 <script>
+import { getMenus } from '../api/wechat'
+
 export default {
     name: 'Menus',
+    data() {
+        return {
+            menus: [],
+        }
+    },
+    created() {
+        this.getData()
+    },
+    methods: {
+        getData() {
+            getMenus()
+                .then(res => {
+                    log(res.data)
+                })
+        },
+    },
 }
 </script>
 

@@ -1,13 +1,9 @@
-import Vue from 'vue';
+import Vue from 'vue'
 
-// let token = document.head.querySelector('meta[name="csrf-token"]');
+window.log = console.log.bind(console)
 
-// if (token) {
-//     axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-// }
-
-Vue.component('menus', require('./pages/Menus'));
+Vue.component('menus', require('./pages/Menus'))
 
 new Vue({
     el: '#wechat-menu',
-});
+})

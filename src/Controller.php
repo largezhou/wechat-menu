@@ -2,9 +2,9 @@
 
 namespace Largezhou\WechatMenu;
 
-class Data
+trait Controller
 {
-    public static function getMenus()
+    public function getMenus()
     {
         return WechatApp::getApp()->menu->list();
     }
