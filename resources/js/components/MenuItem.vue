@@ -3,16 +3,20 @@
         v-if="add"
         class="menu add"
         :style="{ width: menuWidth }"
-    >+
+    >
+        <span @click="onAddMenu">+</span>
     </div>
 
     <div
         v-else
         class="menu"
-        :class="{ active }"
         :style="{ width: menuWidth }"
     >
-        <span class="name">{{ menu.name }}</span>
+        <span
+            class="name"
+            :class="{ active }"
+            @click="onActive"
+        >{{ menu.name }}</span>
         <div
             v-if="hasSub"
             class="sub-menus"
@@ -20,9 +24,10 @@
         >
             <div>
                 <menu-item
-                    v-for="(subMenu, index) of menu.sub_button"
+                    v-for="(subMenu, subIndex) of menu.sub_button"
                     :menu="subMenu"
-                    :key="index"
+                    :key="subIndex"
+                    :index="index + '-' + subIndex"
                 />
 
                 <menu-item
@@ -65,6 +70,7 @@ export default {
         add: Boolean,
         menu: Object,
         menuWidth: String,
+        index: [String, Number],
     },
     computed: {
         subMenus() {
@@ -92,6 +98,26 @@ export default {
             }
         },
     },
+    mounted() {
+        this.$root.$on('menuActive', this.onOtherActivated)
+    },
+    beforeDestroy() {
+        this.$root.$off('menuActive', this.onOtherActivated)
+    },
+    methods: {
+        onActive() {
+            this.active = true
+            this.$root.$emit('menuActive', this.index)
+        },
+        onAddMenu() {
+
+        },
+        onOtherActivated(index) {
+            if (this.index != index) {
+                this.active = false
+            }
+        },
+    },
 }
 </script>
 
@@ -107,15 +133,6 @@ export default {
 
     &:first-child {
         border-left: none;
-    }
-
-    &.active {
-        color: #44b549;
-
-        .name {
-            border: 2px solid #44b549;
-            line-height: 44px;
-        }
     }
 
     &.add {
@@ -150,6 +167,12 @@ export default {
 
     &:hover {
         color: #000;
+    }
+
+    &.active {
+        border: 2px solid #44b549;
+        line-height: 44px;
+        color: #44b549;
     }
 }
 

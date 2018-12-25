@@ -14773,6 +14773,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -14899,7 +14900,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.menu[data-v-23ec797d] {\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1;\n  text-align: center;\n  color: #969696;\n  border-left: 1px solid #e7e7eb;\n  position: relative;\n  font-size: 15px;\n  height: 50px;\n}\n.menu[data-v-23ec797d]:first-child {\n    border-left: none;\n}\n.menu.active[data-v-23ec797d] {\n    color: #44b549;\n}\n.menu.active .name[data-v-23ec797d] {\n      border: 2px solid #44b549;\n      line-height: 44px;\n}\n.menu.add[data-v-23ec797d] {\n    font-size: 35px;\n    font-weight: 100;\n    cursor: pointer;\n}\n.sub-menus[data-v-23ec797d] {\n  top: 60px;\n  position: absolute;\n  width: 100%;\n}\n.sub-menus .menu[data-v-23ec797d] {\n    border: 1px solid #e7e7eb;\n    border-top: none;\n}\n.sub-menus .menu[data-v-23ec797d]:first-child {\n      border-top: 1px solid #e7e7eb;\n}\n.name[data-v-23ec797d] {\n  display: block;\n  word-break: keep-all;\n  overflow: hidden;\n  height: 50px;\n  line-height: 48px;\n  cursor: move;\n}\n.name[data-v-23ec797d]:hover {\n    color: #000;\n}\n.arrow-down[data-v-23ec797d] {\n  position: absolute;\n  bottom: -6px;\n  left: 45%;\n  display: inline-block;\n  width: 0;\n  height: 0;\n  border-width: 6px;\n  border-style: dashed;\n  border-color: transparent;\n  border-bottom-width: 0;\n  border-top-color: #d0d0d0;\n  border-top-style: solid;\n}\n", ""]);
+exports.push([module.i, "\n.menu[data-v-23ec797d] {\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1;\n  text-align: center;\n  color: #969696;\n  border-left: 1px solid #e7e7eb;\n  position: relative;\n  font-size: 15px;\n  height: 50px;\n}\n.menu[data-v-23ec797d]:first-child {\n    border-left: none;\n}\n.menu.add[data-v-23ec797d] {\n    font-size: 35px;\n    font-weight: 100;\n    cursor: pointer;\n}\n.sub-menus[data-v-23ec797d] {\n  top: 60px;\n  position: absolute;\n  width: 100%;\n}\n.sub-menus .menu[data-v-23ec797d] {\n    border: 1px solid #e7e7eb;\n    border-top: none;\n}\n.sub-menus .menu[data-v-23ec797d]:first-child {\n      border-top: 1px solid #e7e7eb;\n}\n.name[data-v-23ec797d] {\n  display: block;\n  word-break: keep-all;\n  overflow: hidden;\n  height: 50px;\n  line-height: 48px;\n  cursor: move;\n}\n.name[data-v-23ec797d]:hover {\n    color: #000;\n}\n.name.active[data-v-23ec797d] {\n    border: 2px solid #44b549;\n    line-height: 44px;\n    color: #44b549;\n}\n.arrow-down[data-v-23ec797d] {\n  position: absolute;\n  bottom: -6px;\n  left: 45%;\n  display: inline-block;\n  width: 0;\n  height: 0;\n  border-width: 6px;\n  border-style: dashed;\n  border-color: transparent;\n  border-bottom-width: 0;\n  border-top-color: #d0d0d0;\n  border-top-style: solid;\n}\n", ""]);
 
 // exports
 
@@ -14910,6 +14911,11 @@ exports.push([module.i, "\n.menu[data-v-23ec797d] {\n  -webkit-box-flex: 1;\n   
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
 //
 //
 //
@@ -14977,7 +14983,8 @@ var SUB_MENUS_OFFSET = 10;
     props: {
         add: Boolean,
         menu: Object,
-        menuWidth: String
+        menuWidth: String,
+        index: [String, Number]
     },
     computed: {
         subMenus: function subMenus() {
@@ -15004,6 +15011,25 @@ var SUB_MENUS_OFFSET = 10;
                 top: top
             };
         }
+    },
+    mounted: function mounted() {
+        this.$root.$on('menuActive', this.onOtherActivated);
+    },
+    beforeDestroy: function beforeDestroy() {
+        this.$root.$off('menuActive', this.onOtherActivated);
+    },
+
+    methods: {
+        onActive: function onActive() {
+            this.active = true;
+            this.$root.$emit('menuActive', this.index);
+        },
+        onAddMenu: function onAddMenu() {},
+        onOtherActivated: function onOtherActivated(index) {
+            if (this.index != index) {
+                this.active = false;
+            }
+        }
     }
 });
 
@@ -15017,46 +15043,45 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _vm.add
     ? _c("div", { staticClass: "menu add", style: { width: _vm.menuWidth } }, [
-        _vm._v("+\n")
+        _c("span", { on: { click: _vm.onAddMenu } }, [_vm._v("+")])
       ])
-    : _c(
-        "div",
-        {
-          staticClass: "menu",
-          class: { active: _vm.active },
-          style: { width: _vm.menuWidth }
-        },
-        [
-          _c("span", { staticClass: "name" }, [_vm._v(_vm._s(_vm.menu.name))]),
-          _vm._v(" "),
-          _vm.hasSub
-            ? _c(
+    : _c("div", { staticClass: "menu", style: { width: _vm.menuWidth } }, [
+        _c(
+          "span",
+          {
+            staticClass: "name",
+            class: { active: _vm.active },
+            on: { click: _vm.onActive }
+          },
+          [_vm._v(_vm._s(_vm.menu.name))]
+        ),
+        _vm._v(" "),
+        _vm.hasSub
+          ? _c("div", { staticClass: "sub-menus", style: _vm.subMenusStyles }, [
+              _c(
                 "div",
-                { staticClass: "sub-menus", style: _vm.subMenusStyles },
                 [
-                  _c(
-                    "div",
-                    [
-                      _vm._l(_vm.menu.sub_button, function(subMenu, index) {
-                        return _c("menu-item", {
-                          key: index,
-                          attrs: { menu: subMenu }
-                        })
-                      }),
-                      _vm._v(" "),
-                      !_vm.subIsMaximum
-                        ? _c("menu-item", { attrs: { add: "" } })
-                        : _vm._e()
-                    ],
-                    2
-                  ),
+                  _vm._l(_vm.menu.sub_button, function(subMenu, subIndex) {
+                    return _c("menu-item", {
+                      key: subIndex,
+                      attrs: {
+                        menu: subMenu,
+                        index: _vm.index + "-" + subIndex
+                      }
+                    })
+                  }),
                   _vm._v(" "),
-                  _c("div", { staticClass: "arrow-down" })
-                ]
-              )
-            : _vm._e()
-        ]
-      )
+                  !_vm.subIsMaximum
+                    ? _c("menu-item", { attrs: { add: "" } })
+                    : _vm._e()
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "arrow-down" })
+            ])
+          : _vm._e()
+      ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -15083,7 +15108,7 @@ var render = function() {
       _vm._l(_vm.menus, function(menu, index) {
         return _c("menu-item", {
           key: index,
-          attrs: { menu: menu, "menu-width": _vm.menuWidth }
+          attrs: { menu: menu, index: index, "menu-width": _vm.menuWidth }
         })
       }),
       _vm._v(" "),
