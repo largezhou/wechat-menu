@@ -14953,6 +14953,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /**
  * 子菜单最大数量
@@ -14976,7 +14977,8 @@ var SUB_MENUS_OFFSET = 10;
     name: 'MenuItem',
     data: function data() {
         return {
-            active: false
+            active: false,
+            currentIndex: null
         };
     },
 
@@ -15010,6 +15012,24 @@ var SUB_MENUS_OFFSET = 10;
             return {
                 top: top
             };
+        },
+        showSub: function showSub() {
+            return this.active || this.anySubActive;
+        },
+
+        /**
+         * 所有子菜单的唯一索引数组
+         * @returns {Array}
+         */
+        subIndexes: function subIndexes() {
+            var _this = this;
+
+            return this.subMenus.map(function (item, i) {
+                return _this.index + '-' + i;
+            });
+        },
+        anySubActive: function anySubActive() {
+            return this.subIndexes.indexOf(this.currentIndex) !== -1;
         }
     },
     mounted: function mounted() {
@@ -15026,6 +15046,8 @@ var SUB_MENUS_OFFSET = 10;
         },
         onAddMenu: function onAddMenu() {},
         onOtherActivated: function onOtherActivated(index) {
+            this.currentIndex = index;
+
             if (this.index != index) {
                 this.active = false;
             }
@@ -15057,29 +15079,44 @@ var render = function() {
         ),
         _vm._v(" "),
         _vm.hasSub
-          ? _c("div", { staticClass: "sub-menus", style: _vm.subMenusStyles }, [
-              _c(
-                "div",
-                [
-                  _vm._l(_vm.menu.sub_button, function(subMenu, subIndex) {
-                    return _c("menu-item", {
-                      key: subIndex,
-                      attrs: {
-                        menu: subMenu,
-                        index: _vm.index + "-" + subIndex
-                      }
-                    })
-                  }),
-                  _vm._v(" "),
-                  !_vm.subIsMaximum
-                    ? _c("menu-item", { attrs: { add: "" } })
-                    : _vm._e()
+          ? _c(
+              "div",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.showSub,
+                    expression: "showSub"
+                  }
                 ],
-                2
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "arrow-down" })
-            ])
+                staticClass: "sub-menus",
+                style: _vm.subMenusStyles
+              },
+              [
+                _c(
+                  "div",
+                  [
+                    _vm._l(_vm.menu.sub_button, function(subMenu, subIndex) {
+                      return _c("menu-item", {
+                        key: subIndex,
+                        attrs: {
+                          menu: subMenu,
+                          index: _vm.index + "-" + subIndex
+                        }
+                      })
+                    }),
+                    _vm._v(" "),
+                    !_vm.subIsMaximum
+                      ? _c("menu-item", { attrs: { add: "" } })
+                      : _vm._e()
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "arrow-down" })
+              ]
+            )
           : _vm._e()
       ])
 }
@@ -15108,7 +15145,11 @@ var render = function() {
       _vm._l(_vm.menus, function(menu, index) {
         return _c("menu-item", {
           key: index,
-          attrs: { menu: menu, index: index, "menu-width": _vm.menuWidth }
+          attrs: {
+            menu: menu,
+            index: index.toString(),
+            "menu-width": _vm.menuWidth
+          }
         })
       }),
       _vm._v(" "),

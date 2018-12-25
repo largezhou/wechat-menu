@@ -19,6 +19,7 @@
         >{{ menu.name }}</span>
         <div
             v-if="hasSub"
+            v-show="showSub"
             class="sub-menus"
             :style="subMenusStyles"
         >
@@ -64,6 +65,7 @@ export default {
     data() {
         return {
             active: false,
+            currentIndex: null,
         }
     },
     props: {
@@ -97,6 +99,21 @@ export default {
                 top,
             }
         },
+        showSub() {
+            return this.active || this.anySubActive
+        },
+        /**
+         * 所有子菜单的唯一索引数组
+         * @returns {Array}
+         */
+        subIndexes() {
+            return this.subMenus.map((item, i) => {
+                return this.index + '-' + i
+            })
+        },
+        anySubActive() {
+            return this.subIndexes.indexOf(this.currentIndex) !== -1
+        },
     },
     mounted() {
         this.$root.$on('menuActive', this.onOtherActivated)
@@ -113,6 +130,8 @@ export default {
 
         },
         onOtherActivated(index) {
+            this.currentIndex = index
+
             if (this.index != index) {
                 this.active = false
             }

@@ -4,7 +4,7 @@
             v-for="(menu, index) of menus"
             :menu="menu"
             :key="index"
-            :index="index"
+            :index="index.toString()"
             :menu-width="menuWidth"
         />
 
