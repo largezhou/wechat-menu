@@ -8,4 +8,8 @@ trait Controller
     {
         return WechatApp::getApp()->menu->list();
     }
+
+    public function createMenus()
+    {
+    }
 }

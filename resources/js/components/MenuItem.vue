@@ -1,0 +1,170 @@
+<template>
+    <div
+        v-if="add"
+        class="menu add"
+        :style="{ width: menuWidth }"
+    >+
+    </div>
+
+    <div
+        v-else
+        class="menu"
+        :class="{ active }"
+        :style="{ width: menuWidth }"
+    >
+        <span class="name">{{ menu.name }}</span>
+        <div
+            v-if="hasSub"
+            class="sub-menus"
+            :style="subMenusStyles"
+        >
+            <div>
+                <menu-item
+                    v-for="(subMenu, index) of menu.sub_button"
+                    :menu="subMenu"
+                    :key="index"
+                />
+
+                <menu-item
+                    v-if="!subIsMaximum"
+                    add
+                />
+            </div>
+            <div class="arrow-down"/>
+        </div>
+    </div>
+</template>
+
+<script>
+/**
+ * 子菜单最大数量
+ * @type {number}
+ */
+const MAX_SUB_COUNT = 5
+
+/**
+ * 菜单的样式高度
+ * @type {number}
+ */
+const MENU_HEIGHT = 50
+
+/**
+ * 子菜单块的 top 样式的偏移量
+ * @type {number}
+ */
+const SUB_MENUS_OFFSET = 10
+
+export default {
+    name: 'MenuItem',
+    data() {
+        return {
+            active: false,
+        }
+    },
+    props: {
+        add: Boolean,
+        menu: Object,
+        menuWidth: String,
+    },
+    computed: {
+        subMenus() {
+            return this.menu.sub_button
+        },
+        hasSub() {
+            return this.subMenus.length > 0
+        },
+        subIsMaximum() {
+            return this.subMenus.length == MAX_SUB_COUNT
+        },
+        subsCount() {
+            const count = this.subMenus.length
+            if (this.columnIsMaximum || count == MAX_SUB_COUNT - 1) {
+                return MAX_SUB_COUNT
+            } else {
+                return count + 1
+            }
+        },
+        subMenusStyles() {
+            const top = -(this.subsCount * MENU_HEIGHT + SUB_MENUS_OFFSET) + 'px'
+
+            return {
+                top,
+            }
+        },
+    },
+}
+</script>
+
+<style scoped lang="scss">
+.menu {
+    flex-grow: 1;
+    text-align: center;
+    color: #969696;
+    border-left: 1px solid #e7e7eb;
+    position: relative;
+    font-size: 15px;
+    height: 50px;
+
+    &:first-child {
+        border-left: none;
+    }
+
+    &.active {
+        color: #44b549;
+
+        .name {
+            border: 2px solid #44b549;
+            line-height: 44px;
+        }
+    }
+
+    &.add {
+        font-size: 35px;
+        font-weight: 100;
+        cursor: pointer;
+    }
+}
+
+.sub-menus {
+    top: 60px;
+    position: absolute;
+    width: 100%;
+
+    .menu {
+        border: 1px solid #e7e7eb;
+        border-top: none;
+
+        &:first-child {
+            border-top: 1px solid #e7e7eb;
+        }
+    }
+}
+
+.name {
+    display: block;
+    word-break: keep-all;
+    overflow: hidden;
+    height: 50px;
+    line-height: 48px;
+    cursor: move;
+
+    &:hover {
+        color: #000;
+    }
+}
+
+.arrow-down {
+    position: absolute;
+    bottom: -6px;
+    left: 45%;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-width: 6px;
+    border-style: dashed;
+    border-color: transparent;
+    border-bottom-width: 0;
+    border-top-color: #d0d0d0;
+    border-top-style: solid;
+}
+</style>
