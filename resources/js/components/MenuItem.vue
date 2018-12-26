@@ -72,6 +72,9 @@ export default {
         add: Boolean,
         menu: Object,
         menuWidth: String,
+        /**
+         * 菜单唯一标识，由 '父菜单index - 子菜单 index' 组成，如 '0-2'
+         */
         index: [String, Number],
     },
     computed: {
@@ -102,17 +105,15 @@ export default {
         showSub() {
             return this.active || this.anySubActive
         },
-        /**
-         * 所有子菜单的唯一索引数组
-         * @returns {Array}
-         */
-        subIndexes() {
-            return this.subMenus.map((item, i) => {
-                return this.index + '-' + i
-            })
-        },
         anySubActive() {
-            return this.subIndexes.indexOf(this.currentIndex) !== -1
+            if (!this.currentIndex) {
+                return false
+            }
+
+            const [columnIndex, subIndex] = this.currentIndex.split('-')
+
+            return columnIndex == this.index
+                && this.subMenus[subIndex]
         },
     },
     mounted() {

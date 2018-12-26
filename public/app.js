@@ -14911,6 +14911,8 @@ exports.push([module.i, "\n.menu[data-v-23ec797d] {\n  -webkit-box-flex: 1;\n   
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 //
 //
 //
@@ -14986,6 +14988,9 @@ var SUB_MENUS_OFFSET = 10;
         add: Boolean,
         menu: Object,
         menuWidth: String,
+        /**
+         * 菜单唯一标识，由 '父菜单index - 子菜单 index' 组成，如 '0-2'
+         */
         index: [String, Number]
     },
     computed: {
@@ -15016,20 +15021,17 @@ var SUB_MENUS_OFFSET = 10;
         showSub: function showSub() {
             return this.active || this.anySubActive;
         },
-
-        /**
-         * 所有子菜单的唯一索引数组
-         * @returns {Array}
-         */
-        subIndexes: function subIndexes() {
-            var _this = this;
-
-            return this.subMenus.map(function (item, i) {
-                return _this.index + '-' + i;
-            });
-        },
         anySubActive: function anySubActive() {
-            return this.subIndexes.indexOf(this.currentIndex) !== -1;
+            if (!this.currentIndex) {
+                return false;
+            }
+
+            var _currentIndex$split = this.currentIndex.split('-'),
+                _currentIndex$split2 = _slicedToArray(_currentIndex$split, 2),
+                columnIndex = _currentIndex$split2[0],
+                subIndex = _currentIndex$split2[1];
+
+            return columnIndex == this.index && this.subMenus[subIndex];
         }
     },
     mounted: function mounted() {
