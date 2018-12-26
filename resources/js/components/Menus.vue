@@ -3,8 +3,9 @@
         <menu-item
             v-for="(menu, index) of menus"
             :menu="menu"
-            :key="index"
-            :index="index.toString()"
+            v-dragging="{ item: menu, list: menus, group: 'column' }"
+            :index="index"
+            :key="menu.id"
             :menu-width="menuWidth"
         />
 
@@ -12,18 +13,14 @@
             v-if="!columnIsMaximum"
             add
             :menu-width="menuWidth"
+            @click.native="onAddMenu"
         />
     </div>
 </template>
 
 <script>
 import MenuItem from '@/components/MenuItem'
-
-/**
- * 一级菜单最大数量
- * @type {number}
- */
-const MAX_COLUMN = 3
+import { MAX_COLUMN, MAX_SUB_COUNT } from '@/constants'
 
 export default {
     name: 'Menus',
@@ -35,6 +32,13 @@ export default {
             type: Array,
             default: () => ([]),
         },
+        menuAutoId: Number,
+    },
+    mounted() {
+        this.$root.$on('addSubMenu', this.onAddMenu)
+    },
+    beforeDestroy() {
+        this.$root.$off('addSubMenu', this.onAddMenu)
     },
     computed: {
         columnIsMaximum() {
@@ -50,6 +54,52 @@ export default {
         },
         menuWidth() {
             return `${1 / this.columnsCount * 100}%`
+        },
+    },
+    methods: {
+        onAddMenu(parentIndex) {
+            let id
+
+            if (parentIndex instanceof Event) {
+                id = this.addColumn()
+            } else {
+                id = this.addSubMenu(parentIndex)
+            }
+
+            this.$nextTick(() => {
+                this.$root.$emit('menuActive', id)
+            })
+        },
+        addColumn() {
+            if (this.columnIsMaximum) {
+                return
+            }
+
+            return this.realAddMenu(this.menus)
+        },
+        addSubMenu(parentIndex) {
+            const menu = this.menus[parentIndex]
+            const subMenus = menu ? menu.sub_button : null
+
+            if (!subMenus || subMenus.length == MAX_SUB_COUNT) {
+                return
+            }
+
+            return this.realAddMenu(subMenus)
+        },
+        realAddMenu(menus) {
+            const id = this.menuAutoId
+
+            menus.push({
+                name: '菜单名称',
+                type: 'click',
+                id,
+                sub_button: [],
+            })
+
+            this.$emit('update:menuAutoId', id + 1)
+
+            return id
         },
     },
 }

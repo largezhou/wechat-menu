@@ -4,7 +4,7 @@
         class="menu add"
         :style="{ width: menuWidth }"
     >
-        <span @click="onAddMenu">+</span>
+        <span>+</span>
     </div>
 
     <div
@@ -25,15 +25,17 @@
         >
             <div>
                 <menu-item
-                    v-for="(subMenu, subIndex) of menu.sub_button"
+                    v-for="(subMenu, subIndex) of subMenus"
+                    v-dragging="{ item: subMenu, list: subMenus, group: `${menu.id}-subMenus` }"
+                    :index="subIndex"
                     :menu="subMenu"
-                    :key="subIndex"
-                    :index="index + '-' + subIndex"
+                    :key="subMenu.id"
                 />
 
                 <menu-item
                     v-if="!subIsMaximum"
                     add
+                    @click.native="onAddSubMenu(index)"
                 />
             </div>
             <div class="arrow-down"/>
@@ -42,11 +44,7 @@
 </template>
 
 <script>
-/**
- * 子菜单最大数量
- * @type {number}
- */
-const MAX_SUB_COUNT = 5
+import { MAX_SUB_COUNT } from '@/constants'
 
 /**
  * 菜单的样式高度
@@ -65,17 +63,14 @@ export default {
     data() {
         return {
             active: false,
-            currentIndex: null,
+            currentId: null,
         }
     },
     props: {
         add: Boolean,
         menu: Object,
         menuWidth: String,
-        /**
-         * 菜单唯一标识，由 '父菜单index - 子菜单 index' 组成，如 '0-2'
-         */
-        index: [String, Number],
+        index: Number,
     },
     computed: {
         subMenus() {
@@ -89,7 +84,7 @@ export default {
         },
         subsCount() {
             const count = this.subMenus.length
-            if (this.columnIsMaximum || count == MAX_SUB_COUNT - 1) {
+            if (this.subIsMaximum || (count == (MAX_SUB_COUNT - 1))) {
                 return MAX_SUB_COUNT
             } else {
                 return count + 1
@@ -105,37 +100,33 @@ export default {
         showSub() {
             return this.active || this.anySubActive
         },
+        /**
+         * 所有子菜单的唯一索引数组
+         * @returns {Array}
+         */
+        subIndexes() {
+            return this.subMenus.map(item => item.id)
+        },
         anySubActive() {
-            if (!this.currentIndex) {
-                return false
-            }
-
-            const [columnIndex, subIndex] = this.currentIndex.split('-')
-
-            return columnIndex == this.index
-                && this.subMenus[subIndex]
+            return this.subIndexes.indexOf(this.currentId) !== -1
         },
     },
     mounted() {
-        this.$root.$on('menuActive', this.onOtherActivated)
+        !this.add && this.$root.$on('menuActive', this.onOtherActivated)
     },
     beforeDestroy() {
         this.$root.$off('menuActive', this.onOtherActivated)
     },
     methods: {
         onActive() {
-            this.active = true
-            this.$root.$emit('menuActive', this.index)
+            this.$root.$emit('menuActive', this.menu.id)
         },
-        onAddMenu() {
-
+        onAddSubMenu(parentIndex) {
+            this.$root.$emit('addSubMenu', parentIndex)
         },
-        onOtherActivated(index) {
-            this.currentIndex = index
-
-            if (this.index != index) {
-                this.active = false
-            }
+        onOtherActivated(id) {
+            this.currentId = id
+            this.active = this.menu.id == id
         },
     },
 }
@@ -209,5 +200,10 @@ export default {
     border-bottom-width: 0;
     border-top-color: #d0d0d0;
     border-top-style: solid;
+}
+
+.dragging > .name {
+    transform: scale(1.2);
+    background: #efefef;
 }
 </style>

@@ -4,7 +4,7 @@
             <div class="header">
                 <span class="text">公众号</span>
             </div>
-            <menus :menus="menus"/>
+            <menus :menus="menus" :menu-auto-id.sync="menuAutoId"/>
         </div>
         <div class="form">
         </div>
@@ -23,6 +23,7 @@ export default {
     data() {
         return {
             menus: [],
+            menuAutoId: 1,
         }
     },
     created() {
@@ -32,6 +33,23 @@ export default {
         async getData() {
             const res = await getMenus()
             this.menus = res.data.menu.button
+
+            this.menuAutoId = this.addUniqueKey(this.menus)
+        },
+
+        /**
+         * 给菜单加上唯一标识
+         *
+         * @param menus
+         * @param id
+         */
+        addUniqueKey(menus, id = 1) {
+            menus.forEach(item => {
+                item.id = id++
+                id = this.addUniqueKey(item.sub_button, id)
+            })
+
+            return id
         },
     },
 }

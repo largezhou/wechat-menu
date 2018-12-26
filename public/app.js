@@ -1397,9 +1397,14 @@ module.exports = __webpack_require__(56);
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_awe_dnd__ = __webpack_require__(60);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_awe_dnd___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_awe_dnd__);
+
 
 
 window.log = console.log.bind(console);
+
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_awe_dnd___default.a);
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('menu-manager', __webpack_require__(17));
 
@@ -12930,7 +12935,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
     },
     data: function data() {
         return {
-            menus: []
+            menus: [],
+            menuAutoId: 1
         };
     },
     created: function created() {
@@ -12953,7 +12959,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
                                 this.menus = res.data.menu.button;
 
-                            case 4:
+                                this.menuAutoId = this.addUniqueKey(this.menus);
+
+                            case 5:
                             case 'end':
                                 return _context.stop();
                         }
@@ -12966,7 +12974,27 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             }
 
             return getData;
-        }()
+        }(),
+
+
+        /**
+         * 给菜单加上唯一标识
+         *
+         * @param menus
+         * @param id
+         */
+        addUniqueKey: function addUniqueKey(menus) {
+            var _this = this;
+
+            var id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+
+            menus.forEach(function (item) {
+                item.id = id++;
+                id = _this.addUniqueKey(item.sub_button, id);
+            });
+
+            return id;
+        }
     }
 });
 
@@ -14756,6 +14784,9 @@ exports.push([module.i, "\n.menus[data-v-78617599] {\n  height: 50px;\n  backgro
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_MenuItem__ = __webpack_require__(49);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_MenuItem___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_MenuItem__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants__ = __webpack_require__(66);
+//
+//
 //
 //
 //
@@ -14777,11 +14808,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-/**
- * 一级菜单最大数量
- * @type {number}
- */
-var MAX_COLUMN = 3;
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'Menus',
@@ -14794,22 +14820,78 @@ var MAX_COLUMN = 3;
             default: function _default() {
                 return [];
             }
-        }
+        },
+        menuAutoId: Number
     },
+    mounted: function mounted() {
+        this.$root.$on('addSubMenu', this.onAddMenu);
+    },
+    beforeDestroy: function beforeDestroy() {
+        this.$root.$off('addSubMenu', this.onAddMenu);
+    },
+
     computed: {
         columnIsMaximum: function columnIsMaximum() {
-            return this.menus.length == MAX_COLUMN;
+            return this.menus.length == __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* MAX_COLUMN */];
         },
         columnsCount: function columnsCount() {
             var count = this.menus.length;
-            if (this.columnIsMaximum || count == MAX_COLUMN - 1) {
-                return MAX_COLUMN;
+            if (this.columnIsMaximum || count == __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* MAX_COLUMN */] - 1) {
+                return __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* MAX_COLUMN */];
             } else {
                 return count + 1;
             }
         },
         menuWidth: function menuWidth() {
             return 1 / this.columnsCount * 100 + '%';
+        }
+    },
+    methods: {
+        onAddMenu: function onAddMenu(parentIndex) {
+            var _this = this;
+
+            var id = void 0;
+
+            if (parentIndex instanceof Event) {
+                id = this.addColumn();
+            } else {
+                id = this.addSubMenu(parentIndex);
+            }
+
+            this.$nextTick(function () {
+                _this.$root.$emit('menuActive', id);
+            });
+        },
+        addColumn: function addColumn() {
+            if (this.columnIsMaximum) {
+                return;
+            }
+
+            return this.realAddMenu(this.menus);
+        },
+        addSubMenu: function addSubMenu(parentIndex) {
+            var menu = this.menus[parentIndex];
+            var subMenus = menu ? menu.sub_button : null;
+
+            if (!subMenus || subMenus.length == __WEBPACK_IMPORTED_MODULE_1__constants__["b" /* MAX_SUB_COUNT */]) {
+                return;
+            }
+
+            return this.realAddMenu(subMenus);
+        },
+        realAddMenu: function realAddMenu(menus) {
+            var id = this.menuAutoId;
+
+            menus.push({
+                name: '菜单名称',
+                type: 'click',
+                id: id,
+                sub_button: []
+            });
+
+            this.$emit('update:menuAutoId', id + 1);
+
+            return id;
         }
     }
 });
@@ -14900,7 +14982,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.menu[data-v-23ec797d] {\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1;\n  text-align: center;\n  color: #969696;\n  border-left: 1px solid #e7e7eb;\n  position: relative;\n  font-size: 15px;\n  height: 50px;\n}\n.menu[data-v-23ec797d]:first-child {\n    border-left: none;\n}\n.menu.add[data-v-23ec797d] {\n    font-size: 35px;\n    font-weight: 100;\n    cursor: pointer;\n}\n.sub-menus[data-v-23ec797d] {\n  top: 60px;\n  position: absolute;\n  width: 100%;\n}\n.sub-menus .menu[data-v-23ec797d] {\n    border: 1px solid #e7e7eb;\n    border-top: none;\n}\n.sub-menus .menu[data-v-23ec797d]:first-child {\n      border-top: 1px solid #e7e7eb;\n}\n.name[data-v-23ec797d] {\n  display: block;\n  word-break: keep-all;\n  overflow: hidden;\n  height: 50px;\n  line-height: 48px;\n  cursor: move;\n}\n.name[data-v-23ec797d]:hover {\n    color: #000;\n}\n.name.active[data-v-23ec797d] {\n    border: 2px solid #44b549;\n    line-height: 44px;\n    color: #44b549;\n}\n.arrow-down[data-v-23ec797d] {\n  position: absolute;\n  bottom: -6px;\n  left: 45%;\n  display: inline-block;\n  width: 0;\n  height: 0;\n  border-width: 6px;\n  border-style: dashed;\n  border-color: transparent;\n  border-bottom-width: 0;\n  border-top-color: #d0d0d0;\n  border-top-style: solid;\n}\n", ""]);
+exports.push([module.i, "\n.menu[data-v-23ec797d] {\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1;\n  text-align: center;\n  color: #969696;\n  border-left: 1px solid #e7e7eb;\n  position: relative;\n  font-size: 15px;\n  height: 50px;\n}\n.menu[data-v-23ec797d]:first-child {\n    border-left: none;\n}\n.menu.add[data-v-23ec797d] {\n    font-size: 35px;\n    font-weight: 100;\n    cursor: pointer;\n}\n.sub-menus[data-v-23ec797d] {\n  top: 60px;\n  position: absolute;\n  width: 100%;\n}\n.sub-menus .menu[data-v-23ec797d] {\n    border: 1px solid #e7e7eb;\n    border-top: none;\n}\n.sub-menus .menu[data-v-23ec797d]:first-child {\n      border-top: 1px solid #e7e7eb;\n}\n.name[data-v-23ec797d] {\n  display: block;\n  word-break: keep-all;\n  overflow: hidden;\n  height: 50px;\n  line-height: 48px;\n  cursor: move;\n}\n.name[data-v-23ec797d]:hover {\n    color: #000;\n}\n.name.active[data-v-23ec797d] {\n    border: 2px solid #44b549;\n    line-height: 44px;\n    color: #44b549;\n}\n.arrow-down[data-v-23ec797d] {\n  position: absolute;\n  bottom: -6px;\n  left: 45%;\n  display: inline-block;\n  width: 0;\n  height: 0;\n  border-width: 6px;\n  border-style: dashed;\n  border-color: transparent;\n  border-bottom-width: 0;\n  border-top-color: #d0d0d0;\n  border-top-style: solid;\n}\n.dragging > .name[data-v-23ec797d] {\n  -webkit-transform: scale(1.2);\n          transform: scale(1.2);\n  background: #efefef;\n}\n", ""]);
 
 // exports
 
@@ -14911,57 +14993,54 @@ exports.push([module.i, "\n.menu[data-v-23ec797d] {\n  -webkit-box-flex: 1;\n   
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(66);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
-/**
- * 子菜单最大数量
- * @type {number}
- */
-var MAX_SUB_COUNT = 5;
 
 /**
  * 菜单的样式高度
@@ -14980,7 +15059,7 @@ var SUB_MENUS_OFFSET = 10;
     data: function data() {
         return {
             active: false,
-            currentIndex: null
+            currentId: null
         };
     },
 
@@ -14988,10 +15067,7 @@ var SUB_MENUS_OFFSET = 10;
         add: Boolean,
         menu: Object,
         menuWidth: String,
-        /**
-         * 菜单唯一标识，由 '父菜单index - 子菜单 index' 组成，如 '0-2'
-         */
-        index: [String, Number]
+        index: Number
     },
     computed: {
         subMenus: function subMenus() {
@@ -15001,12 +15077,12 @@ var SUB_MENUS_OFFSET = 10;
             return this.subMenus.length > 0;
         },
         subIsMaximum: function subIsMaximum() {
-            return this.subMenus.length == MAX_SUB_COUNT;
+            return this.subMenus.length == __WEBPACK_IMPORTED_MODULE_0__constants__["b" /* MAX_SUB_COUNT */];
         },
         subsCount: function subsCount() {
             var count = this.subMenus.length;
-            if (this.columnIsMaximum || count == MAX_SUB_COUNT - 1) {
-                return MAX_SUB_COUNT;
+            if (this.subIsMaximum || count == __WEBPACK_IMPORTED_MODULE_0__constants__["b" /* MAX_SUB_COUNT */] - 1) {
+                return __WEBPACK_IMPORTED_MODULE_0__constants__["b" /* MAX_SUB_COUNT */];
             } else {
                 return count + 1;
             }
@@ -15021,21 +15097,22 @@ var SUB_MENUS_OFFSET = 10;
         showSub: function showSub() {
             return this.active || this.anySubActive;
         },
+
+        /**
+         * 所有子菜单的唯一索引数组
+         * @returns {Array}
+         */
+        subIndexes: function subIndexes() {
+            return this.subMenus.map(function (item) {
+                return item.id;
+            });
+        },
         anySubActive: function anySubActive() {
-            if (!this.currentIndex) {
-                return false;
-            }
-
-            var _currentIndex$split = this.currentIndex.split('-'),
-                _currentIndex$split2 = _slicedToArray(_currentIndex$split, 2),
-                columnIndex = _currentIndex$split2[0],
-                subIndex = _currentIndex$split2[1];
-
-            return columnIndex == this.index && this.subMenus[subIndex];
+            return this.subIndexes.indexOf(this.currentId) !== -1;
         }
     },
     mounted: function mounted() {
-        this.$root.$on('menuActive', this.onOtherActivated);
+        !this.add && this.$root.$on('menuActive', this.onOtherActivated);
     },
     beforeDestroy: function beforeDestroy() {
         this.$root.$off('menuActive', this.onOtherActivated);
@@ -15043,16 +15120,14 @@ var SUB_MENUS_OFFSET = 10;
 
     methods: {
         onActive: function onActive() {
-            this.active = true;
-            this.$root.$emit('menuActive', this.index);
+            this.$root.$emit('menuActive', this.menu.id);
         },
-        onAddMenu: function onAddMenu() {},
-        onOtherActivated: function onOtherActivated(index) {
-            this.currentIndex = index;
-
-            if (this.index != index) {
-                this.active = false;
-            }
+        onAddSubMenu: function onAddSubMenu(parentIndex) {
+            this.$root.$emit('addSubMenu', parentIndex);
+        },
+        onOtherActivated: function onOtherActivated(id) {
+            this.currentId = id;
+            this.active = this.menu.id == id;
         }
     }
 });
@@ -15067,7 +15142,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _vm.add
     ? _c("div", { staticClass: "menu add", style: { width: _vm.menuWidth } }, [
-        _c("span", { on: { click: _vm.onAddMenu } }, [_vm._v("+")])
+        _c("span", [_vm._v("+")])
       ])
     : _c("div", { staticClass: "menu", style: { width: _vm.menuWidth } }, [
         _c(
@@ -15099,18 +15174,35 @@ var render = function() {
                 _c(
                   "div",
                   [
-                    _vm._l(_vm.menu.sub_button, function(subMenu, subIndex) {
+                    _vm._l(_vm.subMenus, function(subMenu, subIndex) {
                       return _c("menu-item", {
-                        key: subIndex,
-                        attrs: {
-                          menu: subMenu,
-                          index: _vm.index + "-" + subIndex
-                        }
+                        directives: [
+                          {
+                            name: "dragging",
+                            rawName: "v-dragging",
+                            value: {
+                              item: subMenu,
+                              list: _vm.subMenus,
+                              group: _vm.menu.id + "-subMenus"
+                            },
+                            expression:
+                              "{ item: subMenu, list: subMenus, group: `${menu.id}-subMenus` }"
+                          }
+                        ],
+                        key: subMenu.id,
+                        attrs: { index: subIndex, menu: subMenu }
                       })
                     }),
                     _vm._v(" "),
                     !_vm.subIsMaximum
-                      ? _c("menu-item", { attrs: { add: "" } })
+                      ? _c("menu-item", {
+                          attrs: { add: "" },
+                          nativeOn: {
+                            click: function($event) {
+                              _vm.onAddSubMenu(_vm.index)
+                            }
+                          }
+                        })
                       : _vm._e()
                   ],
                   2
@@ -15146,17 +15238,28 @@ var render = function() {
     [
       _vm._l(_vm.menus, function(menu, index) {
         return _c("menu-item", {
-          key: index,
-          attrs: {
-            menu: menu,
-            index: index.toString(),
-            "menu-width": _vm.menuWidth
-          }
+          directives: [
+            {
+              name: "dragging",
+              rawName: "v-dragging",
+              value: { item: menu, list: _vm.menus, group: "column" },
+              expression: "{ item: menu, list: menus, group: 'column' }"
+            }
+          ],
+          key: menu.id,
+          attrs: { menu: menu, index: index, "menu-width": _vm.menuWidth }
         })
       }),
       _vm._v(" "),
       !_vm.columnIsMaximum
-        ? _c("menu-item", { attrs: { add: "", "menu-width": _vm.menuWidth } })
+        ? _c("menu-item", {
+            attrs: { add: "", "menu-width": _vm.menuWidth },
+            nativeOn: {
+              click: function($event) {
+                return _vm.onAddMenu($event)
+              }
+            }
+          })
         : _vm._e()
     ],
     2
@@ -15184,7 +15287,18 @@ var render = function() {
     _c(
       "div",
       { staticClass: "preview" },
-      [_vm._m(0), _vm._v(" "), _c("menus", { attrs: { menus: _vm.menus } })],
+      [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("menus", {
+          attrs: { menus: _vm.menus, "menu-auto-id": _vm.menuAutoId },
+          on: {
+            "update:menuAutoId": function($event) {
+              _vm.menuAutoId = $event
+            }
+          }
+        })
+      ],
       1
     ),
     _vm._v(" "),
@@ -15215,6 +15329,383 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 57 */,
+/* 58 */,
+/* 59 */,
+/* 60 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*!
+ * Awe-dnd v0.3.2
+ * (c) 2018 Awe <hilongjw@gmail.com>
+ * Released under the MIT License.
+ */
+(function (global, factory) {
+	 true ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global.VueDragging = factory());
+}(this, (function () { 'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var DragData = function () {
+    function DragData() {
+        _classCallCheck(this, DragData);
+
+        this.data = {};
+    }
+
+    _createClass(DragData, [{
+        key: 'new',
+        value: function _new(key) {
+            if (!this.data[key]) {
+                this.data[key] = {
+                    className: '',
+                    List: [],
+                    KEY_MAP: {}
+                };
+            }
+            return this.data[key];
+        }
+    }, {
+        key: 'get',
+        value: function get(key) {
+            return this.data[key];
+        }
+    }]);
+
+    return DragData;
+}();
+
+var $dragging = {
+    listeners: {},
+    $on: function $on(event, func) {
+        var events = this.listeners[event];
+        if (!events) {
+            this.listeners[event] = [];
+        }
+        this.listeners[event].push(func);
+    },
+    $once: function $once(event, func) {
+        var vm = this;
+        function on() {
+            vm.$off(event, on);
+
+            for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+                args[_key] = arguments[_key];
+            }
+
+            func.apply(vm, args);
+        }
+        this.$on(event, on);
+    },
+    $off: function $off(event, func) {
+        var events = this.listeners[event];
+        if (!func || !events) {
+            this.listeners[event] = [];
+            return;
+        }
+        this.listeners[event] = this.listeners[event].filter(function (i) {
+            return i !== func;
+        });
+    },
+    $emit: function $emit(event, context) {
+        var events = this.listeners[event];
+        if (events && events.length > 0) {
+            events.forEach(function (func) {
+                func(context);
+            });
+        }
+    }
+};
+var _ = {
+    on: function on(el, type, fn) {
+        el.addEventListener(type, fn);
+    },
+    off: function off(el, type, fn) {
+        el.removeEventListener(type, fn);
+    },
+    addClass: function addClass(el, cls) {
+        if (arguments.length < 2) {
+            el.classList.add(cls);
+        } else {
+            for (var i = 1, len = arguments.length; i < len; i++) {
+                el.classList.add(arguments[i]);
+            }
+        }
+    },
+    removeClass: function removeClass(el, cls) {
+        if (arguments.length < 2) {
+            el.classList.remove(cls);
+        } else {
+            for (var i = 1, len = arguments.length; i < len; i++) {
+                el.classList.remove(arguments[i]);
+            }
+        }
+    }
+};
+
+var vueDragging = function (Vue, options) {
+    var isPreVue = Vue.version.split('.')[0] === '1';
+    var dragData = new DragData();
+    var isSwap = false;
+    var Current = null;
+
+    function handleDragStart(e) {
+        var el = getBlockEl(e.target);
+        var key = el.getAttribute('drag_group');
+        var drag_key = el.getAttribute('drag_key');
+        var comb = el.getAttribute('comb');
+        var DDD = dragData.new(key);
+        var item = DDD.KEY_MAP[drag_key];
+        var index = DDD.List.indexOf(item);
+        var groupArr = DDD.List.filter(function (item) {
+            return item[comb];
+        });
+        _.addClass(el, 'dragging');
+
+        if (e.dataTransfer) {
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text', JSON.stringify(item));
+        }
+
+        Current = {
+            index: index,
+            item: item,
+            el: el,
+            group: key,
+            groupArr: groupArr
+        };
+    }
+
+    function handleDragOver(e) {
+        if (e.preventDefault) {
+            e.preventDefault();
+        }
+        return false;
+    }
+
+    function handleDragEnter(e) {
+        var el = void 0;
+        if (e.type === 'touchmove') {
+            e.stopPropagation();
+            e.preventDefault();
+            el = getOverElementFromTouch(e);
+            el = getBlockEl(el);
+        } else {
+            el = getBlockEl(e.target);
+        }
+
+        if (!el || !Current) return;
+
+        var key = el.getAttribute('drag_group');
+        if (key !== Current.group || !Current.el || !Current.item || el === Current.el) return;
+        var drag_key = el.getAttribute('drag_key');
+        var DDD = dragData.new(key);
+        var item = DDD.KEY_MAP[drag_key];
+
+        if (item === Current.item) return;
+
+        var indexTo = DDD.List.indexOf(item);
+        var indexFrom = DDD.List.indexOf(Current.item);
+
+        swapArrayElements(DDD.List, indexFrom, indexTo);
+
+        Current.groupArr.forEach(function (item) {
+            if (item != Current.item) {
+                DDD.List.splice(DDD.List.indexOf(item), 1);
+            }
+        });
+
+        var targetIndex = DDD.List.indexOf(Current.item);
+        if (Current.groupArr.length) {
+            var _DDD$List;
+
+            (_DDD$List = DDD.List).splice.apply(_DDD$List, [targetIndex, 1].concat(_toConsumableArray(Current.groupArr)));
+        }
+
+        Current.index = indexTo;
+        isSwap = true;
+        $dragging.$emit('dragged', {
+            draged: Current.item,
+            to: item,
+            value: DDD.value,
+            group: key
+        });
+    }
+
+    function handleDragLeave(e) {
+        _.removeClass(getBlockEl(e.target), 'drag-over', 'drag-enter');
+    }
+
+    function handleDrag(e) {}
+
+    function handleDragEnd(e) {
+        var el = getBlockEl(e.target);
+        _.removeClass(el, 'dragging', 'drag-over', 'drag-enter');
+        Current = null;
+        // if (isSwap) {
+        isSwap = false;
+        var group = el.getAttribute('drag_group');
+        $dragging.$emit('dragend', { group: group });
+        // }
+    }
+
+    function handleDrop(e) {
+        e.preventDefault();
+        if (e.stopPropagation) {
+            e.stopPropagation();
+        }
+        return false;
+    }
+
+    function getBlockEl(el) {
+        if (!el) return;
+        while (el.parentNode) {
+            if (el.getAttribute && el.getAttribute('drag_block')) {
+                return el;
+                break;
+            } else {
+                el = el.parentNode;
+            }
+        }
+    }
+
+    function swapArrayElements(items, indexFrom, indexTo) {
+        var item = items[indexTo];
+        if (isPreVue) {
+            items.$set(indexTo, items[indexFrom]);
+            items.$set(indexFrom, item);
+        } else {
+            Vue.set(items, indexTo, items[indexFrom]);
+            Vue.set(items, indexFrom, item);
+        }
+        return items;
+    }
+
+    function getOverElementFromTouch(e) {
+        var touch = e.touches[0];
+        var el = document.elementFromPoint(touch.clientX, touch.clientY);
+        return el;
+    }
+
+    function addDragItem(el, binding, vnode) {
+        var item = binding.value.item;
+        var list = binding.value.list;
+        var DDD = dragData.new(binding.value.group);
+
+        var drag_key = isPreVue ? binding.value.key : vnode.key;
+        DDD.value = binding.value;
+        DDD.className = binding.value.className;
+        DDD.KEY_MAP[drag_key] = item;
+        if (list && DDD.List !== list) {
+            DDD.List = list;
+        }
+        el.setAttribute('draggable', 'true');
+        el.setAttribute('drag_group', binding.value.group);
+        el.setAttribute('drag_block', binding.value.group);
+        el.setAttribute('drag_key', drag_key);
+        el.setAttribute('comb', binding.value.comb);
+
+        _.on(el, 'dragstart', handleDragStart);
+        _.on(el, 'dragenter', handleDragEnter);
+        _.on(el, 'dragover', handleDragOver);
+        _.on(el, 'drag', handleDrag);
+        _.on(el, 'dragleave', handleDragLeave);
+        _.on(el, 'dragend', handleDragEnd);
+        _.on(el, 'drop', handleDrop);
+
+        _.on(el, 'touchstart', handleDragStart);
+        _.on(el, 'touchmove', handleDragEnter);
+        _.on(el, 'touchend', handleDragEnd);
+    }
+
+    function removeDragItem(el, binding, vnode) {
+        var DDD = dragData.new(binding.value.group);
+        var drag_key = isPreVue ? binding.value.key : vnode.key;
+        DDD.KEY_MAP[drag_key] = undefined;
+        _.off(el, 'dragstart', handleDragStart);
+        _.off(el, 'dragenter', handleDragEnter);
+        _.off(el, 'dragover', handleDragOver);
+        _.off(el, 'drag', handleDrag);
+        _.off(el, 'dragleave', handleDragLeave);
+        _.off(el, 'dragend', handleDragEnd);
+        _.off(el, 'drop', handleDrop);
+
+        _.off(el, 'touchstart', handleDragStart);
+        _.off(el, 'touchmove', handleDragEnter);
+        _.off(el, 'touchend', handleDragEnd);
+    }
+
+    Vue.prototype.$dragging = $dragging;
+    if (!isPreVue) {
+        Vue.directive('dragging', {
+            bind: addDragItem,
+            update: function update(el, binding, vnode) {
+                var DDD = dragData.new(binding.value.group);
+                var item = binding.value.item;
+                var list = binding.value.list;
+
+                var drag_key = vnode.key;
+                var old_item = DDD.KEY_MAP[drag_key];
+                if (item && old_item !== item) {
+                    DDD.KEY_MAP[drag_key] = item;
+                }
+                if (list && DDD.List !== list) {
+                    DDD.List = list;
+                }
+            },
+
+            unbind: removeDragItem
+        });
+    } else {
+        Vue.directive('dragging', {
+            update: function update(newValue, oldValue) {
+                addDragItem(this.el, {
+                    modifiers: this.modifiers,
+                    arg: this.arg,
+                    value: newValue,
+                    oldValue: oldValue
+                });
+            },
+            unbind: function unbind(newValue, oldValue) {
+                removeDragItem(this.el, {
+                    modifiers: this.modifiers,
+                    arg: this.arg,
+                    value: newValue ? newValue : { group: this.el.getAttribute('drag_group') },
+                    oldValue: oldValue
+                });
+            }
+        });
+    }
+};
+
+return vueDragging;
+
+})));
+
+
+/***/ }),
+/* 61 */,
+/* 62 */,
+/* 63 */,
+/* 64 */,
+/* 65 */,
+/* 66 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MAX_COLUMN; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return MAX_SUB_COUNT; });
+var MAX_COLUMN = 3;
+
+var MAX_SUB_COUNT = 5;
 
 /***/ })
 /******/ ]);
