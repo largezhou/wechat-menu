@@ -13297,7 +13297,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.edit-area[data-v-ba626956] {\n  height: 600px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.edit-area .preview[data-v-ba626956] {\n    min-width: 300px;\n    margin-right: 20px;\n    border: 1px solid #e7e7eb;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.edit-area .form[data-v-ba626956] {\n    min-width: 800px;\n    width: 1000px;\n    background-color: green;\n}\n.edit-area .header[data-v-ba626956] {\n    height: 50px;\n    background: #3a3a3e;\n    color: white;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n}\n", ""]);
+exports.push([module.i, "\n.edit-area[data-v-ba626956] {\n  height: 600px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.edit-area .preview[data-v-ba626956] {\n    min-width: 300px;\n    margin-right: 20px;\n    border: 1px solid #e7e7eb;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.edit-area .form[data-v-ba626956] {\n    min-width: 800px;\n    width: 1000px;\n    background-color: green;\n}\n.edit-area .header[data-v-ba626956] {\n    height: 50px;\n    background: #3a3a3e;\n    color: white;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n}\n.footer-toolbar[data-v-ba626956] {\n  margin-top: 30px;\n  text-align: center;\n}\n", ""]);
 
 // exports
 
@@ -13350,6 +13350,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -13433,7 +13441,39 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             });
 
             return id;
-        }
+        },
+        onSave: function () {
+            var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2() {
+                var _ref3, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                _context2.next = 2;
+                                return Object(__WEBPACK_IMPORTED_MODULE_1__api_wechat__["b" /* updateMenus */])(this.menus);
+
+                            case 2:
+                                _ref3 = _context2.sent;
+                                data = _ref3.data;
+
+
+                                alert(data.errmsg);
+
+                            case 5:
+                            case 'end':
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this);
+            }));
+
+            function onSave() {
+                return _ref2.apply(this, arguments);
+            }
+
+            return onSave;
+        }()
     }
 });
 
@@ -14224,6 +14264,7 @@ if (hadRuntime) {
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = getMenus;
+/* harmony export (immutable) */ __webpack_exports__["b"] = updateMenus;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 
@@ -14234,6 +14275,12 @@ __WEBPACK_IMPORTED_MODULE_0_axios___default.a.defaults.baseURL = baseURL ? baseU
 
 function getMenus() {
     return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/menus');
+}
+
+function updateMenus(menus) {
+    return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/menus', {
+        menus: menus
+    });
 }
 
 /***/ }),
@@ -15343,6 +15390,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             menus.push({
                 name: (isSub ? '子' : '') + '菜单名称',
                 type: 'click',
+                key: 'test',
                 id: id,
                 sub_button: []
             });
@@ -17325,29 +17373,39 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "edit-area" }, [
-    _c(
-      "div",
-      { staticClass: "preview" },
-      [
-        _vm._m(0),
-        _vm._v(" "),
-        _c("menus", {
-          attrs: { menus: _vm.menus, "menu-auto-id": _vm.menuAutoId },
-          on: {
-            "update:menus": function($event) {
-              _vm.menus = $event
-            },
-            "update:menuAutoId": function($event) {
-              _vm.menuAutoId = $event
+  return _c("div", [
+    _c("div", { staticClass: "edit-area" }, [
+      _c(
+        "div",
+        { staticClass: "preview" },
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("menus", {
+            attrs: { menus: _vm.menus, "menu-auto-id": _vm.menuAutoId },
+            on: {
+              "update:menus": function($event) {
+                _vm.menus = $event
+              },
+              "update:menuAutoId": function($event) {
+                _vm.menuAutoId = $event
+              }
             }
-          }
-        })
-      ],
-      1
-    ),
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "form" })
+    ]),
     _vm._v(" "),
-    _c("div", { staticClass: "form" })
+    _c("div", { staticClass: "footer-toolbar" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-primary", on: { click: _vm.onSave } },
+        [_vm._v("保存")]
+      )
+    ])
   ])
 }
 var staticRenderFns = [

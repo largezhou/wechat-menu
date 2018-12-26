@@ -3,3 +3,21 @@
           box-sizing: border-box;
 }
 
+#wechat-menu .btn {
+  border: 1px solid;
+  outline: 0;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+#wechat-menu .btn-primary {
+  background: #44b549;
+  border-color: #44b549;
+  color: white;
+}
+
+#wechat-menu .btn-primary:hover {
+  background: #3a963e;
+}
+

@@ -1,18 +1,26 @@
 <template>
-    <div class="edit-area">
-        <div class="preview">
-            <div class="header">
-                <span class="text">公众号</span>
+    <div>
+        <div class="edit-area">
+            <div class="preview">
+                <div class="header">
+                    <span class="text">公众号</span>
+                </div>
+                <menus :menus.sync="menus" :menu-auto-id.sync="menuAutoId"/>
             </div>
-            <menus :menus.sync="menus" :menu-auto-id.sync="menuAutoId"/>
+            <div class="form">
+            </div>
         </div>
-        <div class="form">
+        <div class="footer-toolbar">
+            <button
+                class="btn btn-primary"
+                @click="onSave"
+            >保存</button>
         </div>
     </div>
 </template>
 
 <script>
-import { getMenus } from '@/api/wechat'
+import { getMenus, updateMenus } from '@/api/wechat'
 import Menus from '@/components/Menus'
 
 export default {
@@ -51,11 +59,18 @@ export default {
 
             return id
         },
+        async onSave() {
+            const { data } = await updateMenus(this.menus)
+
+            alert(data.errmsg)
+        },
     },
 }
 </script>
 
 <style scoped lang="scss">
+@import "~@/../sass/vars.scss";
+
 .edit-area {
     height: 600px;
     display: flex;
@@ -83,5 +98,10 @@ export default {
         justify-content: center;
         align-items: center;
     }
+}
+
+.footer-toolbar {
+    margin-top: 30px;
+    text-align: center;
 }
 </style>

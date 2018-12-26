@@ -1,5 +1,25 @@
+@import "./vars";
+
 #wechat-menu {
     * {
         box-sizing: border-box;
+    }
+
+    .btn {
+        border: 1px solid;
+        outline: 0;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 3px;
+    }
+
+    .btn-primary {
+        background: $main-color;
+        border-color: $main-color;
+        color: white;
+
+        &:hover {
+            background: #3a963e;
+        }
     }
 }

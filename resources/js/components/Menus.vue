@@ -107,6 +107,7 @@ export default {
             menus.push({
                 name: (isSub ? '子' : '') + '菜单名称',
                 type: 'click',
+                key: 'test',
                 id,
                 sub_button: [],
             })

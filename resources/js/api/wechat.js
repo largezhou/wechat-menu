@@ -7,3 +7,9 @@ axios.defaults.baseURL = baseURL ? baseURL : 'wechat-menu'
 export function getMenus() {
     return axios.get('/menus')
 }
+
+export function updateMenus(menus) {
+    return axios.post('/menus', {
+        menus,
+    })
+}
