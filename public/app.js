@@ -15159,7 +15159,7 @@ var render = function() {
           [_vm._v(_vm._s(_vm.menu.name))]
         ),
         _vm._v(" "),
-        _vm.hasSub || _vm.isParent
+        _vm.isParent
           ? _c(
               "div",
               {

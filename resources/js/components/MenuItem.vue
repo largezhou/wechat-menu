@@ -18,7 +18,7 @@
             @click="onActive"
         >{{ menu.name }}</span>
         <div
-            v-if="hasSub || isParent"
+            v-if="isParent"
             v-show="showSub"
             class="sub-menus"
             :style="subMenusStyles"
