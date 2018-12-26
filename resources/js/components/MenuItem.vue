@@ -2,7 +2,7 @@
     <div
         v-if="add"
         class="menu add"
-        :style="{ width: menuWidth }"
+        :style="{ width: `${menuWidth}%` }"
     >
         <span>+</span>
     </div>
@@ -10,7 +10,7 @@
     <div
         v-else
         class="menu"
-        :style="{ width: menuWidth }"
+        :style="{ width: `${menuWidth}%` }"
     >
         <span
             class="name"
@@ -23,10 +23,12 @@
             class="sub-menus"
             :style="subMenusStyles"
         >
-            <div>
+            <draggable
+                v-model="menu.sub_button"
+                :options="{ group: `${menu.id}-subMenus` }"
+            >
                 <menu-item
                     v-for="(subMenu, subIndex) of subMenus"
-                    v-dragging="{ item: subMenu, list: subMenus, group: `${menu.id}-subMenus` }"
                     :index="subIndex"
                     :menu="subMenu"
                     :key="subMenu.id"
@@ -37,7 +39,7 @@
                     add
                     @click.native="onAddSubMenu(index)"
                 />
-            </div>
+            </draggable>
             <div class="arrow-down"/>
         </div>
     </div>
@@ -45,6 +47,7 @@
 
 <script>
 import { MAX_SUB_COUNT } from '@/constants'
+import Draggable from 'vuedraggable'
 
 /**
  * 菜单的样式高度
@@ -60,6 +63,9 @@ const SUB_MENUS_OFFSET = 10
 
 export default {
     name: 'MenuItem',
+    components: {
+        Draggable,
+    },
     data() {
         return {
             active: false,
@@ -69,7 +75,7 @@ export default {
     props: {
         add: Boolean,
         menu: Object,
-        menuWidth: String,
+        menuWidth: Number,
         index: Number,
         isParent: Boolean,
     },
@@ -203,7 +209,7 @@ export default {
     border-top-style: solid;
 }
 
-.dragging > .name {
+.sortable-ghost > .name {
     transform: scale(1.2);
     background: #efefef;
 }

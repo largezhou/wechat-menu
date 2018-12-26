@@ -4,7 +4,7 @@
             <div class="header">
                 <span class="text">公众号</span>
             </div>
-            <menus :menus="menus" :menu-auto-id.sync="menuAutoId"/>
+            <menus :menus.sync="menus" :menu-auto-id.sync="menuAutoId"/>
         </div>
         <div class="form">
         </div>

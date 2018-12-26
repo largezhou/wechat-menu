@@ -1,14 +1,20 @@
 <template>
     <div class="menus">
-        <menu-item
-            v-for="(menu, index) of menus"
-            :menu="menu"
-            v-dragging="{ item: menu, list: menus, group: 'column' }"
-            :index="index"
-            :key="menu.id"
-            :menu-width="menuWidth"
-            is-parent
-        />
+        <draggable
+            v-model="menusData"
+            :options="{ group: 'column' }"
+            style="display: flex"
+            :style="{ width: `${menuWidth * menus.length}%` }"
+        >
+            <menu-item
+                v-for="(menu, index) of menus"
+                :menu="menu"
+                :index="index"
+                :key="menu.id"
+                :menu-width="menuWidth"
+                is-parent
+            />
+        </draggable>
 
         <menu-item
             v-if="!columnIsMaximum"
@@ -22,11 +28,18 @@
 <script>
 import MenuItem from '@/components/MenuItem'
 import { MAX_COLUMN, MAX_SUB_COUNT } from '@/constants'
+import Draggable from 'vuedraggable'
 
 export default {
     name: 'Menus',
     components: {
         MenuItem,
+        Draggable,
+    },
+    data() {
+        return {
+            menusData: this.menus,
+        }
     },
     props: {
         menus: {
@@ -54,7 +67,7 @@ export default {
             }
         },
         menuWidth() {
-            return `${1 / this.columnsCount * 100}%`
+            return 1 / this.columnsCount * 100
         },
     },
     methods: {
@@ -101,6 +114,14 @@ export default {
             this.$emit('update:menuAutoId', id + 1)
 
             return id
+        },
+    },
+    watch: {
+        menus(newValue) {
+            this.menusData = newValue
+        },
+        menusData(newValue) {
+            this.$emit('update:menus', newValue)
         },
     },
 }
