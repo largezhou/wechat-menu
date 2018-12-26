@@ -14805,6 +14805,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -14877,13 +14878,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return;
             }
 
-            return this.realAddMenu(subMenus);
+            return this.realAddMenu(subMenus, true);
         },
         realAddMenu: function realAddMenu(menus) {
+            var isSub = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
             var id = this.menuAutoId;
 
             menus.push({
-                name: '菜单名称',
+                name: (isSub ? '子' : '') + '菜单名称',
                 type: 'click',
                 id: id,
                 sub_button: []
@@ -15067,7 +15070,8 @@ var SUB_MENUS_OFFSET = 10;
         add: Boolean,
         menu: Object,
         menuWidth: String,
-        index: Number
+        index: Number,
+        isParent: Boolean
     },
     computed: {
         subMenus: function subMenus() {
@@ -15155,7 +15159,7 @@ var render = function() {
           [_vm._v(_vm._s(_vm.menu.name))]
         ),
         _vm._v(" "),
-        _vm.hasSub
+        _vm.hasSub || _vm.isParent
           ? _c(
               "div",
               {
@@ -15247,7 +15251,12 @@ var render = function() {
             }
           ],
           key: menu.id,
-          attrs: { menu: menu, index: index, "menu-width": _vm.menuWidth }
+          attrs: {
+            menu: menu,
+            index: index,
+            "menu-width": _vm.menuWidth,
+            "is-parent": ""
+          }
         })
       }),
       _vm._v(" "),

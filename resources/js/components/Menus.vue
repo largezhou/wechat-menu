@@ -7,6 +7,7 @@
             :index="index"
             :key="menu.id"
             :menu-width="menuWidth"
+            is-parent
         />
 
         <menu-item
@@ -85,13 +86,13 @@ export default {
                 return
             }
 
-            return this.realAddMenu(subMenus)
+            return this.realAddMenu(subMenus, true)
         },
-        realAddMenu(menus) {
+        realAddMenu(menus, isSub = false) {
             const id = this.menuAutoId
 
             menus.push({
-                name: '菜单名称',
+                name: (isSub ? '子' : '') + '菜单名称',
                 type: 'click',
                 id,
                 sub_button: [],
