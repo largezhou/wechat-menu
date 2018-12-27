@@ -72,3 +72,10 @@
   color: #e7e7eb;
 }
 
+#wechat-menu .label {
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+  margin-right: 10px;
+}
+

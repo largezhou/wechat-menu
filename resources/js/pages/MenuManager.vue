@@ -47,17 +47,7 @@
                     </div>
 
                     <div class="form-item content-wrapper">
-                        <div>
-                            <span class="label grey-1">点击菜单会跳转到该链接</span>
-                            <div class="form-item">
-                                <span class="label">页面地址</span>
-                                <input
-                                    v-model="$global.currentMenu.url"
-                                    type="text"
-                                    class="input"
-                                >
-                            </div>
-                        </div>
+                        <component v-if="currentContentComponent" :is="currentContentComponent"/>
                     </div>
                 </div>
                 <div v-show="currentHasSub" style="margin-top: 20px;">
@@ -83,6 +73,8 @@
 <script>
 import { getMenus, updateMenus } from '@/api/wechat'
 import Menus from '@/components/Menus'
+import ContentView from '@/components/ContentView'
+import ContentClick from '@/components/ContentClick'
 
 const MENU_TYPES = {
     click: '点击',
@@ -93,6 +85,8 @@ export default {
     name: 'MenuManager',
     components: {
         Menus,
+        ContentView,
+        ContentClick,
     },
     data() {
         return {
@@ -108,6 +102,11 @@ export default {
         currentHasSub() {
             return this.$global.currentMenu.sub_button.length > 0
         },
+        currentContentComponent() {
+            const type = this.$global.currentMenu.type
+
+            return type ? `content-${type}` : null
+        }
     },
     created() {
         this.getData()
@@ -245,13 +244,6 @@ $form-min-width: 800px;
         line-height: 40px;
         border-bottom: $grey-border;
         border-width: 2px;
-    }
-
-    .label {
-        display: inline-block;
-        height: 40px;
-        line-height: 40px;
-        margin-right: 10px;
     }
 
     .content-wrapper {
