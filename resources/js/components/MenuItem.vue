@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { MAX_SUB_COUNT } from '@/constants'
+import { MAX_SUB_COUNT } from '@/common/constants'
 import Draggable from 'vuedraggable'
 
 /**
@@ -69,7 +69,6 @@ export default {
     data() {
         return {
             active: false,
-            currentId: null,
         }
     },
     props: {
@@ -82,9 +81,6 @@ export default {
     computed: {
         subMenus() {
             return this.menu.sub_button
-        },
-        hasSub() {
-            return this.subMenus.length > 0
         },
         subIsMaximum() {
             return this.subMenus.length == MAX_SUB_COUNT
@@ -107,33 +103,47 @@ export default {
         showSub() {
             return this.active || this.anySubActive
         },
-        /**
-         * 所有子菜单的唯一索引数组
-         * @returns {Array}
-         */
-        subIndexes() {
-            return this.subMenus.map(item => item.id)
-        },
         anySubActive() {
-            return this.subIndexes.indexOf(this.currentId) !== -1
+            return this.subMenus.indexOf(this.$global.currentMenu) !== -1
         },
     },
     mounted() {
-        !this.add && this.$root.$on('menuActive', this.onOtherActivated)
+        !this.add && this.$bus.$on('menuActive', this.onOtherActivated)
+        !this.add && this.$bus.$on('removeCurrent', this.onRemoveCurrent)
     },
     beforeDestroy() {
-        this.$root.$off('menuActive', this.onOtherActivated)
+        this.$bus.$off('menuActive', this.onOtherActivated)
+        this.$bus.$off('removeCurrent', this.onRemoveCurrent)
     },
     methods: {
         onActive() {
-            this.$root.$emit('menuActive', this.menu.id)
+            this.$bus.$emit('menuActive', this.menu)
         },
         onAddSubMenu(parentIndex) {
-            this.$root.$emit('addSubMenu', parentIndex)
+            this.$bus.$emit('addSubMenu', parentIndex)
         },
-        onOtherActivated(id) {
-            this.currentId = id
-            this.active = this.menu.id == id
+        onOtherActivated(menu) {
+            this.$global.currentMenu = menu
+            this.active = (this.menu == menu)
+        },
+        onRemoveCurrent() {
+            if (this.$global.currentMenu != this.menu) {
+                return
+            }
+
+            let payload
+            if (this.isParent) {
+                payload = {
+                    parent: this.index,
+                }
+            } else {
+                payload = {
+                    parent: this.$parent.$parent.index,
+                    sub: this.index,
+                }
+            }
+
+            this.$bus.$emit('removeMenu', payload)
         },
     },
 }

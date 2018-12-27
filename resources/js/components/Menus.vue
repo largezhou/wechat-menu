@@ -27,7 +27,7 @@
 
 <script>
 import MenuItem from '@/components/MenuItem'
-import { MAX_COLUMN, MAX_SUB_COUNT } from '@/constants'
+import { MAX_COLUMN, MAX_SUB_COUNT } from '@/common/constants'
 import Draggable from 'vuedraggable'
 
 export default {
@@ -49,10 +49,10 @@ export default {
         menuAutoId: Number,
     },
     mounted() {
-        this.$root.$on('addSubMenu', this.onAddMenu)
+        this.$bus.$on('addSubMenu', this.onAddMenu)
     },
     beforeDestroy() {
-        this.$root.$off('addSubMenu', this.onAddMenu)
+        this.$bus.$off('addSubMenu', this.onAddMenu)
     },
     computed: {
         columnIsMaximum() {
@@ -81,7 +81,7 @@ export default {
             }
 
             this.$nextTick(() => {
-                this.$root.$emit('menuActive', id)
+                this.$bus.$emit('menuActive', id)
             })
         },
         addColumn() {

@@ -1382,17 +1382,7 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 12 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MAX_COLUMN; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return MAX_SUB_COUNT; });
-var MAX_COLUMN = 3;
-
-var MAX_SUB_COUNT = 5;
-
-/***/ }),
+/* 12 */,
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1846,6 +1836,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 window.log = console.log.bind(console);
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('menu-manager', __webpack_require__(19));
+
+// 传递事件
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.prototype.$bus = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a();
+
+// 全局数据
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.prototype.$global = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
+    data: function data() {
+        return {
+            currentMenu: null
+        };
+    }
+});
 
 new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     el: '#wechat-menu'
@@ -13297,7 +13299,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.edit-area[data-v-ba626956] {\n  height: 600px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.edit-area .preview[data-v-ba626956] {\n    min-width: 300px;\n    margin-right: 20px;\n    border: 1px solid #e7e7eb;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.edit-area .form[data-v-ba626956] {\n    min-width: 800px;\n    width: 1000px;\n    background-color: green;\n}\n.edit-area .header[data-v-ba626956] {\n    height: 50px;\n    background: #3a3a3e;\n    color: white;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n}\n.footer-toolbar[data-v-ba626956] {\n  margin-top: 30px;\n  text-align: center;\n}\n.menu-manager[data-v-ba626956] {\n  max-width: 1320px;\n  min-width: 1120px;\n}\n", ""]);
+exports.push([module.i, "\n.edit-area[data-v-ba626956] {\n  height: 600px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.preview[data-v-ba626956] {\n  min-width: 300px;\n  margin-right: 20px;\n  border: 1px solid #e7e7eb;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between;\n}\n.preview .header[data-v-ba626956] {\n    height: 50px;\n    background: #3a3a3e;\n    color: white;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n}\n.footer-toolbar[data-v-ba626956] {\n  margin-top: 30px;\n  text-align: center;\n}\n.menu-manager[data-v-ba626956] {\n  max-width: 1320px;\n  min-width: 1120px;\n}\n.form[data-v-ba626956] {\n  padding: 0 20px;\n  border: 1px solid #e7e7eb;\n  min-width: 800px;\n  width: 1000px;\n}\n.form .header[data-v-ba626956] {\n    height: 40px;\n    line-height: 40px;\n    border-bottom: 1px solid #e7e7eb;\n}\n.choose-hint[data-v-ba626956] {\n  min-width: 800px;\n  width: 1000px;\n  text-align: center;\n  line-height: 600px;\n  color: #8d8d8d;\n}\n", ""]);
 
 // exports
 
@@ -13372,6 +13374,21 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -13390,6 +13407,12 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
     },
     created: function created() {
         this.getData();
+    },
+    mounted: function mounted() {
+        this.$bus.$on('removeMenu', this.onRemoveMenu);
+    },
+    beforeDestroy: function beforeDestroy() {
+        this.$bus.$off('removeMenu', this.onRemoveMenu);
     },
 
     methods: {
@@ -13483,7 +13506,33 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             }
 
             return onSave;
-        }()
+        }(),
+        onRemoveCurrent: function onRemoveCurrent() {
+            if (confirm('确认删除？')) {
+                this.$bus.$emit('removeCurrent');
+            }
+        },
+        onRemoveMenu: function onRemoveMenu(_ref4) {
+            var _this2 = this;
+
+            var parent = _ref4.parent,
+                sub = _ref4.sub;
+
+            var nextActive = null;
+
+            if (sub === undefined) {
+                this.menus.splice(parent, 1);
+            } else {
+                var parentMenu = this.menus[parent];
+
+                parentMenu.sub_button.splice(sub, 1);
+                nextActive = parentMenu;
+            }
+
+            this.$nextTick(function () {
+                _this2.$bus.$emit('menuActive', nextActive);
+            });
+        }
     }
 });
 
@@ -15280,7 +15329,7 @@ exports.push([module.i, "\n.menus[data-v-78617599] {\n  height: 50px;\n  backgro
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_MenuItem__ = __webpack_require__(51);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_MenuItem___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_MenuItem__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__common_constants__ = __webpack_require__(63);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuedraggable__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vuedraggable__);
 //
@@ -15337,20 +15386,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         menuAutoId: Number
     },
     mounted: function mounted() {
-        this.$root.$on('addSubMenu', this.onAddMenu);
+        this.$bus.$on('addSubMenu', this.onAddMenu);
     },
     beforeDestroy: function beforeDestroy() {
-        this.$root.$off('addSubMenu', this.onAddMenu);
+        this.$bus.$off('addSubMenu', this.onAddMenu);
     },
 
     computed: {
         columnIsMaximum: function columnIsMaximum() {
-            return this.menus.length == __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* MAX_COLUMN */];
+            return this.menus.length == __WEBPACK_IMPORTED_MODULE_1__common_constants__["a" /* MAX_COLUMN */];
         },
         columnsCount: function columnsCount() {
             var count = this.menus.length;
-            if (this.columnIsMaximum || count == __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* MAX_COLUMN */] - 1) {
-                return __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* MAX_COLUMN */];
+            if (this.columnIsMaximum || count == __WEBPACK_IMPORTED_MODULE_1__common_constants__["a" /* MAX_COLUMN */] - 1) {
+                return __WEBPACK_IMPORTED_MODULE_1__common_constants__["a" /* MAX_COLUMN */];
             } else {
                 return count + 1;
             }
@@ -15372,7 +15421,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             this.$nextTick(function () {
-                _this.$root.$emit('menuActive', id);
+                _this.$bus.$emit('menuActive', id);
             });
         },
         addColumn: function addColumn() {
@@ -15386,7 +15435,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var menu = this.menus[parentIndex];
             var subMenus = menu ? menu.sub_button : null;
 
-            if (!subMenus || subMenus.length == __WEBPACK_IMPORTED_MODULE_1__constants__["b" /* MAX_SUB_COUNT */]) {
+            if (!subMenus || subMenus.length == __WEBPACK_IMPORTED_MODULE_1__common_constants__["b" /* MAX_SUB_COUNT */]) {
                 return;
             }
 
@@ -15517,7 +15566,7 @@ exports.push([module.i, "\n.menu[data-v-23ec797d] {\n  -webkit-box-flex: 1;\n   
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common_constants__ = __webpack_require__(63);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuedraggable__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vuedraggable__);
 //
@@ -15590,8 +15639,7 @@ var SUB_MENUS_OFFSET = 10;
     },
     data: function data() {
         return {
-            active: false,
-            currentId: null
+            active: false
         };
     },
 
@@ -15606,16 +15654,13 @@ var SUB_MENUS_OFFSET = 10;
         subMenus: function subMenus() {
             return this.menu.sub_button;
         },
-        hasSub: function hasSub() {
-            return this.subMenus.length > 0;
-        },
         subIsMaximum: function subIsMaximum() {
-            return this.subMenus.length == __WEBPACK_IMPORTED_MODULE_0__constants__["b" /* MAX_SUB_COUNT */];
+            return this.subMenus.length == __WEBPACK_IMPORTED_MODULE_0__common_constants__["b" /* MAX_SUB_COUNT */];
         },
         subsCount: function subsCount() {
             var count = this.subMenus.length;
-            if (this.subIsMaximum || count == __WEBPACK_IMPORTED_MODULE_0__constants__["b" /* MAX_SUB_COUNT */] - 1) {
-                return __WEBPACK_IMPORTED_MODULE_0__constants__["b" /* MAX_SUB_COUNT */];
+            if (this.subIsMaximum || count == __WEBPACK_IMPORTED_MODULE_0__common_constants__["b" /* MAX_SUB_COUNT */] - 1) {
+                return __WEBPACK_IMPORTED_MODULE_0__common_constants__["b" /* MAX_SUB_COUNT */];
             } else {
                 return count + 1;
             }
@@ -15630,37 +15675,48 @@ var SUB_MENUS_OFFSET = 10;
         showSub: function showSub() {
             return this.active || this.anySubActive;
         },
-
-        /**
-         * 所有子菜单的唯一索引数组
-         * @returns {Array}
-         */
-        subIndexes: function subIndexes() {
-            return this.subMenus.map(function (item) {
-                return item.id;
-            });
-        },
         anySubActive: function anySubActive() {
-            return this.subIndexes.indexOf(this.currentId) !== -1;
+            return this.subMenus.indexOf(this.$global.currentMenu) !== -1;
         }
     },
     mounted: function mounted() {
-        !this.add && this.$root.$on('menuActive', this.onOtherActivated);
+        !this.add && this.$bus.$on('menuActive', this.onOtherActivated);
+        !this.add && this.$bus.$on('removeCurrent', this.onRemoveCurrent);
     },
     beforeDestroy: function beforeDestroy() {
-        this.$root.$off('menuActive', this.onOtherActivated);
+        this.$bus.$off('menuActive', this.onOtherActivated);
+        this.$bus.$off('removeCurrent', this.onRemoveCurrent);
     },
 
     methods: {
         onActive: function onActive() {
-            this.$root.$emit('menuActive', this.menu.id);
+            this.$bus.$emit('menuActive', this.menu);
         },
         onAddSubMenu: function onAddSubMenu(parentIndex) {
-            this.$root.$emit('addSubMenu', parentIndex);
+            this.$bus.$emit('addSubMenu', parentIndex);
         },
-        onOtherActivated: function onOtherActivated(id) {
-            this.currentId = id;
-            this.active = this.menu.id == id;
+        onOtherActivated: function onOtherActivated(menu) {
+            this.$global.currentMenu = menu;
+            this.active = this.menu == menu;
+        },
+        onRemoveCurrent: function onRemoveCurrent() {
+            if (this.$global.currentMenu != this.menu) {
+                return;
+            }
+
+            var payload = void 0;
+            if (this.isParent) {
+                payload = {
+                    parent: this.index
+                };
+            } else {
+                payload = {
+                    parent: this.$parent.$parent.index,
+                    sub: this.index
+                };
+            }
+
+            this.$bus.$emit('removeMenu', payload);
         }
     }
 });
@@ -17406,7 +17462,25 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c("div", { staticClass: "form" })
+      _vm.$global.currentMenu
+        ? _c("div", { staticClass: "form" }, [
+            _c("div", { staticClass: "header" }, [
+              _c("span", [_vm._v(_vm._s(_vm.$global.currentMenu.name))]),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "pull-right",
+                  attrs: { href: "javascript:void(0);" },
+                  on: { click: _vm.onRemoveCurrent }
+                },
+                [_vm._v("删除子菜单")]
+              )
+            ])
+          ])
+        : _c("div", { staticClass: "choose-hint" }, [
+            _vm._v("在左侧选择菜单编辑")
+          ])
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "footer-toolbar" }, [
@@ -17446,6 +17520,20 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MAX_COLUMN; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return MAX_SUB_COUNT; });
+var MAX_COLUMN = 3;
+
+var MAX_SUB_COUNT = 5;
 
 /***/ })
 /******/ ]);

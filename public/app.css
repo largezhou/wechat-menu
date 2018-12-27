@@ -29,3 +29,16 @@
   cursor: not-allowed;
 }
 
+#wechat-menu a {
+  text-decoration: none;
+  color: #576b95;
+}
+
+#wechat-menu .pull-right {
+  float: right !important;
+}
+
+#wechat-menu .pull-left {
+  float: left !important;
+}
+

@@ -7,8 +7,23 @@
                 </div>
                 <menus :menus.sync="menus" :menu-auto-id.sync="menuAutoId"/>
             </div>
-            <div class="form">
+            <div
+                v-if="$global.currentMenu"
+                class="form"
+            >
+                <div class="header">
+                    <span>{{ $global.currentMenu.name }}</span>
+                    <a
+                        href="javascript:void(0);"
+                        class="pull-right"
+                        @click="onRemoveCurrent"
+                    >删除子菜单</a>
+                </div>
             </div>
+            <div
+                v-else
+                class="choose-hint"
+            >在左侧选择菜单编辑</div>
         </div>
         <div class="footer-toolbar">
             <button
@@ -38,6 +53,12 @@ export default {
     },
     created() {
         this.getData()
+    },
+    mounted() {
+        this.$bus.$on('removeMenu', this.onRemoveMenu)
+    },
+    beforeDestroy() {
+        this.$bus.$off('removeMenu', this.onRemoveMenu)
     },
     methods: {
         async getData() {
@@ -70,6 +91,27 @@ export default {
                 this.saving = false
             }
         },
+        onRemoveCurrent() {
+            if (confirm('确认删除？')) {
+                this.$bus.$emit('removeCurrent')
+            }
+        },
+        onRemoveMenu({ parent, sub }) {
+            let nextActive = null
+
+            if (sub === undefined) {
+                this.menus.splice(parent, 1)
+            } else {
+                const parentMenu = this.menus[parent]
+
+                parentMenu.sub_button.splice(sub, 1)
+                nextActive = parentMenu
+            }
+
+            this.$nextTick(() => {
+                this.$bus.$emit('menuActive', nextActive)
+            })
+        },
     },
 }
 </script>
@@ -80,25 +122,20 @@ export default {
 $preview-width: 300px;
 $form-width: 1000px;
 $form-min-width: 800px;
+$grey-border: 1px solid #e7e7eb;
 
 .edit-area {
     height: 600px;
     display: flex;
+}
 
-    .preview {
-        min-width: $preview-width;
-        margin-right: 20px;
-        border: 1px solid #e7e7eb;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-
-    .form {
-        min-width: $form-min-width;
-        width: $form-width;
-        background-color: green;
-    }
+.preview {
+    min-width: $preview-width;
+    margin-right: 20px;
+    border: $grey-border;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     .header {
         height: 50px;
@@ -118,5 +155,26 @@ $form-min-width: 800px;
 .menu-manager {
     max-width: $form-width + 20px + $preview-width;
     min-width: $form-min-width + 20px + $preview-width;
+}
+
+.form {
+    padding: 0 20px;
+    border: $grey-border;
+    min-width: $form-min-width;
+    width: $form-width;
+
+    .header {
+        height: 40px;
+        line-height: 40px;
+        border-bottom: $grey-border;
+    }
+}
+
+.choose-hint {
+    min-width: $form-min-width;
+    width: $form-width;
+    text-align: center;
+    line-height: 600px;
+    color: $hint-color;
 }
 </style>
