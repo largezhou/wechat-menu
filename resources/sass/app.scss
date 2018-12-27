@@ -3,6 +3,7 @@
 #wechat-menu {
     * {
         box-sizing: border-box;
+        font-size: 15px;
     }
 
     .btn {
@@ -48,7 +49,6 @@
         height: 35px;
         border: $grey-border;
         padding: 0 0 0 10px;
-        font-size: 15px;
         outline: 0;
         width: 350px;
         border-radius: 3px;
@@ -61,5 +61,13 @@
     .cursor-pointer {
         cursor: pointer;
         user-select: none;
+    }
+
+    .grey-1 {
+        color: $grey-1;
+    }
+
+    .grey {
+        color: $grey;
     }
 }

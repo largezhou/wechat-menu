@@ -4,7 +4,7 @@
         class="menu add"
         :style="{ width: `${menuWidth}%` }"
     >
-        <span>+</span>
+        <span class="name">+</span>
     </div>
 
     <div
@@ -156,15 +156,14 @@ export default {
     color: #969696;
     border-left: 1px solid #e7e7eb;
     position: relative;
-    font-size: 15px;
     height: 50px;
 
     &:first-child {
         border-left: none;
     }
 
-    &.add {
-        font-size: 35px;
+    &.add .name {
+        font-size: 35px !important;
         font-weight: 100;
         cursor: pointer;
     }

@@ -1,6 +1,7 @@
 #wechat-menu * {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  font-size: 15px;
 }
 
 #wechat-menu .btn {
@@ -46,7 +47,6 @@
   height: 35px;
   border: 1px solid #e7e7eb;
   padding: 0 0 0 10px;
-  font-size: 15px;
   outline: 0;
   width: 350px;
   border-radius: 3px;
@@ -62,5 +62,13 @@
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+}
+
+#wechat-menu .grey-1 {
+  color: #8d8d8d;
+}
+
+#wechat-menu .grey {
+  color: #e7e7eb;
 }
 

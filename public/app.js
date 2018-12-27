@@ -1382,7 +1382,17 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 12 */,
+/* 12 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MAX_COLUMN; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return MAX_SUB_COUNT; });
+var MAX_COLUMN = 3;
+
+var MAX_SUB_COUNT = 5;
+
+/***/ }),
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13299,7 +13309,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.edit-area[data-v-ba626956] {\n  height: 600px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.preview[data-v-ba626956] {\n  min-width: 300px;\n  margin-right: 20px;\n  border: 1px solid #e7e7eb;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between;\n}\n.preview .header[data-v-ba626956] {\n    height: 50px;\n    background: #3a3a3e;\n    color: white;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n}\n.footer-toolbar[data-v-ba626956] {\n  margin-top: 30px;\n  text-align: center;\n}\n.menu-manager[data-v-ba626956] {\n  max-width: 1320px;\n  min-width: 1120px;\n}\n.form[data-v-ba626956] {\n  padding: 0 20px;\n  border: 1px solid #e7e7eb;\n  min-width: 800px;\n  width: 1000px;\n}\n.form .header[data-v-ba626956] {\n    height: 40px;\n    line-height: 40px;\n    border-bottom: 1px solid #e7e7eb;\n}\n.form .label[data-v-ba626956] {\n    display: inline-block;\n    height: 40px;\n    line-height: 40px;\n    margin-right: 10px;\n}\n.choose-hint[data-v-ba626956] {\n  min-width: 800px;\n  width: 1000px;\n  text-align: center;\n  line-height: 600px;\n  color: #8d8d8d;\n}\n.form-item + .form-item[data-v-ba626956] {\n  margin-top: 15px;\n}\n", ""]);
+exports.push([module.i, "\n.edit-area[data-v-ba626956] {\n  height: 600px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.preview[data-v-ba626956] {\n  min-width: 300px;\n  margin-right: 20px;\n  border: 1px solid #e7e7eb;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between;\n}\n.preview .header[data-v-ba626956] {\n    height: 50px;\n    background: #3a3a3e;\n    color: white;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n}\n.footer-toolbar[data-v-ba626956] {\n  margin-top: 30px;\n  text-align: center;\n}\n.menu-manager[data-v-ba626956] {\n  max-width: 1320px;\n  min-width: 1120px;\n}\n.form[data-v-ba626956] {\n  padding: 0 20px;\n  border: 1px solid #e7e7eb;\n  min-width: 800px;\n  width: 1000px;\n  background-color: #f4f5f9;\n}\n.form .header[data-v-ba626956] {\n    height: 40px;\n    line-height: 40px;\n    border-bottom: 1px solid #e7e7eb;\n    border-width: 2px;\n}\n.form .label[data-v-ba626956] {\n    display: inline-block;\n    height: 40px;\n    line-height: 40px;\n    margin-right: 10px;\n}\n.form .content-wrapper[data-v-ba626956] {\n    border: 1px solid #e7e7eb;\n    background-color: #fff;\n    padding: 20px;\n}\n.choose-hint[data-v-ba626956] {\n  min-width: 800px;\n  width: 1000px;\n  text-align: center;\n  line-height: 600px;\n  color: #8d8d8d;\n}\n.form-item + .form-item[data-v-ba626956] {\n  margin-top: 10px;\n}\n", ""]);
 
 // exports
 
@@ -13410,13 +13420,37 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 
 var MENU_TYPES = {
     click: '点击',
-    url: '链接'
+    view: '链接'
 };
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -13435,6 +13469,9 @@ var MENU_TYPES = {
     computed: {
         menuTypes: function menuTypes() {
             return MENU_TYPES;
+        },
+        currentHasSub: function currentHasSub() {
+            return this.$global.currentMenu.sub_button.length > 0;
         }
     },
     created: function created() {
@@ -15382,7 +15419,7 @@ exports.push([module.i, "\n.menus[data-v-78617599] {\n  height: 50px;\n  backgro
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_MenuItem__ = __webpack_require__(51);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_MenuItem___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_MenuItem__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__common_constants__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__common_constants__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuedraggable__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vuedraggable__);
 //
@@ -15609,7 +15646,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.menu[data-v-23ec797d] {\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1;\n  text-align: center;\n  color: #969696;\n  border-left: 1px solid #e7e7eb;\n  position: relative;\n  font-size: 15px;\n  height: 50px;\n}\n.menu[data-v-23ec797d]:first-child {\n    border-left: none;\n}\n.menu.add[data-v-23ec797d] {\n    font-size: 35px;\n    font-weight: 100;\n    cursor: pointer;\n}\n.sub-menus[data-v-23ec797d] {\n  top: 60px;\n  position: absolute;\n  width: 100%;\n}\n.sub-menus .menu[data-v-23ec797d] {\n    border: 1px solid #e7e7eb;\n    border-top: none;\n}\n.sub-menus .menu[data-v-23ec797d]:first-child {\n      border-top: 1px solid #e7e7eb;\n}\n.name[data-v-23ec797d] {\n  display: block;\n  word-break: keep-all;\n  overflow: hidden;\n  height: 50px;\n  line-height: 48px;\n  cursor: move;\n}\n.name[data-v-23ec797d]:hover {\n    color: #000;\n}\n.name.active[data-v-23ec797d] {\n    border: 2px solid #44b549;\n    line-height: 44px;\n    color: #44b549;\n}\n.arrow-down[data-v-23ec797d] {\n  position: absolute;\n  bottom: -6px;\n  left: 45%;\n  display: inline-block;\n  width: 0;\n  height: 0;\n  border-width: 6px;\n  border-style: dashed;\n  border-color: transparent;\n  border-bottom-width: 0;\n  border-top-color: #d0d0d0;\n  border-top-style: solid;\n}\n.sortable-ghost > .name[data-v-23ec797d] {\n  -webkit-transform: scale(1.2);\n          transform: scale(1.2);\n  background: #efefef;\n}\n", ""]);
+exports.push([module.i, "\n.menu[data-v-23ec797d] {\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1;\n  text-align: center;\n  color: #969696;\n  border-left: 1px solid #e7e7eb;\n  position: relative;\n  height: 50px;\n}\n.menu[data-v-23ec797d]:first-child {\n    border-left: none;\n}\n.menu.add .name[data-v-23ec797d] {\n    font-size: 35px !important;\n    font-weight: 100;\n    cursor: pointer;\n}\n.sub-menus[data-v-23ec797d] {\n  top: 60px;\n  position: absolute;\n  width: 100%;\n}\n.sub-menus .menu[data-v-23ec797d] {\n    border: 1px solid #e7e7eb;\n    border-top: none;\n}\n.sub-menus .menu[data-v-23ec797d]:first-child {\n      border-top: 1px solid #e7e7eb;\n}\n.name[data-v-23ec797d] {\n  display: block;\n  word-break: keep-all;\n  overflow: hidden;\n  height: 50px;\n  line-height: 48px;\n  cursor: move;\n}\n.name[data-v-23ec797d]:hover {\n    color: #000;\n}\n.name.active[data-v-23ec797d] {\n    border: 2px solid #44b549;\n    line-height: 44px;\n    color: #44b549;\n}\n.arrow-down[data-v-23ec797d] {\n  position: absolute;\n  bottom: -6px;\n  left: 45%;\n  display: inline-block;\n  width: 0;\n  height: 0;\n  border-width: 6px;\n  border-style: dashed;\n  border-color: transparent;\n  border-bottom-width: 0;\n  border-top-color: #d0d0d0;\n  border-top-style: solid;\n}\n.sortable-ghost > .name[data-v-23ec797d] {\n  -webkit-transform: scale(1.2);\n          transform: scale(1.2);\n  background: #efefef;\n}\n", ""]);
 
 // exports
 
@@ -15620,7 +15657,7 @@ exports.push([module.i, "\n.menu[data-v-23ec797d] {\n  -webkit-box-flex: 1;\n   
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common_constants__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common_constants__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuedraggable__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vuedraggable__);
 //
@@ -17337,7 +17374,7 @@ var render = function() {
     ? _c(
         "div",
         { staticClass: "menu add", style: { width: _vm.menuWidth + "%" } },
-        [_c("span", [_vm._v("+")])]
+        [_c("span", { staticClass: "name" }, [_vm._v("+")])]
       )
     : _c(
         "div",
@@ -17528,7 +17565,7 @@ var render = function() {
                   attrs: { href: "javascript:void(0);" },
                   on: { click: _vm.onRemoveCurrent }
                 },
-                [_vm._v("删除子菜单")]
+                [_vm._v("删除菜单")]
               )
             ]),
             _vm._v(" "),
@@ -17536,7 +17573,7 @@ var render = function() {
               "div",
               {
                 staticClass: "form-item",
-                staticStyle: { "margin-top": "30px" }
+                staticStyle: { "margin-top": "20px" }
               },
               [
                 _c("span", { staticClass: "label" }, [_vm._v("菜单名称")]),
@@ -17571,29 +17608,120 @@ var render = function() {
             _vm._v(" "),
             _c(
               "div",
-              { staticClass: "form-item" },
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: !_vm.currentHasSub,
+                    expression: "!currentHasSub"
+                  }
+                ]
+              },
               [
-                _c("span", { staticClass: "label" }, [_vm._v("菜单类型")]),
-                _vm._v(" "),
-                _vm._l(Object.keys(_vm.menuTypes), function(key) {
-                  return _c(
-                    "label",
-                    { key: key, staticClass: "cursor-pointer" },
-                    [
-                      _c("input", {
-                        attrs: { type: "radio", name: "type" },
-                        domProps: { value: key }
-                      }),
-                      _vm._v(
-                        "\n                    " +
-                          _vm._s(_vm.menuTypes[key]) +
-                          "\n                "
+                _c(
+                  "div",
+                  { staticClass: "form-item" },
+                  [
+                    _c("span", { staticClass: "label" }, [_vm._v("菜单内容")]),
+                    _vm._v(" "),
+                    _vm._l(Object.keys(_vm.menuTypes), function(key) {
+                      return _c(
+                        "label",
+                        { key: key, staticClass: "cursor-pointer" },
+                        [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.$global.currentMenu.type,
+                                expression: "$global.currentMenu.type"
+                              }
+                            ],
+                            attrs: { type: "radio", name: "type" },
+                            domProps: {
+                              value: key,
+                              checked: _vm._q(_vm.$global.currentMenu.type, key)
+                            },
+                            on: {
+                              change: function($event) {
+                                _vm.$set(_vm.$global.currentMenu, "type", key)
+                              }
+                            }
+                          }),
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(_vm.menuTypes[key]) +
+                              "\n                    "
+                          )
+                        ]
                       )
-                    ]
-                  )
-                })
-              ],
-              2
+                    })
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-item content-wrapper" }, [
+                  _c("div", [
+                    _c("span", { staticClass: "label grey-1" }, [
+                      _vm._v("点击菜单会跳转到该链接")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-item" }, [
+                      _c("span", { staticClass: "label" }, [
+                        _vm._v("页面地址")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.$global.currentMenu.url,
+                            expression: "$global.currentMenu.url"
+                          }
+                        ],
+                        staticClass: "input",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.$global.currentMenu.url },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.$global.currentMenu,
+                              "url",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ])
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.currentHasSub,
+                    expression: "currentHasSub"
+                  }
+                ],
+                staticStyle: { "margin-top": "20px" }
+              },
+              [
+                _c("span", { staticClass: "grey-1" }, [
+                  _vm._v("已设置子菜单，只能编辑菜单名")
+                ])
+              ]
             )
           ])
         : _c("div", { staticClass: "choose-hint" }, [
@@ -17638,20 +17766,6 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 60 */,
-/* 61 */,
-/* 62 */,
-/* 63 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MAX_COLUMN; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return MAX_SUB_COUNT; });
-var MAX_COLUMN = 3;
-
-var MAX_SUB_COUNT = 5;
 
 /***/ })
 /******/ ]);

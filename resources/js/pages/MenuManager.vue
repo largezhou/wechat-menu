@@ -17,9 +17,9 @@
                         href="javascript:void(0);"
                         class="pull-right"
                         @click="onRemoveCurrent"
-                    >删除子菜单</a>
+                    >删除菜单</a>
                 </div>
-                <div class="form-item" style="margin-top: 30px;">
+                <div class="form-item" style="margin-top: 20px;">
                     <span class="label">菜单名称</span>
                     <input
                         v-model="$global.currentMenu.name"
@@ -28,16 +28,40 @@
                     >
                 </div>
 
-                <div class="form-item">
-                    <span class="label">菜单类型</span>
-                    <label
-                        class="cursor-pointer"
-                        v-for="key of Object.keys(menuTypes)"
-                        :key="key"
-                    >
-                        <input type="radio" name="type" :value="key">
-                        {{ menuTypes[key] }}
-                    </label>
+                <div v-show="!currentHasSub">
+                    <div class="form-item">
+                        <span class="label">菜单内容</span>
+                        <label
+                            class="cursor-pointer"
+                            v-for="key of Object.keys(menuTypes)"
+                            :key="key"
+                        >
+                            <input
+                                type="radio"
+                                name="type"
+                                :value="key"
+                                v-model="$global.currentMenu.type"
+                            >
+                            {{ menuTypes[key] }}
+                        </label>
+                    </div>
+
+                    <div class="form-item content-wrapper">
+                        <div>
+                            <span class="label grey-1">点击菜单会跳转到该链接</span>
+                            <div class="form-item">
+                                <span class="label">页面地址</span>
+                                <input
+                                    v-model="$global.currentMenu.url"
+                                    type="text"
+                                    class="input"
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div v-show="currentHasSub" style="margin-top: 20px;">
+                    <span class="grey-1">已设置子菜单，只能编辑菜单名</span>
                 </div>
             </div>
             <div
@@ -62,7 +86,7 @@ import Menus from '@/components/Menus'
 
 const MENU_TYPES = {
     click: '点击',
-    url: '链接',
+    view: '链接',
 }
 
 export default {
@@ -80,6 +104,9 @@ export default {
     computed: {
         menuTypes() {
             return MENU_TYPES
+        },
+        currentHasSub() {
+            return this.$global.currentMenu.sub_button.length > 0
         },
     },
     created() {
@@ -211,11 +238,13 @@ $form-min-width: 800px;
     border: $grey-border;
     min-width: $form-min-width;
     width: $form-width;
+    background-color: #f4f5f9;
 
     .header {
         height: 40px;
         line-height: 40px;
         border-bottom: $grey-border;
+        border-width: 2px;
     }
 
     .label {
@@ -223,6 +252,12 @@ $form-min-width: 800px;
         height: 40px;
         line-height: 40px;
         margin-right: 10px;
+    }
+
+    .content-wrapper {
+        border: $grey-border;
+        background-color: #fff;
+        padding: 20px;
     }
 }
 
@@ -234,7 +269,7 @@ $form-min-width: 800px;
     color: $hint-color;
 }
 
-.form-item + .form-item{
-    margin-top: 15px;
+.form-item + .form-item {
+    margin-top: 10px;
 }
 </style>
