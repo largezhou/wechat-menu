@@ -14,6 +14,7 @@
             <button
                 class="btn btn-primary"
                 @click="onSave"
+                :disabled="saving"
             >保存</button>
         </div>
     </div>
@@ -32,6 +33,7 @@ export default {
         return {
             menus: [],
             menuAutoId: 1,
+            saving: false,
         }
     },
     created() {
@@ -60,9 +62,13 @@ export default {
             return id
         },
         async onSave() {
-            const { data } = await updateMenus(this.menus)
-
-            alert(data.errmsg)
+            try {
+                this.saving = true
+                const { data } = await updateMenus(this.menus)
+                alert(data.errmsg)
+            } finally {
+                this.saving = false
+            }
         },
     },
 }

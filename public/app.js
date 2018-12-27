@@ -13371,6 +13371,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
 
 
 
@@ -13383,7 +13384,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
     data: function data() {
         return {
             menus: [],
-            menuAutoId: 1
+            menuAutoId: 1,
+            saving: false
         };
     },
     created: function created() {
@@ -13450,22 +13452,30 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                     while (1) {
                         switch (_context2.prev = _context2.next) {
                             case 0:
-                                _context2.next = 2;
+                                _context2.prev = 0;
+
+                                this.saving = true;
+                                _context2.next = 4;
                                 return Object(__WEBPACK_IMPORTED_MODULE_1__api_wechat__["b" /* updateMenus */])(this.menus);
 
-                            case 2:
+                            case 4:
                                 _ref3 = _context2.sent;
                                 data = _ref3.data;
 
-
                                 alert(data.errmsg);
 
-                            case 5:
+                            case 7:
+                                _context2.prev = 7;
+
+                                this.saving = false;
+                                return _context2.finish(7);
+
+                            case 10:
                             case 'end':
                                 return _context2.stop();
                         }
                     }
-                }, _callee2, this);
+                }, _callee2, this, [[0,, 7, 10]]);
             }));
 
             function onSave() {
@@ -17402,7 +17412,11 @@ var render = function() {
     _c("div", { staticClass: "footer-toolbar" }, [
       _c(
         "button",
-        { staticClass: "btn btn-primary", on: { click: _vm.onSave } },
+        {
+          staticClass: "btn btn-primary",
+          attrs: { disabled: _vm.saving },
+          on: { click: _vm.onSave }
+        },
         [_vm._v("保存")]
       )
     ])

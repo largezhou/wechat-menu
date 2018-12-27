@@ -18,8 +18,16 @@
         border-color: $main-color;
         color: white;
 
-        &:hover {
+        &:hover:not([disabled]) {
             background: #3a963e;
         }
+
+        &[disabled] {
+            background-color: #7fd083;
+        }
+    }
+
+    .btn[disabled] {
+        cursor: not-allowed;
     }
 }

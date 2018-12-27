@@ -17,7 +17,15 @@
   color: white;
 }
 
-#wechat-menu .btn-primary:hover {
+#wechat-menu .btn-primary:hover:not([disabled]) {
   background: #3a963e;
+}
+
+#wechat-menu .btn-primary[disabled] {
+  background-color: #7fd083;
+}
+
+#wechat-menu .btn[disabled] {
+  cursor: not-allowed;
 }
 
