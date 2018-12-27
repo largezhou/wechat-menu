@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="menu-manager">
         <div class="edit-area">
             <div class="preview">
                 <div class="header">
@@ -71,12 +71,16 @@ export default {
 <style scoped lang="scss">
 @import "~@/../sass/vars.scss";
 
+$preview-width: 300px;
+$form-width: 1000px;
+$form-min-width: 800px;
+
 .edit-area {
     height: 600px;
     display: flex;
 
     .preview {
-        min-width: 300px;
+        min-width: $preview-width;
         margin-right: 20px;
         border: 1px solid #e7e7eb;
         display: flex;
@@ -85,8 +89,8 @@ export default {
     }
 
     .form {
-        min-width: 800px;
-        width: 1000px;
+        min-width: $form-min-width;
+        width: $form-width;
         background-color: green;
     }
 
@@ -103,5 +107,10 @@ export default {
 .footer-toolbar {
     margin-top: 30px;
     text-align: center;
+}
+
+.menu-manager {
+    max-width: $form-width + 20px + $preview-width;
+    min-width: $form-min-width + 20px + $preview-width;
 }
 </style>

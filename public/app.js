@@ -13297,7 +13297,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.edit-area[data-v-ba626956] {\n  height: 600px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.edit-area .preview[data-v-ba626956] {\n    min-width: 300px;\n    margin-right: 20px;\n    border: 1px solid #e7e7eb;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.edit-area .form[data-v-ba626956] {\n    min-width: 800px;\n    width: 1000px;\n    background-color: green;\n}\n.edit-area .header[data-v-ba626956] {\n    height: 50px;\n    background: #3a3a3e;\n    color: white;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n}\n.footer-toolbar[data-v-ba626956] {\n  margin-top: 30px;\n  text-align: center;\n}\n", ""]);
+exports.push([module.i, "\n.edit-area[data-v-ba626956] {\n  height: 600px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.edit-area .preview[data-v-ba626956] {\n    min-width: 300px;\n    margin-right: 20px;\n    border: 1px solid #e7e7eb;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n}\n.edit-area .form[data-v-ba626956] {\n    min-width: 800px;\n    width: 1000px;\n    background-color: green;\n}\n.edit-area .header[data-v-ba626956] {\n    height: 50px;\n    background: #3a3a3e;\n    color: white;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n}\n.footer-toolbar[data-v-ba626956] {\n  margin-top: 30px;\n  text-align: center;\n}\n.menu-manager[data-v-ba626956] {\n  max-width: 1320px;\n  min-width: 1120px;\n}\n", ""]);
 
 // exports
 
@@ -17373,7 +17373,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
+  return _c("div", { staticClass: "menu-manager" }, [
     _c("div", { staticClass: "edit-area" }, [
       _c(
         "div",
