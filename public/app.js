@@ -13299,7 +13299,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.edit-area[data-v-ba626956] {\n  height: 600px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.preview[data-v-ba626956] {\n  min-width: 300px;\n  margin-right: 20px;\n  border: 1px solid #e7e7eb;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between;\n}\n.preview .header[data-v-ba626956] {\n    height: 50px;\n    background: #3a3a3e;\n    color: white;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n}\n.footer-toolbar[data-v-ba626956] {\n  margin-top: 30px;\n  text-align: center;\n}\n.menu-manager[data-v-ba626956] {\n  max-width: 1320px;\n  min-width: 1120px;\n}\n.form[data-v-ba626956] {\n  padding: 0 20px;\n  border: 1px solid #e7e7eb;\n  min-width: 800px;\n  width: 1000px;\n}\n.form .header[data-v-ba626956] {\n    height: 40px;\n    line-height: 40px;\n    border-bottom: 1px solid #e7e7eb;\n}\n.form .label[data-v-ba626956] {\n    display: inline-block;\n    height: 40px;\n    line-height: 40px;\n    margin-right: 10px;\n}\n.choose-hint[data-v-ba626956] {\n  min-width: 800px;\n  width: 1000px;\n  text-align: center;\n  line-height: 600px;\n  color: #8d8d8d;\n}\n.name-input-wrapper[data-v-ba626956] {\n  margin-top: 40px;\n}\n", ""]);
+exports.push([module.i, "\n.edit-area[data-v-ba626956] {\n  height: 600px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.preview[data-v-ba626956] {\n  min-width: 300px;\n  margin-right: 20px;\n  border: 1px solid #e7e7eb;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between;\n}\n.preview .header[data-v-ba626956] {\n    height: 50px;\n    background: #3a3a3e;\n    color: white;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n}\n.footer-toolbar[data-v-ba626956] {\n  margin-top: 30px;\n  text-align: center;\n}\n.menu-manager[data-v-ba626956] {\n  max-width: 1320px;\n  min-width: 1120px;\n}\n.form[data-v-ba626956] {\n  padding: 0 20px;\n  border: 1px solid #e7e7eb;\n  min-width: 800px;\n  width: 1000px;\n}\n.form .header[data-v-ba626956] {\n    height: 40px;\n    line-height: 40px;\n    border-bottom: 1px solid #e7e7eb;\n}\n.form .label[data-v-ba626956] {\n    display: inline-block;\n    height: 40px;\n    line-height: 40px;\n    margin-right: 10px;\n    vertical-align: top;\n}\n.choose-hint[data-v-ba626956] {\n  min-width: 800px;\n  width: 1000px;\n  text-align: center;\n  line-height: 600px;\n  color: #8d8d8d;\n}\n.name-input-wrapper[data-v-ba626956] {\n  margin-top: 40px;\n}\n.input-wrapper[data-v-ba626956] {\n  display: inline-block;\n}\n.hint[data-v-ba626956] {\n  display: block;\n  color: #8d8d8d;\n  font-size: 14px;\n  padding: 5px 0;\n}\n", ""]);
 
 // exports
 
@@ -13348,6 +13348,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api_wechat__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Menus__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Menus___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_Menus__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_utils__ = __webpack_require__(64);
 
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -13398,9 +13399,26 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
+//
+//
 
 
 
+
+
+/**
+ * 需要验证的字段以及对应的验证方法
+ * @type {{name(*=): *}}
+ */
+var FIELD_VALIDATES = {
+    name: function name(val) {
+        var bLen = Object(__WEBPACK_IMPORTED_MODULE_3__common_utils__["a" /* getBLen */])(val);
+
+        return bLen > 0 && bLen <= 16;
+    }
+};
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'MenuManager',
@@ -13492,28 +13510,38 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                             case 0:
                                 _context2.prev = 0;
 
-                                this.saving = true;
-                                _context2.next = 4;
-                                return Object(__WEBPACK_IMPORTED_MODULE_1__api_wechat__["b" /* updateMenus */])(this.menus);
+                                if (this.validMenus(this.menus)) {
+                                    _context2.next = 4;
+                                    break;
+                                }
+
+                                alert('有错误啊，不能发布');
+                                return _context2.abrupt('return');
 
                             case 4:
+
+                                this.saving = true;
+                                _context2.next = 7;
+                                return Object(__WEBPACK_IMPORTED_MODULE_1__api_wechat__["b" /* updateMenus */])(this.menus);
+
+                            case 7:
                                 _ref3 = _context2.sent;
                                 data = _ref3.data;
 
                                 alert(data.errmsg);
 
-                            case 7:
-                                _context2.prev = 7;
+                            case 10:
+                                _context2.prev = 10;
 
                                 this.saving = false;
-                                return _context2.finish(7);
+                                return _context2.finish(10);
 
-                            case 10:
+                            case 13:
                             case 'end':
                                 return _context2.stop();
                         }
                     }
-                }, _callee2, this, [[0,, 7, 10]]);
+                }, _callee2, this, [[0,, 10, 13]]);
             }));
 
             function onSave() {
@@ -13562,6 +13590,30 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             }
 
             this.$bus.$emit('menuActive', menu);
+        },
+        validMenus: function validMenus(menus) {
+            var _this4 = this;
+
+            return !menus.some(function (menu) {
+                var anyError = false;
+
+                Object.keys(FIELD_VALIDATES).some(function (k) {
+                    var cb = FIELD_VALIDATES[k];
+                    var val = menu[k];
+
+                    if (!cb(val)) {
+                        anyError = true;
+                        return true;
+                    }
+                });
+
+                if (anyError) {
+                    _this4.$bus.$emit('menuActive', menu);
+                    return true;
+                } else {
+                    return !_this4.validMenus(menu.sub_button);
+                }
+            });
         }
     }
 });
@@ -17512,31 +17564,37 @@ var render = function() {
             _c("div", { staticClass: "name-input-wrapper" }, [
               _c("span", { staticClass: "label" }, [_vm._v("菜单名称")]),
               _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.$global.currentMenu.name,
-                    expression: "$global.currentMenu.name"
-                  }
-                ],
-                staticClass: "input",
-                attrs: { type: "text" },
-                domProps: { value: _vm.$global.currentMenu.name },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+              _c("div", { staticClass: "input-wrapper" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.$global.currentMenu.name,
+                      expression: "$global.currentMenu.name"
                     }
-                    _vm.$set(
-                      _vm.$global.currentMenu,
-                      "name",
-                      $event.target.value
-                    )
+                  ],
+                  staticClass: "input",
+                  attrs: { type: "text" },
+                  domProps: { value: _vm.$global.currentMenu.name },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.$global.currentMenu,
+                        "name",
+                        $event.target.value
+                      )
+                    }
                   }
-                }
-              })
+                }),
+                _vm._v(" "),
+                _c("span", { staticClass: "hint" }, [
+                  _vm._v("仅支持中英文和数字，字数不超过8个汉字或16个字母")
+                ])
+              ])
             ])
           ])
         : _c("div", { staticClass: "choose-hint" }, [
@@ -17595,6 +17653,20 @@ if (false) {
 var MAX_COLUMN = 3;
 
 var MAX_SUB_COUNT = 5;
+
+/***/ }),
+/* 64 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = getBLen;
+function getBLen(str) {
+    if (str == null) return 0;
+    if (typeof str != 'string') {
+        str += '';
+    }
+    return str.replace(/[^\x00-\xff]/g, '01').length;
+}
 
 /***/ })
 /******/ ]);

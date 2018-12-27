@@ -21,11 +21,15 @@
                 </div>
                 <div class="name-input-wrapper">
                     <span class="label">菜单名称</span>
-                    <input
-                        v-model="$global.currentMenu.name"
-                        type="text"
-                        class="input"
-                    >
+                    <div class="input-wrapper">
+                        <input
+                            v-model="$global.currentMenu.name"
+                            type="text"
+                            class="input"
+                        >
+                        <span class="hint">仅支持中英文和数字，字数不超过8个汉字或16个字母</span>
+                    </div>
+
                 </div>
             </div>
             <div
@@ -47,6 +51,20 @@
 <script>
 import { getMenus, updateMenus } from '@/api/wechat'
 import Menus from '@/components/Menus'
+import { getBLen } from '@/common/utils'
+
+/**
+ * 需要验证的字段以及对应的验证方法
+ * @type {{name(*=): *}}
+ */
+const FIELD_VALIDATES = {
+    name(val) {
+        const bLen = getBLen(val)
+
+        return bLen > 0
+            && bLen <= 16
+    },
+}
 
 export default {
     name: 'MenuManager',
@@ -97,6 +115,11 @@ export default {
         },
         async onSave() {
             try {
+                if (!this.validMenus(this.menus)) {
+                    alert('有错误啊，不能发布')
+                    return
+                }
+
                 this.saving = true
                 const { data } = await updateMenus(this.menus)
                 alert(data.errmsg)
@@ -139,6 +162,30 @@ export default {
             }
 
             this.$bus.$emit('menuActive', menu)
+        },
+
+        validMenus(menus) {
+            return !menus.some(menu => {
+                let anyError = false
+
+                Object.keys(FIELD_VALIDATES)
+                    .some(k => {
+                        const cb = FIELD_VALIDATES[k]
+                        const val = menu[k]
+
+                        if (!cb(val)) {
+                            anyError = true
+                            return true
+                        }
+                    })
+
+                if (anyError) {
+                    this.$bus.$emit('menuActive', menu)
+                    return true
+                } else {
+                    return !this.validMenus(menu.sub_button)
+                }
+            })
         },
     },
 }
@@ -201,6 +248,7 @@ $form-min-width: 800px;
         height: 40px;
         line-height: 40px;
         margin-right: 10px;
+        vertical-align: top;
     }
 }
 
@@ -214,5 +262,16 @@ $form-min-width: 800px;
 
 .name-input-wrapper {
     margin-top: 40px;
+}
+
+.input-wrapper {
+    display: inline-block;
+}
+
+.hint {
+    display: block;
+    color: $hint-color;
+    font-size: 14px;
+    padding: 5px 0;
 }
 </style>
