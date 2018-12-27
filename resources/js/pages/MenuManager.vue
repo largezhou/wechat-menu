@@ -19,7 +19,7 @@
                         @click="onRemoveCurrent"
                     >删除菜单</a>
                 </div>
-                <div class="form-item" style="margin-top: 20px;">
+                <div class="form-item name-item">
                     <span class="label">菜单名称</span>
                     <input
                         v-model="$global.currentMenu.name"
@@ -28,7 +28,7 @@
                     >
                 </div>
 
-                <div v-show="!currentHasSub">
+                <div v-show="!currentHasSub" class="form-item">
                     <div class="form-item">
                         <span class="label">菜单内容</span>
                         <label
@@ -262,6 +262,10 @@ $form-min-width: 800px;
 }
 
 .form-item + .form-item {
-    margin-top: 10px;
+    margin-top: 15px;
+}
+
+.name-item {
+    margin-top: 30px;
 }
 </style>
