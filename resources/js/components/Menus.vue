@@ -72,16 +72,16 @@ export default {
     },
     methods: {
         onAddMenu(parentIndex) {
-            let id
+            let menu
 
             if (parentIndex instanceof Event) {
-                id = this.addColumn()
+                menu = this.addColumn()
             } else {
-                id = this.addSubMenu(parentIndex)
+                menu = this.addSubMenu(parentIndex)
             }
 
             this.$nextTick(() => {
-                this.$bus.$emit('menuActive', id)
+                this.$bus.$emit('menuActive', menu)
             })
         },
         addColumn() {
@@ -104,17 +104,18 @@ export default {
         realAddMenu(menus, isSub = false) {
             const id = this.menuAutoId
 
-            menus.push({
+            const menu = {
                 name: (isSub ? '子' : '') + '菜单名称',
                 type: 'click',
                 key: 'test',
                 id,
                 sub_button: [],
-            })
+            }
+            menus.push(menu)
 
             this.$emit('update:menuAutoId', id + 1)
 
-            return id
+            return menu
         },
     },
     watch: {

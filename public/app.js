@@ -15412,16 +15412,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         onAddMenu: function onAddMenu(parentIndex) {
             var _this = this;
 
-            var id = void 0;
+            var menu = void 0;
 
             if (parentIndex instanceof Event) {
-                id = this.addColumn();
+                menu = this.addColumn();
             } else {
-                id = this.addSubMenu(parentIndex);
+                menu = this.addSubMenu(parentIndex);
             }
 
             this.$nextTick(function () {
-                _this.$bus.$emit('menuActive', id);
+                _this.$bus.$emit('menuActive', menu);
             });
         },
         addColumn: function addColumn() {
@@ -15446,17 +15446,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             var id = this.menuAutoId;
 
-            menus.push({
+            var menu = {
                 name: (isSub ? '子' : '') + '菜单名称',
                 type: 'click',
                 key: 'test',
                 id: id,
                 sub_button: []
-            });
+            };
+            menus.push(menu);
 
             this.$emit('update:menuAutoId', id + 1);
 
-            return id;
+            return menu;
         }
     },
     watch: {
