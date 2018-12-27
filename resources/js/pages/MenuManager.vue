@@ -19,6 +19,14 @@
                         @click="onRemoveCurrent"
                     >删除子菜单</a>
                 </div>
+                <div class="name-input-wrapper">
+                    <span class="label">菜单名称</span>
+                    <input
+                        v-model="$global.currentMenu.name"
+                        type="text"
+                        class="input"
+                    >
+                </div>
             </div>
             <div
                 v-else
@@ -122,7 +130,6 @@ export default {
 $preview-width: 300px;
 $form-width: 1000px;
 $form-min-width: 800px;
-$grey-border: 1px solid #e7e7eb;
 
 .edit-area {
     height: 600px;
@@ -168,6 +175,13 @@ $grey-border: 1px solid #e7e7eb;
         line-height: 40px;
         border-bottom: $grey-border;
     }
+
+    .label {
+        display: inline-block;
+        height: 40px;
+        line-height: 40px;
+        margin-right: 10px;
+    }
 }
 
 .choose-hint {
@@ -176,5 +190,9 @@ $grey-border: 1px solid #e7e7eb;
     text-align: center;
     line-height: 600px;
     color: $hint-color;
+}
+
+.name-input-wrapper {
+    margin-top: 40px;
 }
 </style>

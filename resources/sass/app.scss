@@ -43,4 +43,18 @@
     .pull-left {
         float: left !important;
     }
+
+    input.input {
+        height: 35px;
+        border: $grey-border;
+        padding: 0 0 0 10px;
+        font-size: 15px;
+        outline: 0;
+        width: 350px;
+        border-radius: 3px;
+
+        &:focus {
+            border-color: #cdcdcd;
+        }
+    }
 }
