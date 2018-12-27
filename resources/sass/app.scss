@@ -57,4 +57,9 @@
             border-color: #cdcdcd;
         }
     }
+
+    .cursor-pointer {
+        cursor: pointer;
+        user-select: none;
+    }
 }

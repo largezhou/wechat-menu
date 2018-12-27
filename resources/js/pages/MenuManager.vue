@@ -19,13 +19,25 @@
                         @click="onRemoveCurrent"
                     >删除子菜单</a>
                 </div>
-                <div class="name-input-wrapper">
+                <div class="form-item" style="margin-top: 30px;">
                     <span class="label">菜单名称</span>
                     <input
                         v-model="$global.currentMenu.name"
                         type="text"
                         class="input"
                     >
+                </div>
+
+                <div class="form-item">
+                    <span class="label">菜单类型</span>
+                    <label
+                        class="cursor-pointer"
+                        v-for="key of Object.keys(menuTypes)"
+                        :key="key"
+                    >
+                        <input type="radio" name="type" :value="key">
+                        {{ menuTypes[key] }}
+                    </label>
                 </div>
             </div>
             <div
@@ -48,6 +60,11 @@
 import { getMenus, updateMenus } from '@/api/wechat'
 import Menus from '@/components/Menus'
 
+const MENU_TYPES = {
+    click: '点击',
+    url: '链接',
+}
+
 export default {
     name: 'MenuManager',
     components: {
@@ -59,6 +76,11 @@ export default {
             menuAutoId: 1,
             saving: false,
         }
+    },
+    computed: {
+        menuTypes() {
+            return MENU_TYPES
+        },
     },
     created() {
         this.getData()
@@ -212,7 +234,7 @@ $form-min-width: 800px;
     color: $hint-color;
 }
 
-.name-input-wrapper {
-    margin-top: 40px;
+.form-item + .form-item{
+    margin-top: 15px;
 }
 </style>

@@ -13299,7 +13299,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.edit-area[data-v-ba626956] {\n  height: 600px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.preview[data-v-ba626956] {\n  min-width: 300px;\n  margin-right: 20px;\n  border: 1px solid #e7e7eb;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between;\n}\n.preview .header[data-v-ba626956] {\n    height: 50px;\n    background: #3a3a3e;\n    color: white;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n}\n.footer-toolbar[data-v-ba626956] {\n  margin-top: 30px;\n  text-align: center;\n}\n.menu-manager[data-v-ba626956] {\n  max-width: 1320px;\n  min-width: 1120px;\n}\n.form[data-v-ba626956] {\n  padding: 0 20px;\n  border: 1px solid #e7e7eb;\n  min-width: 800px;\n  width: 1000px;\n}\n.form .header[data-v-ba626956] {\n    height: 40px;\n    line-height: 40px;\n    border-bottom: 1px solid #e7e7eb;\n}\n.form .label[data-v-ba626956] {\n    display: inline-block;\n    height: 40px;\n    line-height: 40px;\n    margin-right: 10px;\n}\n.choose-hint[data-v-ba626956] {\n  min-width: 800px;\n  width: 1000px;\n  text-align: center;\n  line-height: 600px;\n  color: #8d8d8d;\n}\n.name-input-wrapper[data-v-ba626956] {\n  margin-top: 40px;\n}\n", ""]);
+exports.push([module.i, "\n.edit-area[data-v-ba626956] {\n  height: 600px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.preview[data-v-ba626956] {\n  min-width: 300px;\n  margin-right: 20px;\n  border: 1px solid #e7e7eb;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between;\n}\n.preview .header[data-v-ba626956] {\n    height: 50px;\n    background: #3a3a3e;\n    color: white;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n}\n.footer-toolbar[data-v-ba626956] {\n  margin-top: 30px;\n  text-align: center;\n}\n.menu-manager[data-v-ba626956] {\n  max-width: 1320px;\n  min-width: 1120px;\n}\n.form[data-v-ba626956] {\n  padding: 0 20px;\n  border: 1px solid #e7e7eb;\n  min-width: 800px;\n  width: 1000px;\n}\n.form .header[data-v-ba626956] {\n    height: 40px;\n    line-height: 40px;\n    border-bottom: 1px solid #e7e7eb;\n}\n.form .label[data-v-ba626956] {\n    display: inline-block;\n    height: 40px;\n    line-height: 40px;\n    margin-right: 10px;\n}\n.choose-hint[data-v-ba626956] {\n  min-width: 800px;\n  width: 1000px;\n  text-align: center;\n  line-height: 600px;\n  color: #8d8d8d;\n}\n.form-item + .form-item[data-v-ba626956] {\n  margin-top: 15px;\n}\n", ""]);
 
 // exports
 
@@ -13398,9 +13398,26 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
+
+var MENU_TYPES = {
+    click: '点击',
+    url: '链接'
+};
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'MenuManager',
@@ -13413,6 +13430,12 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             menuAutoId: 1,
             saving: false
         };
+    },
+
+    computed: {
+        menuTypes: function menuTypes() {
+            return MENU_TYPES;
+        }
     },
     created: function created() {
         this.getData();
@@ -17509,35 +17532,69 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "name-input-wrapper" }, [
-              _c("span", { staticClass: "label" }, [_vm._v("菜单名称")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.$global.currentMenu.name,
-                    expression: "$global.currentMenu.name"
-                  }
-                ],
-                staticClass: "input",
-                attrs: { type: "text" },
-                domProps: { value: _vm.$global.currentMenu.name },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+            _c(
+              "div",
+              {
+                staticClass: "form-item",
+                staticStyle: { "margin-top": "30px" }
+              },
+              [
+                _c("span", { staticClass: "label" }, [_vm._v("菜单名称")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.$global.currentMenu.name,
+                      expression: "$global.currentMenu.name"
                     }
-                    _vm.$set(
-                      _vm.$global.currentMenu,
-                      "name",
-                      $event.target.value
-                    )
+                  ],
+                  staticClass: "input",
+                  attrs: { type: "text" },
+                  domProps: { value: _vm.$global.currentMenu.name },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.$global.currentMenu,
+                        "name",
+                        $event.target.value
+                      )
+                    }
                   }
-                }
-              })
-            ])
+                })
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "form-item" },
+              [
+                _c("span", { staticClass: "label" }, [_vm._v("菜单类型")]),
+                _vm._v(" "),
+                _vm._l(Object.keys(_vm.menuTypes), function(key) {
+                  return _c(
+                    "label",
+                    { key: key, staticClass: "cursor-pointer" },
+                    [
+                      _c("input", {
+                        attrs: { type: "radio", name: "type" },
+                        domProps: { value: key }
+                      }),
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(_vm.menuTypes[key]) +
+                          "\n                "
+                      )
+                    ]
+                  )
+                })
+              ],
+              2
+            )
           ])
         : _c("div", { staticClass: "choose-hint" }, [
             _vm._v("在左侧选择菜单编辑\n        ")
