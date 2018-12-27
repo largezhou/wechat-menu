@@ -31,7 +31,8 @@
             <div
                 v-else
                 class="choose-hint"
-            >在左侧选择菜单编辑</div>
+            >在左侧选择菜单编辑
+            </div>
         </div>
         <div class="footer-toolbar">
             <button
@@ -74,6 +75,10 @@ export default {
             this.menus = res.data.menu.button
 
             this.menuAutoId = this.addUniqueKey(this.menus)
+
+            this.$nextTick(() => {
+                this.activeFirstMenu()
+            })
         },
 
         /**
@@ -119,6 +124,21 @@ export default {
             this.$nextTick(() => {
                 this.$bus.$emit('menuActive', nextActive)
             })
+        },
+        activeFirstMenu() {
+            if (this.menus.length == 0) {
+                return
+            }
+
+            let menu = null
+            const subs = this.menus[0].sub_button
+            if (subs.length == 0) {
+                menu = this.menus[0]
+            } else {
+                menu = subs[0]
+            }
+
+            this.$bus.$emit('menuActive', menu)
         },
     },
 }

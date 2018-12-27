@@ -13397,6 +13397,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
 
 
 
@@ -13426,6 +13427,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
     methods: {
         getData: function () {
             var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee() {
+                var _this = this;
+
                 var res;
                 return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
                     while (1) {
@@ -13441,7 +13444,11 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
                                 this.menuAutoId = this.addUniqueKey(this.menus);
 
-                            case 5:
+                                this.$nextTick(function () {
+                                    _this.activeFirstMenu();
+                                });
+
+                            case 6:
                             case 'end':
                                 return _context.stop();
                         }
@@ -13464,13 +13471,13 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
          * @param id
          */
         addUniqueKey: function addUniqueKey(menus) {
-            var _this = this;
+            var _this2 = this;
 
             var id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
 
             menus.forEach(function (item) {
                 item.id = id++;
-                id = _this.addUniqueKey(item.sub_button, id);
+                id = _this2.addUniqueKey(item.sub_button, id);
             });
 
             return id;
@@ -13521,7 +13528,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             }
         },
         onRemoveMenu: function onRemoveMenu(_ref4) {
-            var _this2 = this;
+            var _this3 = this;
 
             var parent = _ref4.parent,
                 sub = _ref4.sub;
@@ -13538,8 +13545,23 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             }
 
             this.$nextTick(function () {
-                _this2.$bus.$emit('menuActive', nextActive);
+                _this3.$bus.$emit('menuActive', nextActive);
             });
+        },
+        activeFirstMenu: function activeFirstMenu() {
+            if (this.menus.length == 0) {
+                return;
+            }
+
+            var menu = null;
+            var subs = this.menus[0].sub_button;
+            if (subs.length == 0) {
+                menu = this.menus[0];
+            } else {
+                menu = subs[0];
+            }
+
+            this.$bus.$emit('menuActive', menu);
         }
     }
 });
@@ -17518,7 +17540,7 @@ var render = function() {
             ])
           ])
         : _c("div", { staticClass: "choose-hint" }, [
-            _vm._v("在左侧选择菜单编辑")
+            _vm._v("在左侧选择菜单编辑\n        ")
           ])
     ]),
     _vm._v(" "),
