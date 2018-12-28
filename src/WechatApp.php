@@ -3,7 +3,9 @@
 namespace Largezhou\WechatMenu;
 
 use EasyWeChat\Factory;
+use EasyWeChat\Kernel\Messages\Message;
 use Largezhou\WechatMenu\Exceptions\WechatMenuException;
+use Largezhou\WechatMenu\Handlers\EventHandler;
 
 class WechatApp
 {
@@ -28,5 +30,23 @@ class WechatApp
         }
 
         return static::$app;
+    }
+
+    /**
+     * 公众号回调接口
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws WechatMenuException
+     * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \ReflectionException
+     */
+    public static function serve()
+    {
+        $server = static::getApp()->server;
+        $server->push(EventHandler::class, Message::EVENT);
+
+        return $server->serve();
     }
 }
