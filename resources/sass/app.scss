@@ -77,4 +77,8 @@
         line-height: 40px;
         margin-right: 10px;
     }
+
+    .form-item + .form-item {
+        margin-top: 15px;
+    }
 }

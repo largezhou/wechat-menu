@@ -79,3 +79,7 @@
   margin-right: 10px;
 }
 
+#wechat-menu .form-item + .form-item {
+  margin-top: 15px;
+}
+

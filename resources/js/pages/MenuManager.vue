@@ -261,10 +261,6 @@ $form-min-width: 800px;
     color: $hint-color;
 }
 
-.form-item + .form-item {
-    margin-top: 15px;
-}
-
 .name-item {
     margin-top: 30px;
 }
