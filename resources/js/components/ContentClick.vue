@@ -6,6 +6,7 @@
                 v-model="$global.currentMenu.key"
                 type="text"
                 class="input"
+                placeholder="点击事件 KEY"
             >
         </div>
         <div class="form-item click-item">
@@ -14,6 +15,7 @@
                 v-model="$global.currentMenu.callback"
                 type="text"
                 class="input key-callback-input"
+                placeholder="Path\To\HandlerClass@method"
             >
         </div>
     </div>

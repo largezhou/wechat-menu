@@ -15542,7 +15542,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var menu = {
                 name: (isSub ? '子' : '') + '菜单名称',
                 type: 'click',
-                key: 'test',
+                key: '',
+                callback: '',
                 id: id,
                 sub_button: []
             };
@@ -17771,6 +17772,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'ContentClick'
@@ -17798,7 +17801,7 @@ var render = function() {
           }
         ],
         staticClass: "input",
-        attrs: { type: "text" },
+        attrs: { type: "text", placeholder: "点击事件 KEY" },
         domProps: { value: _vm.$global.currentMenu.key },
         on: {
           input: function($event) {
@@ -17824,7 +17827,7 @@ var render = function() {
           }
         ],
         staticClass: "input key-callback-input",
-        attrs: { type: "text" },
+        attrs: { type: "text", placeholder: "Path\\To\\HandlerClass@method" },
         domProps: { value: _vm.$global.currentMenu.callback },
         on: {
           input: function($event) {

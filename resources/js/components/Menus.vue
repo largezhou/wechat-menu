@@ -107,7 +107,8 @@ export default {
             const menu = {
                 name: (isSub ? '子' : '') + '菜单名称',
                 type: 'click',
-                key: 'test',
+                key: '',
+                callback: '',
                 id,
                 sub_button: [],
             }
