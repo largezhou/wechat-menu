@@ -15,10 +15,27 @@
                     v-for="(e, index) of events"
                     :key="index"
                 >
+                    <td>
+                        <input
+                            type="text"
+                            class="input table-input"
+                            v-model="e.key"
+                        />
+                    </td>
                     <td
-                        v-for="({ field }, index) of columns"
-                        :key="index"
-                    >{{ field == 'type' ? typesText[e[field]] : e[field] }}
+                        class="cursor-pointer"
+                        title="点击切换类型"
+                        @click="onChangeType(index)"
+                    >
+                        <a href="javascript:void(0);">{{ typeText(e.type) }}</a>
+                    </td>
+                    <td>
+                        <input
+                            type="text"
+                            class="input table-input"
+                            v-model="e.content"
+                            ref="inputs"
+                        />
                     </td>
                     <td>
                         <button
@@ -33,6 +50,7 @@
             <button
                 class="btn btn-primary"
                 @click="onSave"
+                :disabled="saving"
             >保存</button>
             <button
                 class="btn"
@@ -43,7 +61,12 @@
 </template>
 
 <script>
-import { getEvents } from '@/api/wechat'
+import { createEvents, getEvents } from '@/api/wechat'
+
+const TYPES_TEXT = {
+    msg: '自动回复',
+    callback: '事件处理',
+}
 
 export default {
     name: 'EventsSetting',
@@ -66,14 +89,23 @@ export default {
                     name: '内容',
                 },
             ],
-            typesText: {
-                msg: '自动回复',
-                callback: '事件处理',
-            },
+
+            saving: false,
         }
     },
     created() {
         this.getData()
+    },
+    computed: {
+        keys() {
+            return this.events.map(e => e.key)
+        },
+        callbacks() {
+            return this
+                .events
+                .map(e => e.type == 'callback' ? e.content : '')
+                .filter(c => c)
+        },
     },
     methods: {
         async getData() {
@@ -85,13 +117,72 @@ export default {
         },
         onNewEvent() {
             this.events.push({
-                key: 'some random key',
+                key: Math.random().toString(32).substr(2),
                 type: 'msg',
                 content: 'Hello World',
             })
-        },
-        onSave() {
 
+            this.$nextTick(() => {
+                this.$refs.inputs[this.events.length - 1].focus()
+            })
+        },
+        async onSave() {
+            const valid = this.valid()
+            if (valid !== true) {
+                alert(valid)
+                return
+            }
+
+            try {
+                this.saving = true
+                const { data } = await createEvents(this.events)
+                alert(data.errmsg)
+            } finally {
+                this.saving = false
+            }
+        },
+        typeText(type) {
+            return TYPES_TEXT[type]
+        },
+        onChangeType(index) {
+            const event = this.events[index]
+            event.type = event.type == 'msg' ? 'callback' : 'msg'
+        },
+        valid() {
+            const keys = []
+            let errorMsg
+
+            this
+                .events
+                .every((e, index) => {
+                    const prefix = `第 ${index + 1} 个配置的`
+
+                    if (!e.key) {
+                        errorMsg = prefix + '事件标识为空'
+                        return false
+                    }
+
+                    if (keys.indexOf(e.key) !== -1) {
+                        errorMsg = prefix + '事件标识重复'
+                        return false
+                    }
+
+                    if (!e.content) {
+                        errorMsg = prefix + '内容为空'
+                        return false
+                    }
+
+                    if (e.type == 'callback' && e.content.split('@').length != 2) {
+                        errorMsg = prefix + '内容格式不对'
+                        return false
+                    }
+
+                    keys.push(e.key)
+
+                    return true
+                })
+
+            return errorMsg || true
         },
     },
 }
@@ -123,5 +214,13 @@ export default {
     padding: 20px 0;
     border: $grey-border;
     border-top: none;
+}
+
+.event-type {
+    cursor: pointer;
+}
+
+.table-input {
+    width: 100% !important;
 }
 </style>

@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import { getMenus, updateMenus } from '@/api/wechat'
+import { getMenus, createMenus } from '@/api/wechat'
 import Menus from '@/components/Menus'
 import ContentView from '@/components/ContentView'
 import ContentClick from '@/components/ContentClick'
@@ -146,7 +146,7 @@ export default {
         async onSave() {
             try {
                 this.saving = true
-                const { data } = await updateMenus(this.menus)
+                const { data } = await createMenus(this.menus)
                 alert(data.errmsg)
             } finally {
                 this.saving = false

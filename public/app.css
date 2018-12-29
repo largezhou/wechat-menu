@@ -71,7 +71,7 @@
   float: left !important;
 }
 
-#wechat-menu input.input {
+#wechat-menu .input {
   height: 35px;
   border: 1px solid #e7e7eb;
   padding: 0 0 0 10px;
@@ -80,7 +80,7 @@
   border-radius: 3px;
 }
 
-#wechat-menu input.input:focus {
+#wechat-menu .input:focus {
   border-color: #cdcdcd;
 }
 
