@@ -31,10 +31,18 @@
                     </td>
                     <td>
                         <input
+                            v-if="e.type == 'msg'"
                             type="text"
                             class="input table-input"
                             v-model="e.content"
                             ref="inputs"
+                        />
+                        <callback-input
+                            v-else
+                            v-model="e.content"
+                            :data="callbacks"
+                            ref="inputs"
+                            @blur="onCallbackChange"
                         />
                     </td>
                     <td>
@@ -62,6 +70,7 @@
 
 <script>
 import { createEvents, getEvents } from '@/api/wechat'
+import CallbackInput from '@/components/CallbackInput'
 
 const TYPES_TEXT = {
     msg: '自动回复',
@@ -70,6 +79,9 @@ const TYPES_TEXT = {
 
 export default {
     name: 'EventsSetting',
+    components: {
+        CallbackInput,
+    },
     data() {
         return {
             events: [],
@@ -90,6 +102,8 @@ export default {
                 },
             ],
 
+            callbacks: [],
+
             saving: false,
         }
     },
@@ -100,17 +114,15 @@ export default {
         keys() {
             return this.events.map(e => e.key)
         },
-        callbacks() {
-            return this
-                .events
-                .map(e => e.type == 'callback' ? e.content : '')
-                .filter(c => c)
-        },
     },
     methods: {
         async getData() {
             const { data } = await getEvents()
             this.events = data
+
+            this.events.forEach(e => {
+                e.type == 'callback' && this.onCallbackChange(e.content)
+            })
         },
         onRemove(index) {
             this.events.splice(index, 1)
@@ -119,7 +131,7 @@ export default {
             this.events.push({
                 key: Math.random().toString(32).substr(2),
                 type: 'msg',
-                content: 'Hello World',
+                content: '',
             })
 
             this.$nextTick(() => {
@@ -183,6 +195,12 @@ export default {
                 })
 
             return errorMsg || true
+        },
+        onCallbackChange(val) {
+            const t = val.split('@')
+            if (t.length == 2 && this.callbacks.indexOf(t[0]) === -1) {
+                this.callbacks.push(t[0])
+            }
         },
     },
 }
