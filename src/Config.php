@@ -2,6 +2,7 @@
 
 namespace Largezhou\WechatMenu;
 
+use EasyWeChat\Kernel\Support\Arr;
 use Largezhou\WechatMenu\Exceptions\WechatMenuException;
 
 class Config
@@ -98,6 +99,50 @@ class Config
             }
 
             $keys[] = $key;
+        }
+    }
+
+    /**
+     * 设置配置数据
+     *
+     * @param array $config
+     */
+    public static function config(array $config)
+    {
+        static::$config = $config;
+    }
+
+    /**
+     * 单独设置某个配置
+     *
+     * @param  array|string $key
+     * @param  mixed        $value
+     */
+    public static function set($key, $value = null)
+    {
+        if (func_num_args() == 1) {
+            static::$config = array_replace_recursive(static::$config, $key);
+
+            return;
+        }
+
+        Arr::set(static::$config, $key, $value);
+    }
+
+    /**
+     * 获取配置
+     *
+     * @param string|null $key
+     * @param mixed       $default
+     *
+     * @return array
+     */
+    public static function get(string $key = null, $default = null)
+    {
+        if (func_num_args() == 0) {
+            return static::$config;
+        } else {
+            return Arr::get(static::$config, $key, $default);
         }
     }
 }
