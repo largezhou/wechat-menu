@@ -1,5 +1,5 @@
 <template>
-    <div class="menu-manager">
+    <div class="menus-editor">
         <div class="edit-area">
             <div class="preview">
                 <div class="header">
@@ -106,7 +106,7 @@ export default {
             const type = this.$global.currentMenu.type
 
             return type ? `content-${type}` : null
-        }
+        },
     },
     created() {
         this.getData()
@@ -227,7 +227,7 @@ $form-min-width: 800px;
     text-align: center;
 }
 
-.menu-manager {
+.menus-editor {
     max-width: $form-width + 20px + $preview-width;
     min-width: $form-min-width + 20px + $preview-width;
 }

@@ -5,16 +5,26 @@
 }
 
 #wechat-menu .btn {
-  border: 1px solid;
+  border: 1px solid #e7e7eb;
+  background: #fff;
   outline: 0;
   padding: 10px 20px;
   cursor: pointer;
   border-radius: 3px;
+  word-break: keep-all;
+}
+
+#wechat-menu .btn:hover:not([disabled]) {
+  background: #e7e7eb;
+}
+
+#wechat-menu .btn[disabled] {
+  color: #8d8d8d;
 }
 
 #wechat-menu .btn-primary {
+  border: none;
   background: #44b549;
-  border-color: #44b549;
   color: white;
 }
 
@@ -24,6 +34,24 @@
 
 #wechat-menu .btn-primary[disabled] {
   background-color: #7fd083;
+}
+
+#wechat-menu .btn-danger {
+  border: none;
+  background: #f86161;
+  color: white;
+}
+
+#wechat-menu .btn-danger:hover:not([disabled]) {
+  background: #d46060;
+}
+
+#wechat-menu .btn-danger[disabled] {
+  background-color: #ff998d;
+}
+
+#wechat-menu .btn-sm {
+  padding: 6px 10px;
 }
 
 #wechat-menu .btn[disabled] {
@@ -81,5 +109,9 @@
 
 #wechat-menu .form-item + .form-item {
   margin-top: 15px;
+}
+
+#wechat-menu table {
+  border-collapse: collapse;
 }
 

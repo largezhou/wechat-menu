@@ -13,3 +13,7 @@ export function updateMenus(menus) {
         menus,
     })
 }
+
+export function getEvents() {
+    return axios.get('/events')
+}

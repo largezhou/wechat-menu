@@ -11,9 +11,14 @@ class WechatMenu
      *
      * @return string
      */
-    protected static function response($html)
+    protected static function wrapHtml($html)
     {
-        return Config::renderPrefixEl().$html;
+        return Config::renderPrefixEl()
+            .'<link rel="stylesheet" href="/vendor/wechat-menu/app.css">'
+            .'<div id="wechat-menu">'
+            .$html
+            .'</div>'
+            .'<script src="/vendor/wechat-menu/app.js"></script>';
     }
 
     /**
@@ -23,6 +28,16 @@ class WechatMenu
      */
     public static function renderMenusEditor()
     {
-        return static::response(file_get_contents(__DIR__.'/../resources/views/menus.html'));
+        return static::wrapHtml('<menus-editor/>');
+    }
+
+    /**
+     * 返回事件标识对应时间处理函数的 增删改查 页面
+     *
+     * @return string
+     */
+    public static function renderEventSetting()
+    {
+        return static::wrapHtml('<events-setting/>');
     }
 }

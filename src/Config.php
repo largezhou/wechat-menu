@@ -2,11 +2,15 @@
 
 namespace Largezhou\WechatMenu;
 
+use Largezhou\WechatMenu\Exceptions\WechatMenuException;
+
 class Config
 {
     protected static $routePrefix = 'wechat-menu';
 
     protected static $config = [];
+
+    protected static $eventsCallbacks = [];
 
     /**
      * 设置系列路由的前缀
@@ -38,8 +42,62 @@ class Config
         static::$config = $config;
     }
 
+    /**
+     * 获取微信配置
+     *
+     * @return array
+     */
     public static function getWechatConfig(): array
     {
         return static::$config;
+    }
+
+    /**
+     * 设置事件对应的回调
+     *
+     * @param array $events
+     *
+     * @throws WechatMenuException
+     */
+    public static function setEventsCallbacks(array $events)
+    {
+        static::validEventsCallbacks($events);
+
+        static::$eventsCallbacks = $events;
+    }
+
+    /**
+     * 获取事件对应回调的数组
+     *
+     * @return array
+     */
+    public static function getEventsCallbacks(): array
+    {
+        return static::$eventsCallbacks;
+    }
+
+    /**
+     * 验证事件中的 key 不为空，且唯一
+     *
+     * @param array $events
+     *
+     * @throws WechatMenuException
+     */
+    public static function validEventsCallbacks(array $events)
+    {
+        $keys = [];
+
+        foreach ($events as $e) {
+            if (!isset($e['key']) || $e['key'] === '') {
+                throw new WechatMenuException('事件 key 不能为空');
+            }
+
+            $key = $e['key'];
+            if (in_array($key, $keys)) {
+                throw new WechatMenuException("事件 key[{$key}] 不唯一");
+            }
+
+            $keys[] = $key;
+        }
     }
 }

@@ -7,16 +7,26 @@
     }
 
     .btn {
-        border: 1px solid;
+        border: 1px solid $grey;
+        background: #fff;
         outline: 0;
         padding: 10px 20px;
         cursor: pointer;
         border-radius: 3px;
+        word-break: keep-all;
+
+        &:hover:not([disabled]) {
+            background: $grey;
+        }
+
+        &[disabled] {
+            color: $grey-1;
+        }
     }
 
     .btn-primary {
+        border: none;
         background: $main-color;
-        border-color: $main-color;
         color: white;
 
         &:hover:not([disabled]) {
@@ -26,6 +36,24 @@
         &[disabled] {
             background-color: #7fd083;
         }
+    }
+
+    .btn-danger {
+        border: none;
+        background: $danger-color;
+        color: white;
+
+        &:hover:not([disabled]) {
+            background: #d46060;
+        }
+
+        &[disabled] {
+            background-color: #ff998d;
+        }
+    }
+
+    .btn-sm {
+        padding: 6px 10px;
     }
 
     .btn[disabled] {
@@ -80,5 +108,9 @@
 
     .form-item + .form-item {
         margin-top: 15px;
+    }
+
+    table {
+        border-collapse: collapse;
     }
 }
