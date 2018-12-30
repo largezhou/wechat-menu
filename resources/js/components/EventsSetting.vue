@@ -70,6 +70,10 @@
             >保存</button>
             <button
                 class="btn"
+                @click="onReset"
+            >重置</button>
+            <button
+                class="btn"
                 @click="onNewEvent"
             >添加一个</button>
         </div>
@@ -128,6 +132,7 @@ export default {
         async getData() {
             const { data } = await getEvents()
             this.events = data.data
+            this.eventsBak = JSON.stringify(this.events)
 
             this.events.forEach(e => {
                 e.type == 'callback' && this.onCallbackChange(e.content)
@@ -224,6 +229,9 @@ export default {
             if (t.length == 2 && this.callbacks.indexOf(t[0]) === -1) {
                 this.callbacks.push(t[0])
             }
+        },
+        onReset() {
+            this.events = JSON.parse(this.eventsBak)
         },
     },
 }

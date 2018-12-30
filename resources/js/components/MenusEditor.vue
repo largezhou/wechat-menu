@@ -70,6 +70,10 @@
                 @click="onSave"
                 :disabled="saving"
             >保存</button>
+            <button
+                class="btn"
+                @click="onReset"
+            >重置</button>
         </div>
     </div>
 </template>
@@ -132,12 +136,11 @@ export default {
         async getData() {
             let res = await getMenus()
             this.menus = res.data.data.menu.button
+            this.menusBak = JSON.stringify(this.menus)
 
             this.menuAutoId = this.addUniqueKey(this.menus)
 
-            this.$nextTick(() => {
-                this.activeFirstMenu()
-            })
+            this.activeFirstMenu()
 
             res = await getEvents()
             this.events = res.data.data
@@ -187,19 +190,25 @@ export default {
             })
         },
         activeFirstMenu() {
-            if (this.menus.length == 0) {
-                return
-            }
+            this.$nextTick(() => {
+                if (this.menus.length == 0) {
+                    return
+                }
 
-            let menu = null
-            const subs = this.menus[0].sub_button
-            if (subs.length == 0) {
-                menu = this.menus[0]
-            } else {
-                menu = subs[0]
-            }
+                let menu = null
+                const subs = this.menus[0].sub_button
+                if (subs.length == 0) {
+                    menu = this.menus[0]
+                } else {
+                    menu = subs[0]
+                }
 
-            this.$bus.$emit('menuActive', menu)
+                this.$bus.$emit('menuActive', menu)
+            })
+        },
+        onReset() {
+            this.menus = JSON.parse(this.menusBak)
+            this.activeFirstMenu()
         },
     },
 }
