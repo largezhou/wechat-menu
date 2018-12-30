@@ -2,8 +2,21 @@
 
 namespace Largezhou\WechatMenu;
 
+use Largezhou\WechatMenu\Exceptions\WechatMenuException;
+
 class Data
 {
+    protected static function getData(string $type = null)
+    {
+        $data = safe_json(file_get_contents(Manager::getInstance()->getConfig('data_path')), []);
+
+        if (!$type) {
+            return $data;
+        } else {
+            return $data[$type] ?? [];
+        }
+    }
+
     /**
      * 返回从微信服务器获取的公众号菜单
      *
@@ -29,7 +42,7 @@ class Data
     }
 
     /**
-     * 获取事件 key => callback 键值对，如：
+     * 获取事件配置
      *
      * @param array $events
      *
@@ -38,17 +51,23 @@ class Data
     public static function getEvents(array $events = null)
     {
         if (!$events) {
-            $events = Manager::getInstance()->getConfig('eventsCallbacks');
+            $events = static::getData('events');
         }
 
         return $events;
     }
 
     /**
+     * 存储事件配置
+     *
      * @param array $events
      */
     public static function createEvents(array $events)
     {
+        $data = static::getData();
+        $data['events'] = $events;
+        $data = json_encode($data, JSON_UNESCAPED_UNICODE + JSON_PRETTY_PRINT);
 
+        file_put_contents(Manager::getInstance()->getConfig('data_path'), $data);
     }
 }

@@ -9,11 +9,14 @@
         }
     ],
     "require": {
-        "php": ">=7.0",
         "ext-json": "*",
-        "overtrue/wechat": "~4.0"
+        "overtrue/wechat": "~4.0",
+        "php": ">=7.0"
     },
     "autoload": {
+        "files": [
+            "src/helpers.php"
+        ],
         "psr-4": {
             "Largezhou\\WechatMenu\\": "src"
         }

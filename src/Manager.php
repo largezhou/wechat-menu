@@ -97,7 +97,7 @@ class Manager
      * @param string|null $key
      * @param mixed       $default
      *
-     * @return array
+     * @return mixed
      */
     public function getConfig(string $key = null, $default = null)
     {

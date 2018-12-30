@@ -29,6 +29,12 @@ return [
     ],
 
     /**
+     * 存储微信菜单和事件设置的文件
+     * 可以自行用其他方式来存储和读取
+     */
+    'data_path' => '/path/to/wechat_menu.json',
+
+    /**
      * easy wechat 扩展的配置
      */
     'easyWechat' => [
