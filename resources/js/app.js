@@ -1,4 +1,7 @@
 import Vue from 'vue'
+import noticeBar from '@/common/notice-bar'
+
+Vue.use(noticeBar)
 
 window.log = console.log.bind(console)
 

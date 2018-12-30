@@ -1,0 +1,90 @@
+<template>
+    <transition
+        name="in"
+        @after-leave="onAfterLeave"
+    >
+        <div
+            v-show="show"
+            class="notice-bar"
+            :class="[type]"
+        >
+            {{ msg }}
+        </div>
+    </transition>
+</template>
+
+<script>
+import Vue from 'vue'
+
+export default Vue.extend({
+    name: 'NoticeBar',
+    data() {
+        return {
+            show: false,
+        }
+    },
+    props: {
+        type: String,
+        msg: String,
+        duration: {
+            type: Number,
+            default: 4000,
+        },
+    },
+    mounted() {
+        this.$nextTick(() => {
+            this.show = true
+        })
+
+        setTimeout(() => {
+            this.show = false
+        }, this.duration)
+    },
+    methods: {
+        onAfterLeave() {
+            this.$destroy()
+            this.$el.parentElement.removeChild(this.$el)
+        },
+    },
+})
+</script>
+
+<style scoped lang="scss">
+@import "~@/../sass/vars";
+
+.notice-bar {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 3px;
+    background: $grey;
+    padding: 15px 20px;
+    color: $grey-1;
+    z-index: 3;
+    width: 350px;
+    word-break: break-all;
+
+    &.success {
+        background-color: #44b549;
+        color: #fff;
+    }
+
+    &.error {
+        background-color: #f76f73;
+        color: #fff;
+        border-color: #e1f3d8;
+    }
+}
+
+.in-enter-active,
+.in-leave-active {
+    transition: all .5s;
+}
+
+.in-enter,
+.in-leave-to {
+    top: 0;
+    opacity: 0;
+}
+</style>

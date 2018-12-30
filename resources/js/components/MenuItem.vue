@@ -46,20 +46,8 @@
 </template>
 
 <script>
-import { MAX_SUB_COUNT } from '@/common/constants'
+import { MAX_SUB_COUNT, MENU_HEIGHT, SUB_MENUS_OFFSET } from '@/common/constants'
 import Draggable from 'vuedraggable'
-
-/**
- * 菜单的样式高度
- * @type {number}
- */
-const MENU_HEIGHT = 50
-
-/**
- * 子菜单块的 top 样式的偏移量
- * @type {number}
- */
-const SUB_MENUS_OFFSET = 10
 
 export default {
     name: 'MenuItem',

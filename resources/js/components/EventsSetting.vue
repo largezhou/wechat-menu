@@ -79,11 +79,7 @@
 <script>
 import { createEvents, getEvents } from '@/api/wechat'
 import CallbackInput from '@/components/CallbackInput'
-
-const TYPES_TEXT = {
-    msg: '自动回复',
-    callback: '事件处理',
-}
+import { TYPES_TEXT } from '@/common/constants'
 
 export default {
     name: 'EventsSetting',
@@ -154,14 +150,16 @@ export default {
         async onSave() {
             const valid = this.valid()
             if (valid !== true) {
-                alert(valid)
+                this.$notice({
+                    msg: valid,
+                    type: 'error',
+                })
                 return
             }
 
             try {
                 this.saving = true
-                const { data } = await createEvents(this.events)
-                alert(data.errmsg)
+                await createEvents(this.events)
             } finally {
                 this.saving = false
             }

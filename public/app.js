@@ -1131,11 +1131,50 @@ module.exports = __webpack_require__(26);
 /* harmony export (immutable) */ __webpack_exports__["a"] = createEvents;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue__);
+
 
 
 var bassURLEl = document.querySelector('#wechat-menu-prefix');
 var baseURL = bassURLEl && bassURLEl.getAttribute('data-prefix');
 __WEBPACK_IMPORTED_MODULE_0_axios___default.a.defaults.baseURL = baseURL ? baseURL : 'wechat-menu';
+
+__WEBPACK_IMPORTED_MODULE_0_axios___default.a.interceptors.response.use(function (res) {
+    var msg = res.data.msg;
+    var status = res.data.status;
+
+    if (msg) {
+        __WEBPACK_IMPORTED_MODULE_1_vue___default.a.$notice({
+            msg: msg,
+            type: status ? 'success' : 'error'
+        });
+    }
+
+    return res;
+}, function (err) {
+    var res = err.response;
+    var msg = void 0;
+
+    if (!res) {
+        msg = '请求出错';
+    } else {
+        switch (res.status) {
+            case 404:
+                msg = '请求的网址的不存在';
+                break;
+            default:
+                msg = '\u670D\u52A1\u5668\u9519\u8BEF(code: ' + res.status + ')';
+        }
+    }
+
+    __WEBPACK_IMPORTED_MODULE_1_vue___default.a.$notice({
+        msg: msg,
+        type: 'error'
+    });
+
+    return Promise.reject(err);
+});
 
 function getMenus() {
     return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/menus');
@@ -1432,9 +1471,48 @@ module.exports = Cancel;
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MAX_COLUMN; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return MAX_SUB_COUNT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return MENU_TYPES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return TYPES_TEXT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return MENU_HEIGHT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return SUB_MENUS_OFFSET; });
+/**
+ * 一级菜单最大数
+ * @type {number}
+ */
 var MAX_COLUMN = 3;
 
+/**
+ * 二级菜单最大数
+ * @type {number}
+ */
 var MAX_SUB_COUNT = 5;
+
+var MENU_TYPES = {
+  click: '点击',
+  view: '链接',
+  scancode_push: '扫码推',
+  scancode_waitmsg: '扫码推提示框',
+  pic_sysphoto: '拍照发图',
+  pic_photo_or_album: '拍照或相册发图',
+  pic_weixin: '相册发图',
+  location_select: '地理位置'
+};
+
+var TYPES_TEXT = {
+  msg: '自动回复',
+  callback: '事件处理'
+
+  /**
+   * 菜单的样式高度
+   * @type {number}
+   */
+};var MENU_HEIGHT = 50;
+
+/**
+ * 子菜单块的 top 样式的偏移量
+ * @type {number}
+ */
+var SUB_MENUS_OFFSET = 10;
 
 /***/ }),
 /* 15 */
@@ -1885,7 +1963,11 @@ module.exports = __webpack_require__(79);
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__common_notice_bar__ = __webpack_require__(103);
 
+
+
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1__common_notice_bar__["a" /* default */]);
 
 window.log = console.log.bind(console);
 
@@ -15359,18 +15441,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-/**
- * 菜单的样式高度
- * @type {number}
- */
-var MENU_HEIGHT = 50;
-
-/**
- * 子菜单块的 top 样式的偏移量
- * @type {number}
- */
-var SUB_MENUS_OFFSET = 10;
-
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'MenuItem',
     components: {
@@ -15405,7 +15475,7 @@ var SUB_MENUS_OFFSET = 10;
             }
         },
         subMenusStyles: function subMenusStyles() {
-            var top = -(this.subsCount * MENU_HEIGHT + SUB_MENUS_OFFSET) + 'px';
+            var top = -(this.subsCount * __WEBPACK_IMPORTED_MODULE_0__common_constants__["c" /* MENU_HEIGHT */] + __WEBPACK_IMPORTED_MODULE_0__common_constants__["e" /* SUB_MENUS_OFFSET */]) + 'px';
 
             return {
                 top: top
@@ -17977,6 +18047,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_ContentView___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_ContentView__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_ContentEvent__ = __webpack_require__(83);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_ContentEvent___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_ContentEvent__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__common_constants__ = __webpack_require__(14);
 
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -18063,16 +18134,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 
 
-var MENU_TYPES = {
-    click: '点击',
-    view: '链接',
-    scancode_push: '扫码推',
-    scancode_waitmsg: '扫码推提示框',
-    pic_sysphoto: '拍照发图',
-    pic_photo_or_album: '拍照或相册发图',
-    pic_weixin: '相册发图',
-    location_select: '地理位置'
-};
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'MenuManager',
@@ -18092,7 +18153,7 @@ var MENU_TYPES = {
 
     computed: {
         menuTypes: function menuTypes() {
-            return MENU_TYPES;
+            return __WEBPACK_IMPORTED_MODULE_5__common_constants__["d" /* MENU_TYPES */];
         },
         currentHasSub: function currentHasSub() {
             return this.$global.currentMenu.sub_button.length > 0;
@@ -18191,8 +18252,6 @@ var MENU_TYPES = {
         },
         onSave: function () {
             var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2() {
-                var _ref3, data;
-
                 return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
                     while (1) {
                         switch (_context2.prev = _context2.next) {
@@ -18204,23 +18263,17 @@ var MENU_TYPES = {
                                 return Object(__WEBPACK_IMPORTED_MODULE_1__api_wechat__["b" /* createMenus */])(this.menus);
 
                             case 4:
-                                _ref3 = _context2.sent;
-                                data = _ref3.data;
-
-                                alert(data.errmsg);
-
-                            case 7:
-                                _context2.prev = 7;
+                                _context2.prev = 4;
 
                                 this.saving = false;
-                                return _context2.finish(7);
+                                return _context2.finish(4);
 
-                            case 10:
+                            case 7:
                             case 'end':
                                 return _context2.stop();
                         }
                     }
-                }, _callee2, this, [[0,, 7, 10]]);
+                }, _callee2, this, [[0,, 4, 7]]);
             }));
 
             function onSave() {
@@ -18234,11 +18287,11 @@ var MENU_TYPES = {
                 this.$bus.$emit('removeCurrent');
             }
         },
-        onRemoveMenu: function onRemoveMenu(_ref4) {
+        onRemoveMenu: function onRemoveMenu(_ref3) {
             var _this3 = this;
 
-            var parent = _ref4.parent,
-                sub = _ref4.sub;
+            var parent = _ref3.parent,
+                sub = _ref3.sub;
 
             var nextActive = null;
 
@@ -18324,6 +18377,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api_wechat__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_CallbackInput__ = __webpack_require__(73);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_CallbackInput___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_CallbackInput__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_constants__ = __webpack_require__(14);
 
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -18410,10 +18464,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 
 
-var TYPES_TEXT = {
-    msg: '自动回复',
-    callback: '事件处理'
-};
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'EventsSetting',
@@ -18512,8 +18562,7 @@ var TYPES_TEXT = {
         },
         onSave: function () {
             var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2() {
-                var valid, _ref4, data;
-
+                var valid;
                 return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
                     while (1) {
                         switch (_context2.prev = _context2.next) {
@@ -18525,7 +18574,10 @@ var TYPES_TEXT = {
                                     break;
                                 }
 
-                                alert(valid);
+                                this.$notice({
+                                    msg: valid,
+                                    type: 'error'
+                                });
                                 return _context2.abrupt('return');
 
                             case 4:
@@ -18536,23 +18588,17 @@ var TYPES_TEXT = {
                                 return Object(__WEBPACK_IMPORTED_MODULE_1__api_wechat__["a" /* createEvents */])(this.events);
 
                             case 8:
-                                _ref4 = _context2.sent;
-                                data = _ref4.data;
-
-                                alert(data.errmsg);
-
-                            case 11:
-                                _context2.prev = 11;
+                                _context2.prev = 8;
 
                                 this.saving = false;
-                                return _context2.finish(11);
+                                return _context2.finish(8);
 
-                            case 14:
+                            case 11:
                             case 'end':
                                 return _context2.stop();
                         }
                     }
-                }, _callee2, this, [[4,, 11, 14]]);
+                }, _callee2, this, [[4,, 8, 11]]);
             }));
 
             function onSave() {
@@ -18562,7 +18608,7 @@ var TYPES_TEXT = {
             return onSave;
         }(),
         typeText: function typeText(type) {
-            return TYPES_TEXT[type];
+            return __WEBPACK_IMPORTED_MODULE_3__common_constants__["f" /* TYPES_TEXT */][type];
         },
         onChangeType: function onChangeType(index) {
             var event = this.events[index];
@@ -19017,6 +19063,238 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-46ceefe6", module.exports)
   }
 }
+
+/***/ }),
+/* 98 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(99)
+}
+var normalizeComponent = __webpack_require__(3)
+/* script */
+var __vue_script__ = __webpack_require__(101)
+/* template */
+var __vue_template__ = __webpack_require__(102)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-4b6c02c0"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/NoticeBar.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4b6c02c0", Component.options)
+  } else {
+    hotAPI.reload("data-v-4b6c02c0", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 99 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(100);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("5bc9f726", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-4b6c02c0\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/sass-loader/lib/loader.js!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./NoticeBar.vue", function() {
+     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-4b6c02c0\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/sass-loader/lib/loader.js!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./NoticeBar.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 100 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.notice-bar[data-v-4b6c02c0] {\n  position: fixed;\n  top: 10px;\n  left: 50%;\n  -webkit-transform: translateX(-50%);\n          transform: translateX(-50%);\n  border-radius: 3px;\n  background: #e7e7eb;\n  padding: 15px 20px;\n  color: #8d8d8d;\n  z-index: 3;\n  width: 350px;\n  word-break: break-all;\n}\n.notice-bar.success[data-v-4b6c02c0] {\n    background-color: #44b549;\n    color: #fff;\n}\n.notice-bar.error[data-v-4b6c02c0] {\n    background-color: #f76f73;\n    color: #fff;\n    border-color: #e1f3d8;\n}\n.in-enter-active[data-v-4b6c02c0],\n.in-leave-active[data-v-4b6c02c0] {\n  -webkit-transition: all .5s;\n  transition: all .5s;\n}\n.in-enter[data-v-4b6c02c0],\n.in-leave-to[data-v-4b6c02c0] {\n  top: 0;\n  opacity: 0;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 101 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_0_vue___default.a.extend({
+    name: 'NoticeBar',
+    data: function data() {
+        return {
+            show: false
+        };
+    },
+
+    props: {
+        type: String,
+        msg: String,
+        duration: {
+            type: Number,
+            default: 4000
+        }
+    },
+    mounted: function mounted() {
+        var _this = this;
+
+        this.$nextTick(function () {
+            _this.show = true;
+        });
+
+        setTimeout(function () {
+            _this.show = false;
+        }, this.duration);
+    },
+
+    methods: {
+        onAfterLeave: function onAfterLeave() {
+            this.$destroy();
+            this.$el.parentElement.removeChild(this.$el);
+        }
+    }
+}));
+
+/***/ }),
+/* 102 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "transition",
+    { attrs: { name: "in" }, on: { "after-leave": _vm.onAfterLeave } },
+    [
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.show,
+              expression: "show"
+            }
+          ],
+          staticClass: "notice-bar",
+          class: [_vm.type]
+        },
+        [_vm._v("\n        " + _vm._s(_vm.msg) + "\n    ")]
+      )
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-4b6c02c0", module.exports)
+  }
+}
+
+/***/ }),
+/* 103 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_NoticeBar__ = __webpack_require__(98);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_NoticeBar___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_NoticeBar__);
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+
+
+var notice = function notice(options) {
+    var propsData = void 0;
+
+    if ((typeof options === 'undefined' ? 'undefined' : _typeof(options)) == 'object') {
+        propsData = options;
+    } else {
+        propsData = {
+            msg: options
+        };
+    }
+
+    var ins = new __WEBPACK_IMPORTED_MODULE_0__components_NoticeBar___default.a({
+        propsData: propsData
+    });
+
+    document.body.querySelector('#wechat-menu').appendChild(ins.$mount().$el);
+
+    return ins;
+};
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    install: function install(Vue) {
+        Vue.$notice = notice;
+        Vue.prototype.$notice = notice;
+    }
+});
 
 /***/ })
 /******/ ]);

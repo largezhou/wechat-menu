@@ -79,17 +79,7 @@ import { getMenus, createMenus, getEvents } from '@/api/wechat'
 import Menus from '@/components/Menus'
 import ContentView from '@/components/ContentView'
 import ContentEvent from '@/components/ContentEvent'
-
-const MENU_TYPES = {
-    click: '点击',
-    view: '链接',
-    scancode_push: '扫码推',
-    scancode_waitmsg: '扫码推提示框',
-    pic_sysphoto: '拍照发图',
-    pic_photo_or_album: '拍照或相册发图',
-    pic_weixin: '相册发图',
-    location_select: '地理位置',
-}
+import { MENU_TYPES } from '@/common/constants'
 
 export default {
     name: 'MenuManager',
@@ -170,8 +160,7 @@ export default {
         async onSave() {
             try {
                 this.saving = true
-                const { data } = await createMenus(this.menus)
-                alert(data.errmsg)
+                await createMenus(this.menus)
             } finally {
                 this.saving = false
             }
