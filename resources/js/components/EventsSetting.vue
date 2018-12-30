@@ -139,7 +139,7 @@ export default {
             })
         },
         onRemove(index) {
-            this.events.splice(index, 1)
+            confirm('确定删除？') && this.events.splice(index, 1)
         },
         onNewEvent() {
             this.events.push({
