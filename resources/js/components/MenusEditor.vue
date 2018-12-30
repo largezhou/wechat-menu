@@ -47,7 +47,11 @@
                     </div>
 
                     <div class="form-item content-wrapper">
-                        <component v-if="currentContentComponent" :is="currentContentComponent"/>
+                        <component
+                            v-if="currentContentComponent"
+                            :is="currentContentComponent"
+                            :events="mappedEvents"
+                        />
                     </div>
                 </div>
                 <div v-show="currentHasSub" style="margin-top: 20px;">
@@ -71,14 +75,20 @@
 </template>
 
 <script>
-import { getMenus, createMenus } from '@/api/wechat'
+import { getMenus, createMenus, getEvents } from '@/api/wechat'
 import Menus from '@/components/Menus'
 import ContentView from '@/components/ContentView'
-import ContentClick from '@/components/ContentClick'
+import ContentEvent from '@/components/ContentEvent'
 
 const MENU_TYPES = {
     click: '点击',
     view: '链接',
+    scancode_push: '扫码推',
+    scancode_waitmsg: '扫码推提示框',
+    pic_sysphoto: '拍照发图',
+    pic_photo_or_album: '拍照或相册发图',
+    pic_weixin: '相册发图',
+    location_select: '地理位置',
 }
 
 export default {
@@ -86,11 +96,12 @@ export default {
     components: {
         Menus,
         ContentView,
-        ContentClick,
+        ContentEvent,
     },
     data() {
         return {
             menus: [],
+            events: [],
             menuAutoId: 1,
             saving: false,
         }
@@ -103,9 +114,19 @@ export default {
             return this.$global.currentMenu.sub_button.length > 0
         },
         currentContentComponent() {
-            const type = this.$global.currentMenu.type
+            let type = this.$global.currentMenu.type
+            type = type == 'view' ? 'view' : 'event'
 
             return type ? `content-${type}` : null
+        },
+        mappedEvents() {
+            const mapped = {}
+
+            this.events.forEach(e => {
+                mapped[e.key] = e
+            })
+
+            return mapped
         },
     },
     created() {
@@ -119,7 +140,7 @@ export default {
     },
     methods: {
         async getData() {
-            const res = await getMenus()
+            let res = await getMenus()
             this.menus = res.data.menu.button
 
             this.menuAutoId = this.addUniqueKey(this.menus)
@@ -127,6 +148,9 @@ export default {
             this.$nextTick(() => {
                 this.activeFirstMenu()
             })
+
+            res = await getEvents()
+            this.events = res.data
         },
 
         /**

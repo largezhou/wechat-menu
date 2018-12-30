@@ -3,10 +3,8 @@
 namespace Largezhou\WechatMenu;
 
 use EasyWeChat\Factory;
-use EasyWeChat\Kernel\Messages\Message;
 use EasyWeChat\Kernel\Support\Arr;
 use Largezhou\WechatMenu\Exceptions\WechatMenuException;
-use Largezhou\WechatMenu\Handlers\EventHandler;
 
 class Manager
 {
@@ -69,7 +67,7 @@ class Manager
     public function serve()
     {
         $server = $this->getWechat()->server;
-        $server->push(EventHandler::class, Message::EVENT);
+        $server->push(EventHandler::class);
 
         return $server->serve();
     }

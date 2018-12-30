@@ -2,8 +2,8 @@ import Vue from 'vue'
 
 window.log = console.log.bind(console)
 
-Vue.component('menus-editor', require('@/pages/MenusEditor'))
-Vue.component('events-setting', require('@/pages/EventsSetting'))
+Vue.component('menus-editor', require('@/components/MenusEditor'))
+Vue.component('events-setting', require('@/components/EventsSetting'))
 
 // 传递事件
 Vue.prototype.$bus = new Vue

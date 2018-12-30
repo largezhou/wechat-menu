@@ -35,6 +35,11 @@ return [
     'data_path' => '/path/to/wechat_menu.json',
 
     /**
+     * 事件回调出错的消息
+     */
+    'handler_error_msg' => '服务器开小差了',
+
+    /**
      * easy wechat 扩展的配置
      */
     'easyWechat' => [

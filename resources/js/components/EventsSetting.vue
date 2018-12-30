@@ -19,6 +19,13 @@
                         <input
                             type="text"
                             class="input table-input"
+                            v-model="e.remark"
+                        />
+                    </td>
+                    <td>
+                        <input
+                            type="text"
+                            class="input table-input"
                             v-model="e.key"
                         />
                     </td>
@@ -30,12 +37,13 @@
                         <a href="javascript:void(0);">{{ typeText(e.type) }}</a>
                     </td>
                     <td>
-                        <input
+                        <textarea
                             v-if="e.type == 'msg'"
                             type="text"
                             class="input table-input"
                             v-model="e.content"
                             ref="inputs"
+                            rows="2"
                         />
                         <callback-input
                             v-else
@@ -86,6 +94,11 @@ export default {
         return {
             events: [],
             columns: [
+                {
+                    field: 'remark',
+                    name: '备注',
+                    width: '150',
+                },
                 {
                     field: 'key',
                     name: '事件标识',
@@ -162,6 +175,7 @@ export default {
         },
         valid() {
             const keys = []
+            const remarks = []
             let errorMsg
 
             this
@@ -169,18 +183,28 @@ export default {
                 .every((e, index) => {
                     const prefix = `第 ${index + 1} 个配置的`
 
+                    if (!e.remark) {
+                        errorMsg = prefix + '备注不能为空'
+                        return false
+                    }
+
+                    if (remarks.indexOf(e.remark) !== -1) {
+                        errorMsg = prefix + '备注不能重复'
+                        return false
+                    }
+
                     if (!e.key) {
-                        errorMsg = prefix + '事件标识为空'
+                        errorMsg = prefix + '事件标识不能为空'
                         return false
                     }
 
                     if (keys.indexOf(e.key) !== -1) {
-                        errorMsg = prefix + '事件标识重复'
+                        errorMsg = prefix + '事件标识不能重复'
                         return false
                     }
 
                     if (!e.content) {
-                        errorMsg = prefix + '内容为空'
+                        errorMsg = prefix + '内容不能为空'
                         return false
                     }
 
@@ -190,6 +214,7 @@ export default {
                     }
 
                     keys.push(e.key)
+                    remarks.push(e.remark)
 
                     return true
                 })
@@ -210,7 +235,7 @@ export default {
 @import "~@/../sass/vars.scss";
 
 .events-setting {
-    width: 800px;
+    width: 1000px;
 }
 
 .events-table {
@@ -219,7 +244,7 @@ export default {
 
     td,
     th {
-        padding: 0 10px;
+        padding: 5px 10px;
         height: 45px;
         border: $grey-border;
         text-align: left;

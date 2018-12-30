@@ -6,7 +6,14 @@ use Largezhou\WechatMenu\Exceptions\WechatMenuException;
 
 class Data
 {
-    protected static function getData(string $type = null)
+    /**
+     * 获取存储的数据
+     *
+     * @param string|null $type
+     *
+     * @return array|mixed|null
+     */
+    public static function getData(string $type = null)
     {
         $data = safe_json(file_get_contents(Manager::getInstance()->getConfig('data_path')), []);
 
