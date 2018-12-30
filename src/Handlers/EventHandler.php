@@ -3,15 +3,17 @@
 namespace Largezhou\WechatMenu\Handlers;
 
 use EasyWeChat\Kernel\Contracts\EventHandlerInterface;
-use Largezhou\WechatMenu\WechatApp;
+use Largezhou\WechatMenu\Manager;
 
 class EventHandler implements EventHandlerInterface
 {
     protected $logger;
+    protected $manager;
 
     public function __construct()
     {
-        $this->logger = WechatApp::getApp()->logger;
+        $this->manager = Manager::getInstance();
+        $this->logger = $this->manager->getWechat()->logger;
     }
 
     public function handle($payload = null)

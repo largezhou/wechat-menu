@@ -12,7 +12,7 @@ class Data
      */
     public static function getMenus()
     {
-        return WechatApp::getApp()->menu->list();
+        return Manager::getInstance()->getWechat()->menu->list();
     }
 
     /**
@@ -25,30 +25,22 @@ class Data
      */
     public static function createMenus(array $menus)
     {
-        return WechatApp::getApp()->menu->create($menus);
+        return Manager::getInstance()->getWechat()->menu->create($menus);
     }
 
     /**
      * 获取事件 key => callback 键值对，如：
-     * [
-     *     [
-     *         'key' => 'TEST_1',
-     *         'type' => 'callback',
-     *         'content' => 'Path\To\Class@methodOne',
-     *     ],
-     *     [
-     *         'key' => 'TEST_2',
-     *         'type' => 'msg',
-     *         'content' => 'Hello World',
-     *     ],
-     * ]
      *
-     * @param array|string $events
+     * @param array $events
      *
-     * @return array|string
+     * @return array
      */
-    public static function getEvents($events)
+    public static function getEvents(array $events = null)
     {
+        if (!$events) {
+            $events = Manager::getInstance()->getConfig('eventsCallbacks');
+        }
+
         return $events;
     }
 

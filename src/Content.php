@@ -2,8 +2,20 @@
 
 namespace Largezhou\WechatMenu;
 
-class WechatMenu
+class Content
 {
+    /**
+     * 返回用来设置前端 axios 请求的 baseURL 元素
+     *
+     * @return string
+     */
+    public static function renderPrefixEl(): string
+    {
+        $prefix = Manager::getInstance()->getConfig('routePrefix');
+
+        return '<div id="wechat-menu-prefix" data-prefix="'.$prefix.'"></div>';
+    }
+
     /**
      * 返回页面内容前，加上请求地址前缀的元素
      *
@@ -13,7 +25,7 @@ class WechatMenu
      */
     protected static function wrapHtml($html)
     {
-        return Config::renderPrefixEl()
+        return static::renderPrefixEl()
             .'<link rel="stylesheet" href="/vendor/wechat-menu/app.css">'
             .'<div id="wechat-menu">'
             .$html
