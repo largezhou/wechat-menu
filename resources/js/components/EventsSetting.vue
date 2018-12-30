@@ -131,7 +131,7 @@ export default {
     methods: {
         async getData() {
             const { data } = await getEvents()
-            this.events = data
+            this.events = data.data
 
             this.events.forEach(e => {
                 e.type == 'callback' && this.onCallbackChange(e.content)

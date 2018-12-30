@@ -18139,7 +18139,7 @@ var MENU_TYPES = {
                             case 2:
                                 res = _context.sent;
 
-                                this.menus = res.data.menu.button;
+                                this.menus = res.data.data.menu.button;
 
                                 this.menuAutoId = this.addUniqueKey(this.menus);
 
@@ -18153,7 +18153,7 @@ var MENU_TYPES = {
                             case 8:
                                 res = _context.sent;
 
-                                this.events = res.data;
+                                this.events = res.data.data;
 
                             case 10:
                             case 'end':
@@ -18474,7 +18474,7 @@ var TYPES_TEXT = {
                                 _ref2 = _context.sent;
                                 data = _ref2.data;
 
-                                this.events = data;
+                                this.events = data.data;
 
                                 this.events.forEach(function (e) {
                                     e.type == 'callback' && _this.onCallbackChange(e.content);

@@ -141,7 +141,7 @@ export default {
     methods: {
         async getData() {
             let res = await getMenus()
-            this.menus = res.data.menu.button
+            this.menus = res.data.data.menu.button
 
             this.menuAutoId = this.addUniqueKey(this.menus)
 
@@ -150,7 +150,7 @@ export default {
             })
 
             res = await getEvents()
-            this.events = res.data
+            this.events = res.data.data
         },
 
         /**
