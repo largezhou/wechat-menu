@@ -7,28 +7,6 @@ return [
     'routePrefix' => 'wechat-menu',
 
     /**
-     * 可选的事件 key 对应的处理方式
-     */
-    'eventsCallbacks' => [
-        [
-            'key' => 'TEST_KEY_1',
-            /**
-             * 自动回复 content 键中的消息
-             */
-            'type' => 'msg',
-            'content' => '自动回复消息',
-        ],
-        [
-            'key' => 'TEST_KEY_2',
-            /**
-             * 自动调用 (new Path\To\HandlerClass())->handle($payload)
-             */
-            'type' => 'callback',
-            'content' => 'Path\To\HandlerClass@handle',
-        ],
-    ],
-
-    /**
      * 存储微信菜单和事件设置的文件
      * 可以自行用其他方式来存储和读取
      */
