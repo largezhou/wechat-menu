@@ -4,6 +4,7 @@ import noticeBar from '@/common/notice-bar'
 Vue.use(noticeBar)
 
 window.log = console.log.bind(console)
+window.Vue = Vue
 
 Vue.component('menus-editor', require('@/components/MenusEditor'))
 Vue.component('events-setting', require('@/components/EventsSetting'))

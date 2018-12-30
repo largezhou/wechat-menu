@@ -12288,14 +12288,23 @@ var baseURL = bassURLEl && bassURLEl.getAttribute('data-prefix');
 __WEBPACK_IMPORTED_MODULE_0_axios___default.a.defaults.baseURL = baseURL ? baseURL : 'wechat-menu';
 
 __WEBPACK_IMPORTED_MODULE_0_axios___default.a.interceptors.response.use(function (res) {
+    var config = res.config;
+
     var msg = res.data.msg;
     var status = res.data.status;
 
     if (msg) {
-        __WEBPACK_IMPORTED_MODULE_1_vue___default.a.$notice({
-            msg: msg,
-            type: status ? 'success' : 'error'
-        });
+        if (status && config.noErrorNotice) {
+            __WEBPACK_IMPORTED_MODULE_1_vue___default.a.$notice({
+                msg: msg,
+                type: 'success'
+            });
+        } else if (!config.noErrorNotice) {
+            __WEBPACK_IMPORTED_MODULE_1_vue___default.a.$notice({
+                msg: msg,
+                type: status ? 'success' : 'error'
+            });
+        }
     }
 
     return res;
@@ -12330,6 +12339,8 @@ function getMenus() {
 function createMenus(data) {
     return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/menus', {
         data: data
+    }, {
+        noErrorNotice: true
     });
 }
 
@@ -13067,6 +13078,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1__common_notice_bar__["a" /* default */]);
 
 window.log = console.log.bind(console);
+window.Vue = __WEBPACK_IMPORTED_MODULE_0_vue___default.a;
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('menus-editor', __webpack_require__(28));
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('events-setting', __webpack_require__(75));
@@ -13520,6 +13532,7 @@ module.exports = function listToStyles (parentId, list) {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_RenderContent__ = __webpack_require__(89);
 //
 //
 //
@@ -13535,11 +13548,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_0_vue___default.a.extend({
     name: 'NoticeBar',
+    components: {
+        RenderContent: __WEBPACK_IMPORTED_MODULE_1__components_RenderContent__["a" /* default */]
+    },
     data: function data() {
         return {
             show: false
@@ -13548,7 +13569,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     props: {
         type: String,
-        msg: String,
+        msg: [String, Function, Number],
         duration: {
             type: Number,
             default: 4000
@@ -13600,7 +13621,12 @@ var render = function() {
           staticClass: "notice-bar",
           class: [_vm.type]
         },
-        [_vm._v("\n        " + _vm._s(_vm.msg) + "\n    ")]
+        [
+          typeof _vm.msg == "function"
+            ? _c("render-content", { attrs: { h: _vm.msg } })
+            : [_vm._v(_vm._s(_vm.msg))]
+        ],
+        2
       )
     ]
   )
@@ -19302,6 +19328,27 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 86 */,
+/* 87 */,
+/* 88 */,
+/* 89 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    name: 'RenderContent',
+    props: {
+        h: {
+            type: Function,
+            required: true
+        }
+    },
+    render: function render(h) {
+        return this.h(h);
+    }
+});
 
 /***/ })
 /******/ ]);

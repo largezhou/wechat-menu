@@ -8,16 +8,24 @@
             class="notice-bar"
             :class="[type]"
         >
-            {{ msg }}
+            <render-content
+                v-if="typeof msg == 'function'"
+                :h="msg"
+            />
+            <template v-else>{{ msg }}</template>
         </div>
     </transition>
 </template>
 
 <script>
 import Vue from 'vue'
+import RenderContent from '@/components/RenderContent'
 
 export default Vue.extend({
     name: 'NoticeBar',
+    components: {
+        RenderContent,
+    },
     data() {
         return {
             show: false,
@@ -25,7 +33,7 @@ export default Vue.extend({
     },
     props: {
         type: String,
-        msg: String,
+        msg: [String, Function, Number],
         duration: {
             type: Number,
             default: 4000,
