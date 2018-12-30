@@ -18714,7 +18714,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
             this.events.push({
                 key: Math.random().toString(32).substr(2),
-                type: 'msg',
+                type: 'callback',
                 content: ''
             });
 

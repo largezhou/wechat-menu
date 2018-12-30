@@ -144,7 +144,7 @@ export default {
         onNewEvent() {
             this.events.push({
                 key: Math.random().toString(32).substr(2),
-                type: 'msg',
+                type: 'callback',
                 content: '',
             })
 
