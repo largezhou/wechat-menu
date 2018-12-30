@@ -34,6 +34,7 @@
 
 #wechat-menu .btn-primary[disabled] {
   background-color: #7fd083;
+  color: #fff;
 }
 
 #wechat-menu .btn-danger {
@@ -48,6 +49,7 @@
 
 #wechat-menu .btn-danger[disabled] {
   background-color: #ff998d;
+  color: #fff;
 }
 
 #wechat-menu .btn-sm {
