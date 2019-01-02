@@ -37,3 +37,9 @@ export const MENU_HEIGHT = 50
  * @type {number}
  */
 export const SUB_MENUS_OFFSET = 10
+
+/**
+ * 微信开发错误码大全
+ * @type {string}
+ */
+export const WECHAT_ERROR_CODES = 'https://mp.weixin.qq.com/wiki?action=doc&id=mp1433747234'

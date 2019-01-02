@@ -83,7 +83,7 @@ import { getMenus, createMenus, getEvents } from '@/api/wechat'
 import Menus from '@/components/Menus'
 import ContentView from '@/components/ContentView'
 import ContentEvent from '@/components/ContentEvent'
-import { MENU_TYPES } from '@/common/constants'
+import { MENU_TYPES, WECHAT_ERROR_CODES } from '@/common/constants'
 
 export default {
     name: 'MenuManager',
@@ -163,7 +163,36 @@ export default {
         async onSave() {
             try {
                 this.saving = true
-                await createMenus(this.menus)
+                const { data } = await createMenus(this.menus)
+
+                if (data.status) {
+                    this.$notice({
+                        msg: data.msg,
+                        type: 'success',
+                    })
+                } else {
+                    this.$notice({
+                        type: 'error',
+                        duration: 6000,
+                        msg(h) {
+                            return h(
+                                'div',
+                                [
+                                    h('span', data.msg),
+                                    h('a', {
+                                        attrs: {
+                                            href: WECHAT_ERROR_CODES,
+                                            target: '_blank',
+                                        },
+                                        style: {
+                                            marginLeft: '10px',
+                                        },
+                                    }, '查看详情'),
+                                ],
+                            )
+                        },
+                    })
+                }
             } finally {
                 this.saving = false
             }

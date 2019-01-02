@@ -50,7 +50,7 @@ class Data
         if ($res['errcode'] == 0) {
             return Data::success('菜单保存成功');
         } else {
-            return Data::error($res['errmsg']);
+            return Data::error("[{$res['errcode']}] {$res['errmsg']}");
         }
     }
 
