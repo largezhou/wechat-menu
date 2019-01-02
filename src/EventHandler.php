@@ -6,6 +6,17 @@ use EasyWeChat\Kernel\Contracts\EventHandlerInterface;
 
 class EventHandler implements EventHandlerInterface
 {
+    const MENU_EVENTS = [
+        'CLICK', // 点击
+        'VIEW', // 链接
+        'scancode_push', // 扫码推
+        'scancode_waitmsg', // 扫码推带提示信息
+        'pic_sysphoto', // 系统拍照
+        'pic_photo_or_album', // 拍照或相册
+        'pic_weixin', // 相册
+        'location_select', // 位置选择
+    ];
+
     protected $logger;
     protected $manager;
 
@@ -19,8 +30,25 @@ class EventHandler implements EventHandlerInterface
     {
         $this->logger->info("[payload]\n".json_encode($payload, JSON_UNESCAPED_UNICODE + JSON_PRETTY_PRINT));
 
+        $msgType = $payload['MsgType'];
+        $eventType = $payload['Event'] ?? null;
         $eventKey = $payload['EventKey'] ?? null;
 
+        if ($msgType == 'event' && in_array($eventType, static::MENU_EVENTS)) {
+            return $this->handleMenuEvent($payload, $eventKey);
+        }
+    }
+
+    /**
+     * 处理菜单点击事件
+     *
+     * @param array  $payload
+     * @param string $eventKey
+     *
+     * @return string
+     */
+    protected function handleMenuEvent($payload, $eventKey)
+    {
         if (!$eventKey) {
             $this->logger->error('无法获取到 EventKey');
 
@@ -28,7 +56,7 @@ class EventHandler implements EventHandlerInterface
         }
 
         $eventHandler = null;
-        foreach (Data::getData('events') as $e) {
+        foreach (Data::getData('menu_events') as $e) {
             if ($e['key'] == $eventKey) {
                 $eventHandler = $e;
                 break;
@@ -44,22 +72,20 @@ class EventHandler implements EventHandlerInterface
         $type = $eventHandler['type'];
         $content = $eventHandler['content'];
 
-        switch ($type) {
-            case 'msg':
-                return $content;
-                break;
-            case 'callback':
-                list($class, $method) = explode('@', $content);
-
-                try {
-                    $res = call_user_func([new $class($payload), $method], $payload);
-                } catch (\Exception $e) {
-                    $res = Manager::getInstance()->getConfig('handler_error_msg');
-                    $this->logger->error("事件处理回调出错：\n".$e->getMessage().PHP_EOL.$e->getTraceAsString());
-                }
-
-                return $res;
-                break;
+        // 自动回复消息
+        if ($type == 'msg') {
+            return $content;
         }
+
+        // 回调处理
+        list($class, $method) = explode('@', $content);
+        try {
+            $res = call_user_func([new $class($payload), $method], $payload);
+        } catch (\Exception $e) {
+            $res = Manager::getInstance()->getConfig('handler_error_msg');
+            $this->logger->error("事件处理回调出错：\n".$e->getMessage().PHP_EOL.$e->getTraceAsString());
+        }
+
+        return $res;
     }
 }
