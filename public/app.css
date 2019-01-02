@@ -86,12 +86,6 @@
   border-color: #cdcdcd;
 }
 
-#wechat-menu textarea.input {
-  height: auto;
-  padding: 10px;
-  min-height: 40px;
-}
-
 #wechat-menu .cursor-pointer {
   cursor: pointer;
   -webkit-user-select: none;
@@ -121,5 +115,15 @@
 
 #wechat-menu table {
   border-collapse: collapse;
+}
+
+#wechat-menu textarea {
+  font-family: 'Arial';
+}
+
+#wechat-menu textarea.input {
+  height: auto;
+  padding: 10px;
+  min-height: 40px;
 }
 

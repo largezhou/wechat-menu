@@ -46,9 +46,8 @@
                 <callback-input
                     v-else
                     v-model="e.content"
-                    :data="callbacks"
+                    :events="events"
                     ref="inputs"
-                    @blur="onCallbackChange"
                 />
             </td>
             <td>
@@ -99,24 +98,13 @@ export default {
     props: {
         events: Array,
     },
-    created() {
-        this.unwatchEvents = this.$watch('events', function(newValue) {
-            newValue.forEach(e => {
-                e.type == 'callback' && this.onCallbackChange(e.content)
-            })
-
-            this.unwatchEvents()
-        })
-    },
     methods: {
         typeText(type) {
             return TYPES_TEXT[type]
         },
-        onCallbackChange(val) {
-            const t = val.split('@')
-            if (t.length == 2 && this.callbacks.indexOf(t[0]) === -1) {
-                this.callbacks.push(t[0])
-            }
+        onChangeType(index) {
+            const event = this.events[index]
+            event.type = event.type == 'msg' ? 'callback' : 'msg'
         },
     },
 }

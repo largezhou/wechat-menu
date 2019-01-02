@@ -90,10 +90,6 @@ export default {
                 this.saving = false
             }
         },
-        onChangeType(index) {
-            const event = this.events[index]
-            event.type = event.type == 'msg' ? 'callback' : 'msg'
-        },
         valid() {
             const keys = []
             const remarks = []

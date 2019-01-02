@@ -13067,7 +13067,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(18);
-module.exports = __webpack_require__(86);
+module.exports = __webpack_require__(91);
 
 
 /***/ }),
@@ -18526,7 +18526,7 @@ var normalizeComponent = __webpack_require__(3)
 /* script */
 var __vue_script__ = __webpack_require__(79)
 /* template */
-var __vue_template__ = __webpack_require__(85)
+var __vue_template__ = __webpack_require__(90)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -18613,7 +18613,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api_wechat__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_EventsTable__ = __webpack_require__(90);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_EventsTable__ = __webpack_require__(80);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_EventsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_EventsTable__);
 
 
@@ -18773,10 +18773,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
             return onSave;
         }(),
-        onChangeType: function onChangeType(index) {
-            var event = this.events[index];
-            event.type = event.type == 'msg' ? 'callback' : 'msg';
-        },
         valid: function valid() {
             var keys = [];
             var remarks = [];
@@ -18842,360 +18838,7 @@ var normalizeComponent = __webpack_require__(3)
 /* script */
 var __vue_script__ = __webpack_require__(83)
 /* template */
-var __vue_template__ = __webpack_require__(84)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = "data-v-dce408ac"
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/js/components/CallbackInput.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-dce408ac", Component.options)
-  } else {
-    hotAPI.reload("data-v-dce408ac", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 81 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(82);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(2)("92bcb9a8", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-dce408ac\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/sass-loader/lib/loader.js!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CallbackInput.vue", function() {
-     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-dce408ac\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/sass-loader/lib/loader.js!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CallbackInput.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 82 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.input[data-v-dce408ac] {\n  width: 100% !important;\n}\n.callback-input[data-v-dce408ac] {\n  position: relative;\n}\n.autocomplete[data-v-dce408ac] {\n  width: 100%;\n  position: absolute;\n  border: 1px solid #e7e7eb;\n  background: #fff;\n  top: 38px;\n  z-index: 2;\n  max-height: 200px;\n  overflow: auto;\n}\n.autocomplete .item[data-v-dce408ac] {\n    padding: 10px;\n}\n.autocomplete .item[data-v-dce408ac]:hover {\n      background-color: #f1f1f1;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 83 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    name: 'CallbackInput',
-    data: function data() {
-        return {
-            focused: false,
-            show: false
-        };
-    },
-
-    props: {
-        value: String,
-        data: Array
-    },
-    computed: {
-        filteredData: function filteredData() {
-            var _this = this;
-
-            return this.data.filter(function (d) {
-                return d.indexOf(_this.value) === 0;
-            });
-        }
-    },
-    mounted: function mounted() {
-        document.addEventListener('click', this.onClickOtherArea);
-    },
-    beforeDestroy: function beforeDestroy() {
-        document.removeEventListener('click', this.onClickOtherArea);
-    },
-
-    methods: {
-        focus: function focus() {
-            this.$refs.input.focus();
-        },
-        onSelect: function onSelect(val) {
-            if (val instanceof Event) {
-                val = this.filteredData[0];
-            }
-
-            if (!val) {
-                return;
-            }
-
-            this.focus();
-            this.$emit('input', val + '@');
-        },
-        onClickOtherArea: function onClickOtherArea(e) {
-            if (!this.$refs.callbackInput.contains(e.target)) {
-                this.show = false;
-            }
-        }
-    },
-    watch: {
-        focused: function focused(newValue) {
-            if (newValue) {
-                this.show = true;
-                this.$emit('focus', this.value);
-            } else {
-                this.$emit('blur', this.value);
-            }
-        }
-    }
-});
-
-/***/ }),
-/* 84 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { ref: "callbackInput", staticClass: "callback-input" }, [
-    _c("input", {
-      ref: "input",
-      staticClass: "input",
-      attrs: { type: "text" },
-      domProps: { value: _vm.value },
-      on: {
-        focus: function($event) {
-          _vm.focused = true
-        },
-        blur: function($event) {
-          _vm.focused = false
-        },
-        input: function($event) {
-          _vm.$emit("input", $event.target.value)
-        },
-        keydown: function($event) {
-          if (
-            !("button" in $event) &&
-            _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-          ) {
-            return null
-          }
-          return _vm.onSelect($event)
-        }
-      }
-    }),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        directives: [
-          {
-            name: "show",
-            rawName: "v-show",
-            value: _vm.show && _vm.filteredData.length,
-            expression: "show && filteredData.length"
-          }
-        ],
-        staticClass: "autocomplete"
-      },
-      [
-        _vm._l(_vm.filteredData, function(i, index) {
-          return _c(
-            "div",
-            {
-              key: index,
-              staticClass: "item cursor-pointer",
-              on: {
-                click: function($event) {
-                  _vm.onSelect(i)
-                }
-              }
-            },
-            [_vm._v("\n                " + _vm._s(i) + "\n            ")]
-          )
-        })
-      ],
-      2
-    )
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-dce408ac", module.exports)
-  }
-}
-
-/***/ }),
-/* 85 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "events-setting" },
-    [
-      _c("events-table", {
-        ref: "eventsTable",
-        attrs: { events: _vm.events },
-        scopedSlots: _vm._u([
-          {
-            key: "default",
-            fn: function(ref) {
-              var index = ref.index
-              var event = ref.event
-              return [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-danger btn-sm",
-                    on: {
-                      click: function($event) {
-                        _vm.onRemove(index)
-                      }
-                    }
-                  },
-                  [_vm._v("删除")]
-                )
-              ]
-            }
-          }
-        ])
-      }),
-      _vm._v(" "),
-      _c("div", { staticClass: "empty-table" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-primary",
-            attrs: { disabled: _vm.saving },
-            on: { click: _vm.onSave }
-          },
-          [_vm._v("保存")]
-        ),
-        _vm._v(" "),
-        _c("button", { staticClass: "btn", on: { click: _vm.onReset } }, [
-          _vm._v("重置")
-        ]),
-        _vm._v(" "),
-        _c("button", { staticClass: "btn", on: { click: _vm.onNewEvent } }, [
-          _vm._v("添加一个")
-        ])
-      ])
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-2215cf1c", module.exports)
-  }
-}
-
-/***/ }),
-/* 86 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 87 */,
-/* 88 */,
-/* 89 */,
-/* 90 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(91)
-}
-var normalizeComponent = __webpack_require__(3)
-/* script */
-var __vue_script__ = __webpack_require__(93)
-/* template */
-var __vue_template__ = __webpack_require__(94)
+var __vue_template__ = __webpack_require__(89)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -19234,13 +18877,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 91 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(92);
+var content = __webpack_require__(82);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -19260,7 +18903,7 @@ if(false) {
 }
 
 /***/ }),
-/* 92 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)(false);
@@ -19274,15 +18917,14 @@ exports.push([module.i, "\n.events-table[data-v-17f80a9a] {\n  border: 1px solid
 
 
 /***/ }),
-/* 93 */
+/* 83 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common_constants__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_CallbackInput__ = __webpack_require__(80);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_CallbackInput__ = __webpack_require__(84);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_CallbackInput___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_CallbackInput__);
-//
 //
 //
 //
@@ -19379,21 +19021,202 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     props: {
         events: Array
     },
-    created: function created() {
-        this.unwatchEvents = this.$watch('events', function (newValue) {
-            var _this = this;
-
-            newValue.forEach(function (e) {
-                e.type == 'callback' && _this.onCallbackChange(e.content);
-            });
-
-            this.unwatchEvents();
-        });
-    },
-
     methods: {
         typeText: function typeText(type) {
             return __WEBPACK_IMPORTED_MODULE_0__common_constants__["f" /* TYPES_TEXT */][type];
+        },
+        onChangeType: function onChangeType(index) {
+            var event = this.events[index];
+            event.type = event.type == 'msg' ? 'callback' : 'msg';
+        }
+    }
+});
+
+/***/ }),
+/* 84 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(85)
+}
+var normalizeComponent = __webpack_require__(3)
+/* script */
+var __vue_script__ = __webpack_require__(87)
+/* template */
+var __vue_template__ = __webpack_require__(88)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-dce408ac"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/CallbackInput.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-dce408ac", Component.options)
+  } else {
+    hotAPI.reload("data-v-dce408ac", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 85 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(86);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("92bcb9a8", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-dce408ac\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/sass-loader/lib/loader.js!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CallbackInput.vue", function() {
+     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-dce408ac\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/sass-loader/lib/loader.js!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CallbackInput.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 86 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.input[data-v-dce408ac] {\n  width: 100% !important;\n}\n.callback-input[data-v-dce408ac] {\n  position: relative;\n}\n.autocomplete[data-v-dce408ac] {\n  width: 100%;\n  position: absolute;\n  border: 1px solid #e7e7eb;\n  background: #fff;\n  top: 38px;\n  z-index: 2;\n  max-height: 200px;\n  overflow: auto;\n}\n.autocomplete .item[data-v-dce408ac] {\n    padding: 10px;\n}\n.autocomplete .item[data-v-dce408ac]:hover {\n      background-color: #f1f1f1;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 87 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'CallbackInput',
+    data: function data() {
+        return {
+            focused: false,
+            show: false,
+            callbacks: []
+        };
+    },
+
+    props: {
+        value: String,
+        events: Array
+    },
+    computed: {
+        filteredCallbacks: function filteredCallbacks() {
+            var _this = this;
+
+            return this.callbacks.filter(function (d) {
+                return d.indexOf(_this.value) === 0;
+            });
+        }
+    },
+    created: function created() {
+        var _this2 = this;
+
+        this.events.forEach(function (e) {
+            e.type == 'callback' && _this2.onCallbackChange(e.content);
+        });
+    },
+    mounted: function mounted() {
+        document.addEventListener('click', this.onClickOtherArea);
+    },
+    beforeDestroy: function beforeDestroy() {
+        document.removeEventListener('click', this.onClickOtherArea);
+    },
+
+    methods: {
+        focus: function focus() {
+            this.$refs.input.focus();
+        },
+        onSelect: function onSelect(val) {
+            if (val instanceof Event) {
+                val = this.filteredCallbacks[0];
+            }
+
+            if (!val) {
+                return;
+            }
+
+            this.focus();
+            this.$emit('input', val + '@');
+        },
+        onClickOtherArea: function onClickOtherArea(e) {
+            if (!this.$refs.callbackInput.contains(e.target)) {
+                this.show = false;
+            }
         },
         onCallbackChange: function onCallbackChange(val) {
             var t = val.split('@');
@@ -19401,11 +19224,102 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.callbacks.push(t[0]);
             }
         }
+    },
+    watch: {
+        focused: function focused(newValue) {
+            if (newValue) {
+                this.show = true;
+                this.$emit('focus', this.value);
+            } else {
+                this.$emit('blur', this.value);
+                this.onCallbackChange(this.value);
+            }
+        }
     }
 });
 
 /***/ }),
-/* 94 */
+/* 88 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { ref: "callbackInput", staticClass: "callback-input" }, [
+    _c("input", {
+      ref: "input",
+      staticClass: "input",
+      attrs: { type: "text" },
+      domProps: { value: _vm.value },
+      on: {
+        focus: function($event) {
+          _vm.focused = true
+        },
+        blur: function($event) {
+          _vm.focused = false
+        },
+        input: function($event) {
+          _vm.$emit("input", $event.target.value)
+        },
+        keydown: function($event) {
+          if (
+            !("button" in $event) &&
+            _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+          ) {
+            return null
+          }
+          return _vm.onSelect($event)
+        }
+      }
+    }),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.show && _vm.filteredCallbacks.length,
+            expression: "show && filteredCallbacks.length"
+          }
+        ],
+        staticClass: "autocomplete"
+      },
+      [
+        _vm._l(_vm.filteredCallbacks, function(i, index) {
+          return _c(
+            "div",
+            {
+              key: index,
+              staticClass: "item cursor-pointer",
+              on: {
+                click: function($event) {
+                  _vm.onSelect(i)
+                }
+              }
+            },
+            [_vm._v("\n                " + _vm._s(i) + "\n            ")]
+          )
+        })
+      ],
+      2
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-dce408ac", module.exports)
+  }
+}
+
+/***/ }),
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -19528,8 +19442,7 @@ var render = function() {
                 : _c("callback-input", {
                     ref: "inputs",
                     refInFor: true,
-                    attrs: { data: _vm.callbacks },
-                    on: { blur: _vm.onCallbackChange },
+                    attrs: { events: _vm.events },
                     model: {
                       value: e.content,
                       callback: function($$v) {
@@ -19558,6 +19471,85 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-17f80a9a", module.exports)
   }
 }
+
+/***/ }),
+/* 90 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "events-setting" },
+    [
+      _c("events-table", {
+        ref: "eventsTable",
+        attrs: { events: _vm.events },
+        scopedSlots: _vm._u([
+          {
+            key: "default",
+            fn: function(ref) {
+              var index = ref.index
+              var event = ref.event
+              return [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-danger btn-sm",
+                    on: {
+                      click: function($event) {
+                        _vm.onRemove(index)
+                      }
+                    }
+                  },
+                  [_vm._v("删除")]
+                )
+              ]
+            }
+          }
+        ])
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "empty-table" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary",
+            attrs: { disabled: _vm.saving },
+            on: { click: _vm.onSave }
+          },
+          [_vm._v("保存")]
+        ),
+        _vm._v(" "),
+        _c("button", { staticClass: "btn", on: { click: _vm.onReset } }, [
+          _vm._v("重置")
+        ]),
+        _vm._v(" "),
+        _c("button", { staticClass: "btn", on: { click: _vm.onNewEvent } }, [
+          _vm._v("添加一个")
+        ])
+      ])
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2215cf1c", module.exports)
+  }
+}
+
+/***/ }),
+/* 91 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

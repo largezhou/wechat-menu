@@ -88,12 +88,6 @@
         }
     }
 
-    textarea.input {
-        height: auto;
-        padding: 10px;
-        min-height: 40px;
-    }
-
     .cursor-pointer {
         cursor: pointer;
         user-select: none;
@@ -120,5 +114,15 @@
 
     table {
         border-collapse: collapse;
+    }
+
+    textarea {
+        font-family: 'Arial';
+
+        &.input {
+            height: auto;
+            padding: 10px;
+            min-height: 40px;
+        }
     }
 }

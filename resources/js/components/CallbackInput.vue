@@ -11,13 +11,13 @@
             @keydown.enter="onSelect"
         />
         <div
-            v-show="show && filteredData.length"
+            v-show="show && filteredCallbacks.length"
             class="autocomplete"
         >
-            <template v-show="filteredData.length">
+            <template v-show="filteredCallbacks.length">
                 <div
                     class="item cursor-pointer"
-                    v-for="(i, index) of filteredData"
+                    v-for="(i, index) of filteredCallbacks"
                     :key="index"
                     @click="onSelect(i)"
                 >
@@ -35,16 +35,22 @@ export default {
         return {
             focused: false,
             show: false,
+            callbacks: [],
         }
     },
     props: {
         value: String,
-        data: Array,
+        events: Array,
     },
     computed: {
-        filteredData() {
-            return this.data.filter(d => d.indexOf(this.value) === 0)
+        filteredCallbacks() {
+            return this.callbacks.filter(d => d.indexOf(this.value) === 0)
         },
+    },
+    created() {
+        this.events.forEach(e => {
+            e.type == 'callback' && this.onCallbackChange(e.content)
+        })
     },
     mounted() {
         document.addEventListener('click', this.onClickOtherArea)
@@ -58,7 +64,7 @@ export default {
         },
         onSelect(val) {
             if (val instanceof Event) {
-                val = this.filteredData[0]
+                val = this.filteredCallbacks[0]
             }
 
             if (!val) {
@@ -73,6 +79,12 @@ export default {
                 this.show = false
             }
         },
+        onCallbackChange(val) {
+            const t = val.split('@')
+            if (t.length == 2 && this.callbacks.indexOf(t[0]) === -1) {
+                this.callbacks.push(t[0])
+            }
+        },
     },
     watch: {
         focused(newValue) {
@@ -81,6 +93,7 @@ export default {
                 this.$emit('focus', this.value)
             } else {
                 this.$emit('blur', this.value)
+                this.onCallbackChange(this.value)
             }
         },
     },
