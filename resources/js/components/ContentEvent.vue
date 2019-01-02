@@ -37,6 +37,8 @@
             class="new-event"
             v-show="newEvent"
             :events="eventsWithNew"
+            :all-events="events"
+            ref="eventsTable"
         />
     </div>
 </template>
@@ -77,6 +79,10 @@ export default {
                 type: 'callback',
                 content: '',
             }
+
+            this.$nextTick(() => {
+                this.$refs.eventsTable.$refs.inputs[0].focus()
+            })
         },
         async onSaveEvent() {
             const events = [

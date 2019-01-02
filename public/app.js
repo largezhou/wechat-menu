@@ -13892,15 +13892,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             type = type == 'view' ? 'view' : 'event';
 
             return type ? 'content-' + type : null;
-        },
-        mappedEvents: function mappedEvents() {
-            var mapped = {};
-
-            this.events.forEach(function (e) {
-                mapped[e.key] = e;
-            });
-
-            return mapped;
         }
     },
     created: function created() {
@@ -18263,6 +18254,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
 
 
 
@@ -18291,11 +18284,17 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
     },
     methods: {
         onNewEvent: function onNewEvent() {
+            var _this = this;
+
             this.newEvent = {
                 key: Object(__WEBPACK_IMPORTED_MODULE_1__common_utils__["a" /* uniqueKey */])(),
                 type: 'callback',
                 content: ''
             };
+
+            this.$nextTick(function () {
+                _this.$refs.eventsTable.$refs.inputs[0].focus();
+            });
         },
         onSaveEvent: function () {
             var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee() {
@@ -18458,8 +18457,9 @@ var render = function() {
             expression: "newEvent"
           }
         ],
+        ref: "eventsTable",
         staticClass: "new-event",
-        attrs: { events: _vm.eventsWithNew }
+        attrs: { events: _vm.eventsWithNew, "all-events": _vm.events }
       })
     ],
     1
@@ -19112,7 +19112,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     props: {
-        events: Array
+        /**
+         * 用来显示的 事件列表
+         */
+        events: Array,
+        /**
+         * 用来给 CallbackInput 组件 生成待选 回调命名空间用的事件列表
+         */
+        allEvents: Array
+    },
+    computed: {
+        eventsForCallbacks: function eventsForCallbacks() {
+            return this.allEvents ? this.allEvents : this.events;
+        }
     },
     methods: {
         typeText: function typeText(type) {
@@ -19539,7 +19551,7 @@ var render = function() {
                 : _c("callback-input", {
                     ref: "inputs",
                     refInFor: true,
-                    attrs: { events: _vm.events },
+                    attrs: { events: _vm.eventsForCallbacks },
                     model: {
                       value: e.content,
                       callback: function($$v) {

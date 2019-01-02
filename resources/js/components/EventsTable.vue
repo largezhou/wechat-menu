@@ -51,7 +51,7 @@
                 <callback-input
                     v-else
                     v-model="e.content"
-                    :events="events"
+                    :events="eventsForCallbacks"
                     ref="inputs"
                 />
             </td>
@@ -102,7 +102,21 @@ export default {
         }
     },
     props: {
+        /**
+         * 用来显示的 事件列表
+         */
         events: Array,
+        /**
+         * 用来给 CallbackInput 组件 生成待选 回调命名空间用的事件列表
+         */
+        allEvents: Array,
+    },
+    computed: {
+        eventsForCallbacks() {
+            return this.allEvents
+                ? this.allEvents
+                : this.events
+        },
     },
     methods: {
         typeText(type) {

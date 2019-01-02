@@ -113,15 +113,6 @@ export default {
 
             return type ? `content-${type}` : null
         },
-        mappedEvents() {
-            const mapped = {}
-
-            this.events.forEach(e => {
-                mapped[e.key] = e
-            })
-
-            return mapped
-        },
     },
     created() {
         this.getData()
