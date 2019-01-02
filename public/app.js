@@ -18599,7 +18599,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n.events-setting[data-v-2215cf1c] {\n  width: 1000px;\n}\n.events-table[data-v-2215cf1c] {\n  border: 1px solid #e7e7eb;\n  width: 100%;\n}\n.events-table td[data-v-2215cf1c],\n  .events-table th[data-v-2215cf1c] {\n    padding: 5px 10px;\n    height: 45px;\n    border: 1px solid #e7e7eb;\n    text-align: left;\n}\n.empty-table[data-v-2215cf1c] {\n  text-align: center;\n  color: #8d8d8d;\n  padding: 20px 0;\n  border: 1px solid #e7e7eb;\n  border-top: none;\n}\n.event-type[data-v-2215cf1c] {\n  cursor: pointer;\n}\n.table-input[data-v-2215cf1c] {\n  width: 100% !important;\n}\n", ""]);
+exports.push([module.i, "\n.events-setting[data-v-2215cf1c] {\n  width: 1000px;\n}\n.empty-table[data-v-2215cf1c] {\n  text-align: center;\n  color: #8d8d8d;\n  padding: 20px 0;\n  border: 1px solid #e7e7eb;\n  border-top: none;\n}\n", ""]);
 
 // exports
 
@@ -18613,9 +18613,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api_wechat__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_CallbackInput__ = __webpack_require__(80);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_CallbackInput___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_CallbackInput__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_constants__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_EventsTable__ = __webpack_require__(90);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_EventsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_EventsTable__);
 
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -18651,58 +18650,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
 
 
 
@@ -18710,29 +18657,11 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'EventsSetting',
     components: {
-        CallbackInput: __WEBPACK_IMPORTED_MODULE_2__components_CallbackInput___default.a
+        EventsTable: __WEBPACK_IMPORTED_MODULE_2__components_EventsTable___default.a
     },
     data: function data() {
         return {
             events: [],
-            columns: [{
-                field: 'remark',
-                name: '备注',
-                width: '150'
-            }, {
-                field: 'key',
-                name: '事件标识',
-                width: '150'
-            }, {
-                field: 'type',
-                name: '处理方法',
-                width: '100'
-            }, {
-                field: 'content',
-                name: '内容'
-            }],
-
-            callbacks: [],
 
             saving: false
         };
@@ -18751,8 +18680,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
     methods: {
         getData: function () {
             var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee() {
-                var _this = this;
-
                 var _ref2, data;
 
                 return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
@@ -18769,11 +18696,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 this.events = data.data;
                                 this.eventsBak = JSON.stringify(this.events);
 
-                                this.events.forEach(function (e) {
-                                    e.type == 'callback' && _this.onCallbackChange(e.content);
-                                });
-
-                            case 7:
+                            case 6:
                             case 'end':
                                 return _context.stop();
                         }
@@ -18791,7 +18714,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             confirm('确定删除？') && this.events.splice(index, 1);
         },
         onNewEvent: function onNewEvent() {
-            var _this2 = this;
+            var _this = this;
 
             this.events.push({
                 key: Math.random().toString(32).substr(2),
@@ -18800,7 +18723,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             });
 
             this.$nextTick(function () {
-                _this2.$refs.inputs[_this2.events.length - 1].focus();
+                _this.$refs.eventsTable.$refs.inputs[_this.events.length - 1].focus();
             });
         },
         onSave: function () {
@@ -18850,9 +18773,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
             return onSave;
         }(),
-        typeText: function typeText(type) {
-            return __WEBPACK_IMPORTED_MODULE_3__common_constants__["f" /* TYPES_TEXT */][type];
-        },
         onChangeType: function onChangeType(index) {
             var event = this.events[index];
             event.type = event.type == 'msg' ? 'callback' : 'msg';
@@ -18902,12 +18822,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             });
 
             return errorMsg || true;
-        },
-        onCallbackChange: function onCallbackChange(val) {
-            var t = val.split('@');
-            if (t.length == 2 && this.callbacks.indexOf(t[0]) === -1) {
-                this.callbacks.push(t[0]);
-            }
         },
         onReset: function onReset() {
             this.events = JSON.parse(this.eventsBak);
@@ -19194,179 +19108,60 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "events-setting" }, [
-    _c(
-      "table",
-      { staticClass: "events-table" },
-      [
-        _c(
-          "tr",
-          [
-            _vm._l(_vm.columns, function(c, index) {
-              return _c("th", { key: index, attrs: { width: c.width } }, [
-                _vm._v(_vm._s(c.name) + "\n            ")
-              ])
-            }),
-            _vm._v(" "),
-            _c("th", { attrs: { width: "80" } }, [_vm._v("操作")])
-          ],
-          2
-        ),
-        _vm._v(" "),
-        _vm.events.length > 0
-          ? _vm._l(_vm.events, function(e, index) {
-              return _c("tr", { key: index }, [
-                _c("td", [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: e.remark,
-                        expression: "e.remark"
-                      }
-                    ],
-                    staticClass: "input table-input",
-                    attrs: { type: "text" },
-                    domProps: { value: e.remark },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(e, "remark", $event.target.value)
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("td", [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: e.key,
-                        expression: "e.key"
-                      }
-                    ],
-                    staticClass: "input table-input",
-                    attrs: { type: "text" },
-                    domProps: { value: e.key },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(e, "key", $event.target.value)
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
+  return _c(
+    "div",
+    { staticClass: "events-setting" },
+    [
+      _c("events-table", {
+        ref: "eventsTable",
+        attrs: { events: _vm.events },
+        scopedSlots: _vm._u([
+          {
+            key: "default",
+            fn: function(ref) {
+              var index = ref.index
+              var event = ref.event
+              return [
                 _c(
-                  "td",
+                  "button",
                   {
-                    staticClass: "cursor-pointer",
-                    attrs: { title: "点击切换类型" },
+                    staticClass: "btn btn-danger btn-sm",
                     on: {
                       click: function($event) {
-                        _vm.onChangeType(index)
+                        _vm.onRemove(index)
                       }
                     }
                   },
-                  [
-                    _c("a", { attrs: { href: "javascript:void(0);" } }, [
-                      _vm._v(_vm._s(_vm.typeText(e.type)))
-                    ])
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "td",
-                  [
-                    e.type == "msg"
-                      ? _c("textarea", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: e.content,
-                              expression: "e.content"
-                            }
-                          ],
-                          ref: "inputs",
-                          refInFor: true,
-                          staticClass: "input table-input",
-                          attrs: { type: "text", rows: "2" },
-                          domProps: { value: e.content },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(e, "content", $event.target.value)
-                            }
-                          }
-                        })
-                      : _c("callback-input", {
-                          ref: "inputs",
-                          refInFor: true,
-                          attrs: { data: _vm.callbacks },
-                          on: { blur: _vm.onCallbackChange },
-                          model: {
-                            value: e.content,
-                            callback: function($$v) {
-                              _vm.$set(e, "content", $$v)
-                            },
-                            expression: "e.content"
-                          }
-                        })
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c("td", [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-danger btn-sm",
-                      on: {
-                        click: function($event) {
-                          _vm.onRemove(index)
-                        }
-                      }
-                    },
-                    [_vm._v("删除")]
-                  )
-                ])
-              ])
-            })
-          : _vm._e()
-      ],
-      2
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "empty-table" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-primary",
-          attrs: { disabled: _vm.saving },
-          on: { click: _vm.onSave }
-        },
-        [_vm._v("保存")]
-      ),
+                  [_vm._v("删除")]
+                )
+              ]
+            }
+          }
+        ])
+      }),
       _vm._v(" "),
-      _c("button", { staticClass: "btn", on: { click: _vm.onReset } }, [
-        _vm._v("重置")
-      ]),
-      _vm._v(" "),
-      _c("button", { staticClass: "btn", on: { click: _vm.onNewEvent } }, [
-        _vm._v("添加一个")
+      _c("div", { staticClass: "empty-table" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary",
+            attrs: { disabled: _vm.saving },
+            on: { click: _vm.onSave }
+          },
+          [_vm._v("保存")]
+        ),
+        _vm._v(" "),
+        _c("button", { staticClass: "btn", on: { click: _vm.onReset } }, [
+          _vm._v("重置")
+        ]),
+        _vm._v(" "),
+        _c("button", { staticClass: "btn", on: { click: _vm.onNewEvent } }, [
+          _vm._v("添加一个")
+        ])
       ])
-    ])
-  ])
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -19383,6 +19178,386 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 87 */,
+/* 88 */,
+/* 89 */,
+/* 90 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(91)
+}
+var normalizeComponent = __webpack_require__(3)
+/* script */
+var __vue_script__ = __webpack_require__(93)
+/* template */
+var __vue_template__ = __webpack_require__(94)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-17f80a9a"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/EventsTable.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-17f80a9a", Component.options)
+  } else {
+    hotAPI.reload("data-v-17f80a9a", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 91 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(92);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("3651de5a", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-17f80a9a\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/sass-loader/lib/loader.js!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./EventsTable.vue", function() {
+     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-17f80a9a\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/sass-loader/lib/loader.js!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./EventsTable.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 92 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.events-table[data-v-17f80a9a] {\n  border: 1px solid #e7e7eb;\n  width: 100%;\n}\n.events-table td[data-v-17f80a9a],\n  .events-table th[data-v-17f80a9a] {\n    padding: 5px 10px;\n    height: 45px;\n    border: 1px solid #e7e7eb;\n    text-align: left;\n}\n.event-type[data-v-17f80a9a] {\n  cursor: pointer;\n}\n.table-input[data-v-17f80a9a] {\n  width: 100% !important;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 93 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common_constants__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_CallbackInput__ = __webpack_require__(80);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_CallbackInput___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_CallbackInput__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'EventsTable',
+    components: {
+        CallbackInput: __WEBPACK_IMPORTED_MODULE_1__components_CallbackInput___default.a
+    },
+    data: function data() {
+        return {
+            columns: [{
+                field: 'remark',
+                name: '备注',
+                width: '150'
+            }, {
+                field: 'key',
+                name: '事件标识',
+                width: '150'
+            }, {
+                field: 'type',
+                name: '处理方法',
+                width: '100'
+            }, {
+                field: 'content',
+                name: '内容'
+            }],
+            callbacks: []
+        };
+    },
+
+    props: {
+        events: Array
+    },
+    created: function created() {
+        this.unwatchEvents = this.$watch('events', function (newValue) {
+            var _this = this;
+
+            newValue.forEach(function (e) {
+                e.type == 'callback' && _this.onCallbackChange(e.content);
+            });
+
+            this.unwatchEvents();
+        });
+    },
+
+    methods: {
+        typeText: function typeText(type) {
+            return __WEBPACK_IMPORTED_MODULE_0__common_constants__["f" /* TYPES_TEXT */][type];
+        },
+        onCallbackChange: function onCallbackChange(val) {
+            var t = val.split('@');
+            if (t.length == 2 && this.callbacks.indexOf(t[0]) === -1) {
+                this.callbacks.push(t[0]);
+            }
+        }
+    }
+});
+
+/***/ }),
+/* 94 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "table",
+    { staticClass: "events-table" },
+    [
+      _c(
+        "tr",
+        [
+          _vm._l(_vm.columns, function(c, index) {
+            return _c("th", { key: index, attrs: { width: c.width } }, [
+              _vm._v(_vm._s(c.name) + "\n        ")
+            ])
+          }),
+          _vm._v(" "),
+          _c("th", { attrs: { width: "80" } }, [_vm._v("操作")])
+        ],
+        2
+      ),
+      _vm._v(" "),
+      _vm._l(_vm.events, function(e, index) {
+        return _c("tr", { key: index }, [
+          _c("td", [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: e.remark,
+                  expression: "e.remark"
+                }
+              ],
+              staticClass: "input table-input",
+              attrs: { type: "text" },
+              domProps: { value: e.remark },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(e, "remark", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("td", [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: e.key,
+                  expression: "e.key"
+                }
+              ],
+              staticClass: "input table-input",
+              attrs: { type: "text" },
+              domProps: { value: e.key },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(e, "key", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c(
+            "td",
+            {
+              staticClass: "cursor-pointer",
+              attrs: { title: "点击切换类型" },
+              on: {
+                click: function($event) {
+                  _vm.onChangeType(index)
+                }
+              }
+            },
+            [
+              _c("a", { attrs: { href: "javascript:void(0);" } }, [
+                _vm._v(_vm._s(_vm.typeText(e.type)))
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "td",
+            [
+              e.type == "msg"
+                ? _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: e.content,
+                        expression: "e.content"
+                      }
+                    ],
+                    ref: "inputs",
+                    refInFor: true,
+                    staticClass: "input table-input",
+                    attrs: { type: "text", rows: "2" },
+                    domProps: { value: e.content },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(e, "content", $event.target.value)
+                      }
+                    }
+                  })
+                : _c("callback-input", {
+                    ref: "inputs",
+                    refInFor: true,
+                    attrs: { data: _vm.callbacks },
+                    on: { blur: _vm.onCallbackChange },
+                    model: {
+                      value: e.content,
+                      callback: function($$v) {
+                        _vm.$set(e, "content", $$v)
+                      },
+                      expression: "e.content"
+                    }
+                  })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("td", [_vm._t("default", null, { index: index, event: e })], 2)
+        ])
+      })
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-17f80a9a", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
