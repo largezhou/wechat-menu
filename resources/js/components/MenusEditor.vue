@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import { getMenus, createMenus, getEvents } from '@/api/wechat'
+import { getMenus, createMenus, getMenuEvents } from '@/api/wechat'
 import Menus from '@/components/Menus'
 import ContentView from '@/components/ContentView'
 import ContentEvent from '@/components/ContentEvent'
@@ -133,7 +133,7 @@ export default {
 
             this.activeFirstMenu()
 
-            res = await getEvents()
+            res = await getMenuEvents()
             this.events = res.data.data
         },
 

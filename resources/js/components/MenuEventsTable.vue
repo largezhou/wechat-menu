@@ -1,5 +1,5 @@
 <template>
-    <table class="events-table">
+    <table class="menu-events-table">
         <tr>
             <th
                 v-for="(c, index) of columns"
@@ -71,7 +71,7 @@ import { TYPES_TEXT } from '@/common/constants'
 import CallbackInput from '@/components/CallbackInput'
 
 export default {
-    name: 'EventsTable',
+    name: 'MenuEventsTable',
     components: {
         CallbackInput,
     },
@@ -133,7 +133,7 @@ export default {
 <style scoped lang="scss">
 @import "~@/../sass/vars.scss";
 
-.events-table {
+.menu-events-table {
     border: $grey-border;
     width: 100%;
 

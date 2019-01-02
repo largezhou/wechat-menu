@@ -61,10 +61,10 @@ class Data
      *
      * @return string
      */
-    public static function getEvents(array $events = null)
+    public static function getMenuEvents(array $events = null)
     {
         if (!$events) {
-            $events = static::getData('events');
+            $events = static::getData('menu_events');
         }
 
         return Data::success('', $events);
@@ -77,10 +77,10 @@ class Data
      *
      * @return string
      */
-    public static function createEvents(array $events)
+    public static function createMenuEvents(array $events)
     {
         $data = static::getData();
-        $data['events'] = $events;
+        $data['menu_events'] = $events;
         $data = json_encode($data, JSON_UNESCAPED_UNICODE + JSON_PRETTY_PRINT);
 
         file_put_contents(Manager::getInstance()->getConfig('data_path'), $data);

@@ -7,7 +7,7 @@ window.log = console.log.bind(console)
 window.Vue = Vue
 
 Vue.component('menus-editor', require('@/components/MenusEditor'))
-Vue.component('events-setting', require('@/components/EventsSetting'))
+Vue.component('menu-events-setting', require('@/components/MenuEventsSetting'))
 
 // 传递事件
 Vue.prototype.$bus = new Vue

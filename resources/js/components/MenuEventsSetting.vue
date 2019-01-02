@@ -1,8 +1,8 @@
 <template>
     <div class="events-setting">
-        <events-table
+        <menu-events-table
             :events="events"
-            ref="eventsTable"
+            ref="menuEventsTable"
         >
             <template
                 slot="actions"
@@ -13,7 +13,7 @@
                     @click="onRemove(index)"
                 >删除</button>
             </template>
-        </events-table>
+        </menu-events-table>
         <div class="empty-table">
             <button
                 class="btn btn-primary"
@@ -33,15 +33,15 @@
 </template>
 
 <script>
-import { getEvents } from '@/api/wechat'
-import EventsTable from '@/components/EventsTable'
+import { getMenuEvents } from '@/api/wechat'
+import MenuEventsTable from '@/components/MenuEventsTable'
 import { uniqueKey } from '@/common/utils'
 import CreateEvents from '@/common/create-events'
 
 export default {
-    name: 'EventsSetting',
+    name: 'MenuEventsSetting',
     components: {
-        EventsTable,
+        MenuEventsTable,
     },
     mixins: [
         CreateEvents,
@@ -62,7 +62,7 @@ export default {
     },
     methods: {
         async getData() {
-            const { data } = await getEvents()
+            const { data } = await getMenuEvents()
             this.events = data.data
             this.eventsBak = JSON.stringify(this.events)
         },
@@ -77,7 +77,7 @@ export default {
             })
 
             this.$nextTick(() => {
-                this.$refs.eventsTable.$refs.inputs[this.events.length - 1].focus()
+                this.$refs.menuEventsTable.$refs.inputs[this.events.length - 1].focus()
             })
         },
         onReset() {

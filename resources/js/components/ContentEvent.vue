@@ -33,25 +33,25 @@
                 >取消</button>
             </div>
         </div>
-        <events-table
+        <menu-events-table
             class="new-event"
             v-show="newEvent"
             :events="eventsWithNew"
             :all-events="events"
-            ref="eventsTable"
+            ref="menuEventsTable"
         />
     </div>
 </template>
 
 <script>
 import { uniqueKey } from '@/common/utils'
-import EventsTable from '@/components/EventsTable'
+import MenuEventsTable from '@/components/MenuEventsTable'
 import CreateEvents from '@/common/create-events'
 
 export default {
     name: 'ContentEvent',
     components: {
-        EventsTable,
+        MenuEventsTable,
     },
     mixins: [
         CreateEvents,
@@ -81,7 +81,7 @@ export default {
             }
 
             this.$nextTick(() => {
-                this.$refs.eventsTable.$refs.inputs[0].focus()
+                this.$refs.menuEventsTable.$refs.inputs[0].focus()
             })
         },
         async onSaveEvent() {

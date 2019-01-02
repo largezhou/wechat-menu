@@ -50,6 +50,6 @@ class Content
      */
     public static function renderEventSetting()
     {
-        return static::wrapHtml('<events-setting/>');
+        return static::wrapHtml('<menu-events-setting/>');
     }
 }

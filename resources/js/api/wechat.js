@@ -69,12 +69,12 @@ export function createMenus(data) {
     )
 }
 
-export function getEvents() {
-    return axios.get('/events')
+export function getMenuEvents() {
+    return axios.get('/menu-events')
 }
 
 export function createEvents(data) {
-    return axios.post('/events', {
+    return axios.post('/menu-events', {
         data,
     })
 }
