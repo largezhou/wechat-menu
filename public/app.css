@@ -115,6 +115,16 @@
 
 #wechat-menu table {
   border-collapse: collapse;
+  border: 1px solid #e7e7eb;
+  width: 100%;
+}
+
+#wechat-menu td,
+#wechat-menu th {
+  padding: 5px 10px;
+  height: 45px;
+  border: 1px solid #e7e7eb;
+  text-align: left;
 }
 
 #wechat-menu textarea {
@@ -125,5 +135,9 @@
   height: auto;
   padding: 10px;
   min-height: 40px;
+}
+
+#wechat-menu .table-input {
+  width: 100% !important;
 }
 

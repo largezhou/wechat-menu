@@ -1,5 +1,5 @@
 <template>
-    <div class="events-setting">
+    <div class="menu-events-setting">
         <menu-events-table
             :events="events"
             ref="menuEventsTable"
@@ -90,7 +90,7 @@ export default {
 <style scoped lang="scss">
 @import "~@/../sass/vars.scss";
 
-.events-setting {
+.menu-events-setting {
     width: 1000px;
 }
 

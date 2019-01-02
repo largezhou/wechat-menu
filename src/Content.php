@@ -48,8 +48,13 @@ class Content
      *
      * @return string
      */
-    public static function renderEventSetting()
+    public static function renderMenuEventSetting()
     {
         return static::wrapHtml('<menu-events-setting/>');
+    }
+
+    public static function renderOtherEventsSetting()
+    {
+        return static::wrapHtml('<other-events-setting/>');
     }
 }

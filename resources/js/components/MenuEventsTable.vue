@@ -1,5 +1,5 @@
 <template>
-    <table class="menu-events-table">
+    <table>
         <tr>
             <th
                 v-for="(c, index) of columns"
@@ -32,12 +32,8 @@
                     v-model="e.key"
                 />
             </td>
-            <td
-                class="cursor-pointer"
-                title="点击切换类型"
-                @click="onChangeType(index)"
-            >
-                <a href="javascript:void(0);">{{ typeText(e.type) }}</a>
+            <td>
+                <change-handle-type :event="e"/>
             </td>
             <td>
                 <textarea
@@ -67,13 +63,14 @@
 </template>
 
 <script>
-import { TYPES_TEXT } from '@/common/constants'
 import CallbackInput from '@/components/CallbackInput'
+import ChangeHandleType from '@/components/ChangeHandleType'
 
 export default {
     name: 'MenuEventsTable',
     components: {
         CallbackInput,
+        ChangeHandleType,
     },
     data() {
         return {
@@ -118,39 +115,8 @@ export default {
                 : this.events
         },
     },
-    methods: {
-        typeText(type) {
-            return TYPES_TEXT[type]
-        },
-        onChangeType(index) {
-            const event = this.events[index]
-            event.type = event.type == 'msg' ? 'callback' : 'msg'
-        },
-    },
 }
 </script>
 
 <style scoped lang="scss">
-@import "~@/../sass/vars.scss";
-
-.menu-events-table {
-    border: $grey-border;
-    width: 100%;
-
-    td,
-    th {
-        padding: 5px 10px;
-        height: 45px;
-        border: $grey-border;
-        text-align: left;
-    }
-}
-
-.event-type {
-    cursor: pointer;
-}
-
-.table-input {
-    width: 100% !important;
-}
 </style>

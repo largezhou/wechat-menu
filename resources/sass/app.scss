@@ -114,6 +114,17 @@
 
     table {
         border-collapse: collapse;
+
+        border: $grey-border;
+        width: 100%;
+    }
+
+    td,
+    th {
+        padding: 5px 10px;
+        height: 45px;
+        border: $grey-border;
+        text-align: left;
     }
 
     textarea {
@@ -124,5 +135,9 @@
             padding: 10px;
             min-height: 40px;
         }
+    }
+
+    .table-input {
+        width: 100% !important;
     }
 }
