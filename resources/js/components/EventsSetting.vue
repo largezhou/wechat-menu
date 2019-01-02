@@ -71,7 +71,7 @@ export default {
         },
         onNewEvent() {
             this.events.push({
-                key: uniqueKey,
+                key: uniqueKey(),
                 type: 'callback',
                 content: '',
             })

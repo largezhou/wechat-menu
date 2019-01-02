@@ -18897,7 +18897,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             var _this = this;
 
             this.events.push({
-                key: __WEBPACK_IMPORTED_MODULE_3__common_utils__["a" /* uniqueKey */],
+                key: Object(__WEBPACK_IMPORTED_MODULE_3__common_utils__["a" /* uniqueKey */])(),
                 type: 'callback',
                 content: ''
             });
