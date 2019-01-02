@@ -18195,7 +18195,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n.click-item .label[data-v-2a1225e8] {\n  width: 80px;\n}\n", ""]);
+exports.push([module.i, "\n.click-item .label[data-v-2a1225e8] {\n  width: 80px;\n}\n.new-event[data-v-2a1225e8] {\n  margin-top: 20px;\n}\n", ""]);
 
 // exports
 
@@ -18206,6 +18206,44 @@ exports.push([module.i, "\n.click-item .label[data-v-2a1225e8] {\n  width: 80px;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__common_utils__ = __webpack_require__(95);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_EventsTable__ = __webpack_require__(80);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_EventsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_EventsTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_create_events__ = __webpack_require__(96);
+
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -18226,16 +18264,76 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
+
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'ContentEvent',
+    components: {
+        EventsTable: __WEBPACK_IMPORTED_MODULE_2__components_EventsTable___default.a
+    },
+    mixins: [__WEBPACK_IMPORTED_MODULE_3__common_create_events__["a" /* default */]],
+    data: function data() {
+        return {
+            newEvent: null,
+            saving: false
+        };
+    },
+
     props: {
-        events: Object
+        events: Array
     },
     computed: {
-        currentEvent: function currentEvent() {
-            var key = this.$global.currentMenu.key;
-            return this.events[key];
+        eventsWithNew: function eventsWithNew() {
+            return this.newEvent ? [this.newEvent] : [];
         }
+    },
+    methods: {
+        onNewEvent: function onNewEvent() {
+            this.newEvent = {
+                key: Object(__WEBPACK_IMPORTED_MODULE_1__common_utils__["a" /* uniqueKey */])(),
+                type: 'callback',
+                content: ''
+            };
+        },
+        onSaveEvent: function () {
+            var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee() {
+                var events, _ref2, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                events = [].concat(_toConsumableArray(this.events), [_extends({}, this.newEvent)]);
+                                _context.next = 3;
+                                return this.onSave(events);
+
+                            case 3:
+                                _ref2 = _context.sent;
+                                data = _ref2.data;
+
+
+                                if (data.status) {
+                                    this.events.push(this.newEvent);
+                                    this.$global.currentMenu.key = this.newEvent.key;
+                                    this.newEvent = null;
+                                }
+
+                            case 6:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this);
+            }));
+
+            function onSaveEvent() {
+                return _ref.apply(this, arguments);
+            }
+
+            return onSaveEvent;
+        }()
     }
 });
 
@@ -18247,50 +18345,125 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "form-item click-item" }, [
-      _c("span", { staticClass: "label" }, [_vm._v("选择事件")]),
+  return _c(
+    "div",
+    [
+      _c("div", { staticClass: "form-item click-item" }, [
+        _c("span", { staticClass: "label" }, [_vm._v("选择事件")]),
+        _vm._v(" "),
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.$global.currentMenu.key,
+                expression: "$global.currentMenu.key"
+              }
+            ],
+            staticClass: "input",
+            on: {
+              change: function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.$set(
+                  _vm.$global.currentMenu,
+                  "key",
+                  $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                )
+              }
+            }
+          },
+          _vm._l(_vm.events, function(e) {
+            return _c("option", {
+              key: e.key,
+              domProps: { value: e.key, textContent: _vm._s(e.remark) }
+            })
+          }),
+          0
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: !_vm.newEvent,
+                expression: "!newEvent"
+              }
+            ],
+            staticClass: "btn btn-primary btn-sm",
+            attrs: { type: "button" },
+            on: { click: _vm.onNewEvent }
+          },
+          [_vm._v("添加")]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.newEvent,
+                expression: "newEvent"
+              }
+            ],
+            staticStyle: { display: "inline-block" }
+          },
+          [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary btn-sm",
+                attrs: { type: "button", disabled: _vm.saving },
+                on: { click: _vm.onSaveEvent }
+              },
+              [_vm._v("确定")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-sm",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    _vm.newEvent = null
+                  }
+                }
+              },
+              [_vm._v("取消")]
+            )
+          ]
+        )
+      ]),
       _vm._v(" "),
-      _c(
-        "select",
-        {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.$global.currentMenu.key,
-              expression: "$global.currentMenu.key"
-            }
-          ],
-          staticClass: "input",
-          on: {
-            change: function($event) {
-              var $$selectedVal = Array.prototype.filter
-                .call($event.target.options, function(o) {
-                  return o.selected
-                })
-                .map(function(o) {
-                  var val = "_value" in o ? o._value : o.value
-                  return val
-                })
-              _vm.$set(
-                _vm.$global.currentMenu,
-                "key",
-                $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-              )
-            }
+      _c("events-table", {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.newEvent,
+            expression: "newEvent"
           }
-        },
-        _vm._l(_vm.events, function(e) {
-          return _c("option", {
-            key: e.key,
-            domProps: { value: e.key, textContent: _vm._s(e.remark) }
-          })
-        }),
-        0
-      )
-    ])
-  ])
+        ],
+        staticClass: "new-event",
+        attrs: { events: _vm.eventsWithNew }
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -18443,7 +18616,7 @@ var render = function() {
                     _vm.currentContentComponent
                       ? _c(_vm.currentContentComponent, {
                           tag: "component",
-                          attrs: { events: _vm.mappedEvents }
+                          attrs: { events: _vm.events }
                         })
                       : _vm._e()
                   ],
@@ -18615,6 +18788,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api_wechat__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_EventsTable__ = __webpack_require__(80);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_EventsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_EventsTable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_utils__ = __webpack_require__(95);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__common_create_events__ = __webpack_require__(96);
 
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -18650,6 +18825,11 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
+//
+
+
 
 
 
@@ -18659,10 +18839,10 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
     components: {
         EventsTable: __WEBPACK_IMPORTED_MODULE_2__components_EventsTable___default.a
     },
+    mixins: [__WEBPACK_IMPORTED_MODULE_4__common_create_events__["a" /* default */]],
     data: function data() {
         return {
             events: [],
-
             saving: false
         };
     },
@@ -18717,7 +18897,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             var _this = this;
 
             this.events.push({
-                key: Math.random().toString(32).substr(2),
+                key: __WEBPACK_IMPORTED_MODULE_3__common_utils__["a" /* uniqueKey */],
                 type: 'callback',
                 content: ''
             });
@@ -18725,99 +18905,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             this.$nextTick(function () {
                 _this.$refs.eventsTable.$refs.inputs[_this.events.length - 1].focus();
             });
-        },
-        onSave: function () {
-            var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2() {
-                var valid;
-                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
-                    while (1) {
-                        switch (_context2.prev = _context2.next) {
-                            case 0:
-                                valid = this.valid();
-
-                                if (!(valid !== true)) {
-                                    _context2.next = 4;
-                                    break;
-                                }
-
-                                this.$notice({
-                                    msg: valid,
-                                    type: 'error'
-                                });
-                                return _context2.abrupt('return');
-
-                            case 4:
-                                _context2.prev = 4;
-
-                                this.saving = true;
-                                _context2.next = 8;
-                                return Object(__WEBPACK_IMPORTED_MODULE_1__api_wechat__["a" /* createEvents */])(this.events);
-
-                            case 8:
-                                _context2.prev = 8;
-
-                                this.saving = false;
-                                return _context2.finish(8);
-
-                            case 11:
-                            case 'end':
-                                return _context2.stop();
-                        }
-                    }
-                }, _callee2, this, [[4,, 8, 11]]);
-            }));
-
-            function onSave() {
-                return _ref3.apply(this, arguments);
-            }
-
-            return onSave;
-        }(),
-        valid: function valid() {
-            var keys = [];
-            var remarks = [];
-            var errorMsg = void 0;
-
-            this.events.every(function (e, index) {
-                var prefix = '\u7B2C ' + (index + 1) + ' \u4E2A\u914D\u7F6E\u7684';
-
-                if (!e.remark) {
-                    errorMsg = prefix + '备注不能为空';
-                    return false;
-                }
-
-                if (remarks.indexOf(e.remark) !== -1) {
-                    errorMsg = prefix + '备注不能重复';
-                    return false;
-                }
-
-                if (!e.key) {
-                    errorMsg = prefix + '事件标识不能为空';
-                    return false;
-                }
-
-                if (keys.indexOf(e.key) !== -1) {
-                    errorMsg = prefix + '事件标识不能重复';
-                    return false;
-                }
-
-                if (!e.content) {
-                    errorMsg = prefix + '内容不能为空';
-                    return false;
-                }
-
-                if (e.type == 'callback' && e.content.split('@').length != 2) {
-                    errorMsg = prefix + '内容格式不对';
-                    return false;
-                }
-
-                keys.push(e.key);
-                remarks.push(e.remark);
-
-                return true;
-            });
-
-            return errorMsg || true;
         },
         onReset: function onReset() {
             this.events = JSON.parse(this.eventsBak);
@@ -18925,6 +19012,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common_constants__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_CallbackInput__ = __webpack_require__(84);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_CallbackInput___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_CallbackInput__);
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -19339,7 +19432,11 @@ var render = function() {
             ])
           }),
           _vm._v(" "),
-          _c("th", { attrs: { width: "80" } }, [_vm._v("操作")])
+          _vm.$scopedSlots.actions
+            ? _c("th", { attrs: { width: "80" } }, [
+                _vm._v("\n            操作\n        ")
+              ])
+            : _vm._e()
         ],
         2
       ),
@@ -19455,7 +19552,9 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c("td", [_vm._t("default", null, { index: index, event: e })], 2)
+          _vm.$scopedSlots.actions
+            ? _c("td", [_vm._t("actions", null, { index: index, event: e })], 2)
+            : _vm._e()
         ])
       })
     ],
@@ -19489,7 +19588,7 @@ var render = function() {
         attrs: { events: _vm.events },
         scopedSlots: _vm._u([
           {
-            key: "default",
+            key: "actions",
             fn: function(ref) {
               var index = ref.index
               var event = ref.event
@@ -19550,6 +19649,147 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 92 */,
+/* 93 */,
+/* 94 */,
+/* 95 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return uniqueKey; });
+var uniqueKey = function uniqueKey() {
+    return Math.random().toString(32).substr(2);
+};
+
+/***/ }),
+/* 96 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api_wechat__ = __webpack_require__(10);
+
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    methods: {
+        onSave: function () {
+            var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee(events) {
+                var valid;
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                if (!this.saving) {
+                                    _context.next = 2;
+                                    break;
+                                }
+
+                                return _context.abrupt('return');
+
+                            case 2:
+
+                                if (events instanceof Event) {
+                                    events = this.events;
+                                }
+
+                                valid = this.valid(events);
+
+                                if (!(valid !== true)) {
+                                    _context.next = 7;
+                                    break;
+                                }
+
+                                this.$notice({
+                                    msg: valid,
+                                    type: 'error'
+                                });
+                                return _context.abrupt('return');
+
+                            case 7:
+                                _context.prev = 7;
+
+                                this.saving = true;
+                                _context.next = 11;
+                                return Object(__WEBPACK_IMPORTED_MODULE_1__api_wechat__["a" /* createEvents */])(events);
+
+                            case 11:
+                                return _context.abrupt('return', _context.sent);
+
+                            case 12:
+                                _context.prev = 12;
+
+                                this.saving = false;
+                                return _context.finish(12);
+
+                            case 15:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this, [[7,, 12, 15]]);
+            }));
+
+            function onSave(_x) {
+                return _ref.apply(this, arguments);
+            }
+
+            return onSave;
+        }(),
+        valid: function valid(events) {
+            var keys = [];
+            var remarks = [];
+            var errorMsg = void 0;
+
+            events.every(function (e, index) {
+                var prefix = '\u7B2C ' + (index + 1) + ' \u4E2A\u914D\u7F6E\u7684';
+
+                if (!e.remark) {
+                    errorMsg = prefix + '备注不能为空';
+                    return false;
+                }
+
+                if (remarks.indexOf(e.remark) !== -1) {
+                    errorMsg = prefix + '备注不能重复';
+                    return false;
+                }
+
+                if (!e.key) {
+                    errorMsg = prefix + '事件标识不能为空';
+                    return false;
+                }
+
+                if (keys.indexOf(e.key) !== -1) {
+                    errorMsg = prefix + '事件标识不能重复';
+                    return false;
+                }
+
+                if (!e.content) {
+                    errorMsg = prefix + '内容不能为空';
+                    return false;
+                }
+
+                if (e.type == 'callback' && e.content.split('@').length != 2) {
+                    errorMsg = prefix + '内容格式不对';
+                    return false;
+                }
+
+                keys.push(e.key);
+                remarks.push(e.remark);
+
+                return true;
+            });
+
+            return errorMsg || true;
+        }
+    }
+});
 
 /***/ })
 /******/ ]);

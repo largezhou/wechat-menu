@@ -50,7 +50,7 @@
                         <component
                             v-if="currentContentComponent"
                             :is="currentContentComponent"
-                            :events="mappedEvents"
+                            :events="events"
                         />
                     </div>
                 </div>

@@ -7,7 +7,12 @@
                 :width="c.width"
             >{{ c.name }}
             </th>
-            <th width="80">操作</th>
+            <th
+                width="80"
+                v-if="$scopedSlots.actions"
+            >
+                操作
+            </th>
         </tr>
         <tr
             v-for="(e, index) of events"
@@ -50,11 +55,12 @@
                     ref="inputs"
                 />
             </td>
-            <td>
+            <td v-if="$scopedSlots.actions">
                 <slot
+                    name="actions"
                     :index="index"
                     :event="e"
-                ></slot>
+                />
             </td>
         </tr>
     </table>

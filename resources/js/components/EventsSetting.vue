@@ -4,7 +4,10 @@
             :events="events"
             ref="eventsTable"
         >
-            <template slot-scope="{ index, event }">
+            <template
+                slot="actions"
+                slot-scope="{ index, event }"
+            >
                 <button
                     class="btn btn-danger btn-sm"
                     @click="onRemove(index)"
@@ -30,18 +33,22 @@
 </template>
 
 <script>
-import { createEvents, getEvents } from '@/api/wechat'
+import { getEvents } from '@/api/wechat'
 import EventsTable from '@/components/EventsTable'
+import { uniqueKey } from '@/common/utils'
+import CreateEvents from '@/common/create-events'
 
 export default {
     name: 'EventsSetting',
     components: {
         EventsTable,
     },
+    mixins: [
+        CreateEvents,
+    ],
     data() {
         return {
             events: [],
-
             saving: false,
         }
     },
@@ -64,7 +71,7 @@ export default {
         },
         onNewEvent() {
             this.events.push({
-                key: Math.random().toString(32).substr(2),
+                key: uniqueKey,
                 type: 'callback',
                 content: '',
             })
@@ -72,71 +79,6 @@ export default {
             this.$nextTick(() => {
                 this.$refs.eventsTable.$refs.inputs[this.events.length - 1].focus()
             })
-        },
-        async onSave() {
-            const valid = this.valid()
-            if (valid !== true) {
-                this.$notice({
-                    msg: valid,
-                    type: 'error',
-                })
-                return
-            }
-
-            try {
-                this.saving = true
-                await createEvents(this.events)
-            } finally {
-                this.saving = false
-            }
-        },
-        valid() {
-            const keys = []
-            const remarks = []
-            let errorMsg
-
-            this
-                .events
-                .every((e, index) => {
-                    const prefix = `第 ${index + 1} 个配置的`
-
-                    if (!e.remark) {
-                        errorMsg = prefix + '备注不能为空'
-                        return false
-                    }
-
-                    if (remarks.indexOf(e.remark) !== -1) {
-                        errorMsg = prefix + '备注不能重复'
-                        return false
-                    }
-
-                    if (!e.key) {
-                        errorMsg = prefix + '事件标识不能为空'
-                        return false
-                    }
-
-                    if (keys.indexOf(e.key) !== -1) {
-                        errorMsg = prefix + '事件标识不能重复'
-                        return false
-                    }
-
-                    if (!e.content) {
-                        errorMsg = prefix + '内容不能为空'
-                        return false
-                    }
-
-                    if (e.type == 'callback' && e.content.split('@').length != 2) {
-                        errorMsg = prefix + '内容格式不对'
-                        return false
-                    }
-
-                    keys.push(e.key)
-                    remarks.push(e.remark)
-
-                    return true
-                })
-
-            return errorMsg || true
         },
         onReset() {
             this.events = JSON.parse(this.eventsBak)
