@@ -13,19 +13,18 @@
                 v-for="(e, index) of events"
                 :key="index"
             >
-                <td>{{ e.name }}</td>
+                <td :title="e.key">{{ typeText(e.key) }}</td>
                 <td>
                     <change-handle-type :event="e"/>
                 </td>
                 <td>
-                <textarea
-                    v-if="e.type == 'msg'"
-                    type="text"
-                    class="input table-input"
-                    v-model="e.content"
-                    ref="inputs"
-                    rows="2"
-                />
+                    <textarea
+                        v-if="e.type == 'msg'"
+                        class="input table-input"
+                        v-model="e.content"
+                        ref="inputs"
+                        rows="2"
+                    />
                     <callback-input
                         v-else
                         v-model="e.content"
@@ -41,6 +40,8 @@
 <script>
 import ChangeHandleType from '@/components/ChangeHandleType'
 import CallbackInput from '@/components/CallbackInput'
+import { OTHER_EVENT_TYPES } from '@/common/constants'
+import { getSettings } from '@/api/wechat'
 
 export default {
     name: 'OtherEventsSetting',
@@ -68,19 +69,35 @@ export default {
             ],
             events: [
                 {
-                    name: '订阅',
                     key: 'subscribe',
                     type: 'msg',
                     content: '欢迎订阅',
                 },
                 {
-                    name: '取消订阅',
                     key: 'unsubscribe',
+                    type: 'callback',
+                    content: 'App\\Services\\WechatService@scanResult',
+                },
+                {
+                    key: 'none',
                     type: 'callback',
                     content: 'App\\Services\\WechatService@scanResult',
                 },
             ],
         }
+    },
+    created() {
+        this.getData()
+    },
+    methods: {
+        typeText(type) {
+            return OTHER_EVENT_TYPES[type] || type
+        },
+        async getData() {
+            const { data } = await getSettings('other_events')
+
+            log(data)
+        },
     },
 }
 </script>

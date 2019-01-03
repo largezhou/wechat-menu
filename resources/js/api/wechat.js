@@ -69,12 +69,17 @@ export function createMenus(data) {
     )
 }
 
-export function getMenuEvents() {
-    return axios.get('/menu-events')
+export function getSettings(key) {
+    return axios.get('/settings', {
+        params: {
+            key,
+        },
+    })
 }
 
-export function createEvents(data) {
-    return axios.post('/menu-events', {
+export function saveSettings(key, data) {
+    return axios.post('/settings', {
+        key: key,
         data,
     })
 }

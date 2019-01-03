@@ -794,23 +794,17 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 /* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(38);
-
-
-/***/ }),
-/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MAX_COLUMN; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return MAX_SUB_COUNT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return MENU_TYPES; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return TYPES_TEXT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return TYPES_TEXT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return MENU_HEIGHT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return SUB_MENUS_OFFSET; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return WECHAT_ERROR_CODES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return SUB_MENUS_OFFSET; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return WECHAT_ERROR_CODES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return OTHER_EVENT_TYPES; });
 /**
  * 一级菜单最大数
  * @type {number}
@@ -855,6 +849,28 @@ var SUB_MENUS_OFFSET = 10;
  * @type {string}
  */
 var WECHAT_ERROR_CODES = 'https://mp.weixin.qq.com/wiki?action=doc&id=mp1433747234';
+
+/**
+ * 非自定义菜单点击事件
+ *
+ * @type {Object}
+ */
+var OTHER_EVENT_TYPES = {
+  text: '文本',
+  image: '图片',
+  location: '位置',
+  link: '链接',
+  video: '视频',
+  subscribe: '订阅',
+  unsubscribe: '取消订阅'
+};
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(38);
+
 
 /***/ }),
 /* 6 */
@@ -11985,10 +12001,10 @@ module.exports = g;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["d"] = getMenus;
-/* harmony export (immutable) */ __webpack_exports__["b"] = createMenus;
-/* harmony export (immutable) */ __webpack_exports__["c"] = getMenuEvents;
-/* harmony export (immutable) */ __webpack_exports__["a"] = createEvents;
+/* harmony export (immutable) */ __webpack_exports__["b"] = getMenus;
+/* harmony export (immutable) */ __webpack_exports__["a"] = createMenus;
+/* harmony export (immutable) */ __webpack_exports__["c"] = getSettings;
+/* harmony export (immutable) */ __webpack_exports__["d"] = saveSettings;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(40);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue__ = __webpack_require__(6);
@@ -12057,12 +12073,17 @@ function createMenus(data) {
     });
 }
 
-function getMenuEvents() {
-    return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/menu-events');
+function getSettings(key) {
+    return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/settings', {
+        params: {
+            key: key
+        }
+    });
 }
 
-function createEvents(data) {
-    return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/menu-events', {
+function saveSettings(key, data) {
+    return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/settings', {
+        key: key,
         data: data
     });
 }
@@ -13230,7 +13251,7 @@ module.exports = Component.exports
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api_wechat__ = __webpack_require__(8);
 
@@ -13281,7 +13302,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
                                 this.saving = true;
                                 _context.next = 11;
-                                return Object(__WEBPACK_IMPORTED_MODULE_1__api_wechat__["a" /* createEvents */])(events);
+                                return Object(__WEBPACK_IMPORTED_MODULE_1__api_wechat__["d" /* saveSettings */])('menu_events', events);
 
                             case 11:
                                 return _context.abrupt('return', _context.sent);
@@ -14064,7 +14085,7 @@ exports.push([module.i, "\n.edit-area[data-v-46ceefe6] {\n  height: 600px;\n  di
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api_wechat__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Menus__ = __webpack_require__(59);
@@ -14073,7 +14094,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_ContentView___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_ContentView__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_ContentEvent__ = __webpack_require__(75);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_ContentEvent___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_ContentEvent__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__common_constants__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__common_constants__ = __webpack_require__(4);
 
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -14214,7 +14235,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                         switch (_context.prev = _context.next) {
                             case 0:
                                 _context.next = 2;
-                                return Object(__WEBPACK_IMPORTED_MODULE_1__api_wechat__["d" /* getMenus */])();
+                                return Object(__WEBPACK_IMPORTED_MODULE_1__api_wechat__["b" /* getMenus */])();
 
                             case 2:
                                 res = _context.sent;
@@ -14227,7 +14248,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 this.activeFirstMenu();
 
                                 _context.next = 9;
-                                return Object(__WEBPACK_IMPORTED_MODULE_1__api_wechat__["c" /* getMenuEvents */])();
+                                return Object(__WEBPACK_IMPORTED_MODULE_1__api_wechat__["c" /* getSettings */])('menu_events');
 
                             case 9:
                                 res = _context.sent;
@@ -14280,7 +14301,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
                                 this.saving = true;
                                 _context2.next = 4;
-                                return Object(__WEBPACK_IMPORTED_MODULE_1__api_wechat__["b" /* createMenus */])(this.menus);
+                                return Object(__WEBPACK_IMPORTED_MODULE_1__api_wechat__["a" /* createMenus */])(this.menus);
 
                             case 4:
                                 _ref3 = _context2.sent;
@@ -14299,7 +14320,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                         msg: function msg(h) {
                                             return h('div', [h('span', data.msg), h('a', {
                                                 attrs: {
-                                                    href: __WEBPACK_IMPORTED_MODULE_5__common_constants__["g" /* WECHAT_ERROR_CODES */],
+                                                    href: __WEBPACK_IMPORTED_MODULE_5__common_constants__["h" /* WECHAT_ERROR_CODES */],
                                                     target: '_blank'
                                                 },
                                                 style: {
@@ -16143,7 +16164,7 @@ exports.push([module.i, "\n.menus[data-v-78617599] {\n  height: 50px;\n  backgro
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_MenuItem__ = __webpack_require__(63);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_MenuItem___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_MenuItem__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__common_constants__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__common_constants__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuedraggable__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vuedraggable__);
 //
@@ -16382,7 +16403,7 @@ exports.push([module.i, "\n.menu[data-v-23ec797d] {\n  -webkit-box-flex: 1;\n   
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common_constants__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common_constants__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuedraggable__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vuedraggable__);
 //
@@ -16470,7 +16491,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         subMenusStyles: function subMenusStyles() {
-            var top = -(this.subsCount * __WEBPACK_IMPORTED_MODULE_0__common_constants__["c" /* MENU_HEIGHT */] + __WEBPACK_IMPORTED_MODULE_0__common_constants__["e" /* SUB_MENUS_OFFSET */]) + 'px';
+            var top = -(this.subsCount * __WEBPACK_IMPORTED_MODULE_0__common_constants__["c" /* MENU_HEIGHT */] + __WEBPACK_IMPORTED_MODULE_0__common_constants__["f" /* SUB_MENUS_OFFSET */]) + 'px';
 
             return {
                 top: top
@@ -18498,7 +18519,7 @@ exports.push([module.i, "\n.click-item .label[data-v-2a1225e8] {\n  width: 80px;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__common_utils__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_MenuEventsTable__ = __webpack_require__(18);
@@ -19081,7 +19102,7 @@ exports.push([module.i, "", ""]);
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common_constants__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common_constants__ = __webpack_require__(4);
 //
 //
 //
@@ -19100,7 +19121,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     computed: {
         typeText: function typeText() {
-            return __WEBPACK_IMPORTED_MODULE_0__common_constants__["f" /* TYPES_TEXT */][this.event.type];
+            return __WEBPACK_IMPORTED_MODULE_0__common_constants__["g" /* TYPES_TEXT */][this.event.type];
         }
     },
     methods: {
@@ -19731,7 +19752,7 @@ exports.push([module.i, "\n.menu-events-setting[data-v-14dd9606] {\n  width: 100
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api_wechat__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_MenuEventsTable__ = __webpack_require__(18);
@@ -19815,7 +19836,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                         switch (_context.prev = _context.next) {
                             case 0:
                                 _context.next = 2;
-                                return Object(__WEBPACK_IMPORTED_MODULE_1__api_wechat__["c" /* getMenuEvents */])();
+                                return Object(__WEBPACK_IMPORTED_MODULE_1__api_wechat__["c" /* getSettings */])('menu_events');
 
                             case 2:
                                 _ref2 = _context.sent;
@@ -20030,10 +20051,18 @@ exports.push([module.i, "\n.other-events-setting[data-v-7b855ff2] {\n  width: 10
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_ChangeHandleType__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_ChangeHandleType___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_ChangeHandleType__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_CallbackInput__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_CallbackInput___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_CallbackInput__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_ChangeHandleType__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_ChangeHandleType___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_ChangeHandleType__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_CallbackInput__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_CallbackInput___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_CallbackInput__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_constants__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__api_wechat__ = __webpack_require__(8);
+
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
 //
 //
 //
@@ -20073,7 +20102,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
+
+
 
 
 
@@ -20081,8 +20111,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'OtherEventsSetting',
     components: {
-        ChangeHandleType: __WEBPACK_IMPORTED_MODULE_0__components_ChangeHandleType___default.a,
-        CallbackInput: __WEBPACK_IMPORTED_MODULE_1__components_CallbackInput___default.a
+        ChangeHandleType: __WEBPACK_IMPORTED_MODULE_1__components_ChangeHandleType___default.a,
+        CallbackInput: __WEBPACK_IMPORTED_MODULE_2__components_CallbackInput___default.a
     },
     data: function data() {
         return {
@@ -20099,17 +20129,60 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 name: '内容'
             }],
             events: [{
-                name: '订阅',
                 key: 'subscribe',
                 type: 'msg',
                 content: '欢迎订阅'
             }, {
-                name: '取消订阅',
                 key: 'unsubscribe',
+                type: 'callback',
+                content: 'App\\Services\\WechatService@scanResult'
+            }, {
+                key: 'none',
                 type: 'callback',
                 content: 'App\\Services\\WechatService@scanResult'
             }]
         };
+    },
+    created: function created() {
+        this.getData();
+    },
+
+    methods: {
+        typeText: function typeText(type) {
+            return __WEBPACK_IMPORTED_MODULE_3__common_constants__["e" /* OTHER_EVENT_TYPES */][type] || type;
+        },
+        getData: function () {
+            var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee() {
+                var _ref2, data;
+
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                _context.next = 2;
+                                return Object(__WEBPACK_IMPORTED_MODULE_4__api_wechat__["c" /* getSettings */])('other_events');
+
+                            case 2:
+                                _ref2 = _context.sent;
+                                data = _ref2.data;
+
+
+                                log(data);
+
+                            case 5:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this);
+            }));
+
+            function getData() {
+                return _ref.apply(this, arguments);
+            }
+
+            return getData;
+        }()
     }
 });
 
@@ -20137,7 +20210,9 @@ var render = function() {
         _vm._v(" "),
         _vm._l(_vm.events, function(e, index) {
           return _c("tr", { key: index }, [
-            _c("td", [_vm._v(_vm._s(e.name))]),
+            _c("td", { attrs: { title: e.key } }, [
+              _vm._v(_vm._s(_vm.typeText(e.key)))
+            ]),
             _vm._v(" "),
             _c("td", [_c("change-handle-type", { attrs: { event: e } })], 1),
             _vm._v(" "),
@@ -20157,7 +20232,7 @@ var render = function() {
                       ref: "inputs",
                       refInFor: true,
                       staticClass: "input table-input",
-                      attrs: { type: "text", rows: "2" },
+                      attrs: { rows: "2" },
                       domProps: { value: e.content },
                       on: {
                         input: function($event) {

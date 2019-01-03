@@ -1,4 +1,4 @@
-import { createEvents } from '@/api/wechat'
+import { saveSettings } from '@/api/wechat'
 
 export default {
     methods: {
@@ -22,7 +22,7 @@ export default {
 
             try {
                 this.saving = true
-                return await createEvents(events)
+                return await saveSettings('menu_events', events)
             } finally {
                 this.saving = false
             }

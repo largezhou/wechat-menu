@@ -7,6 +7,44 @@ use Largezhou\WechatMenu\Exceptions\WechatMenuException;
 class Data
 {
     /**
+     * 返回成功
+     *
+     * @param string $msg 消息
+     * @param string $data 附带数据
+     *
+     * @return string
+     */
+    public static function success($msg = '', $data = null): string
+    {
+        return json_encode(
+            [
+                'status' => true,
+                'msg' => $msg,
+                'data' => $data,
+            ]
+        );
+    }
+
+    /**
+     * 返回错误
+     *
+     * @param string $msg 消息
+     * @param string $data 附带数据
+     *
+     * @return string
+     */
+    public static function error($msg = '', $data = null): string
+    {
+        return json_encode(
+            [
+                'status' => false,
+                'msg' => $msg,
+                'data' => $data,
+            ]
+        );
+    }
+
+    /**
      * 获取存储的数据
      *
      * @param string|null $type
@@ -30,7 +68,7 @@ class Data
      * @return string
      * @throws Exceptions\WechatMenuException
      */
-    public static function getMenus()
+    public static function getMenus(): string
     {
         return static::success('', Manager::getInstance()->getWechat()->menu->list());
     }
@@ -43,7 +81,7 @@ class Data
      * @return string
      * @throws Exceptions\WechatMenuException
      */
-    public static function createMenus(array $menus)
+    public static function createMenus(array $menus): string
     {
         $res = Manager::getInstance()->getWechat()->menu->create($menus);
 
@@ -55,74 +93,38 @@ class Data
     }
 
     /**
-     * 获取事件配置
+     * 获取指定键的数据
      *
-     * @param array $events
+     * @param string     $type
+     * @param null|mixed $data
      *
      * @return string
      */
-    public static function getMenuEvents(array $events = null)
+    public static function getSettings($type, $data = null): string
     {
-        if (!$events) {
-            $events = static::getData('menu_events');
+        if (!$data) {
+            $data = static::getData($type);
         }
 
-        return Data::success('', $events);
+        return Data::success('', $data);
     }
 
     /**
-     * 存储事件配置
+     * 保存来自请求的数据
      *
-     * @param array $events
+     * @param string $type
+     * @param mixed  $data
      *
      * @return string
      */
-    public static function createMenuEvents(array $events)
+    public static function saveSettings($type, $data): string
     {
-        $data = static::getData();
-        $data['menu_events'] = $events;
-        $data = json_encode($data, JSON_UNESCAPED_UNICODE + JSON_PRETTY_PRINT);
+        $allData = static::getData();
+        $allData[$type] = $data;
+        $allData = json_encode($allData, JSON_UNESCAPED_UNICODE + JSON_PRETTY_PRINT);
 
-        file_put_contents(Manager::getInstance()->getConfig('data_path'), $data);
+        file_put_contents(Manager::getInstance()->getConfig('data_path'), $allData);
 
         return Data::success('保存设置成功');
-    }
-
-    /**
-     * 返回成功
-     *
-     * @param string $msg 消息
-     * @param string $data 附带数据
-     *
-     * @return string
-     */
-    public static function success($msg = '', $data = null)
-    {
-        return json_encode(
-            [
-                'status' => true,
-                'msg' => $msg,
-                'data' => $data,
-            ]
-        );
-    }
-
-    /**
-     * 返回错误
-     *
-     * @param string $msg 消息
-     * @param string $data 附带数据
-     *
-     * @return string
-     */
-    public static function error($msg = '', $data = null)
-    {
-        return json_encode(
-            [
-                'status' => false,
-                'msg' => $msg,
-                'data' => $data,
-            ]
-        );
     }
 }

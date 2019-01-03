@@ -43,3 +43,18 @@ export const SUB_MENUS_OFFSET = 10
  * @type {string}
  */
 export const WECHAT_ERROR_CODES = 'https://mp.weixin.qq.com/wiki?action=doc&id=mp1433747234'
+
+/**
+ * 非自定义菜单点击事件
+ *
+ * @type {Object}
+ */
+export const OTHER_EVENT_TYPES = {
+    text: '文本',
+    image: '图片',
+    location: '位置',
+    link: '链接',
+    video: '视频',
+    subscribe: '订阅',
+    unsubscribe: '取消订阅',
+}
