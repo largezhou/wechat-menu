@@ -60,9 +60,13 @@ export default {
                     return false
                 }
 
-                if (e.type == 'callback' && e.content.split('@').length != 2) {
-                    errorMsg = prefix + '内容格式不对'
-                    return false
+                if (e.type == 'callback') {
+                    const [className, methodName] = e.content.split('@')
+
+                    if (!className || !methodName) {
+                        errorMsg = prefix + '内容格式不对'
+                        return false
+                    }
                 }
 
                 keys.push(e.key)
