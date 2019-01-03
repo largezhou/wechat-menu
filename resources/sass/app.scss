@@ -140,4 +140,12 @@
     .table-input {
         width: 100% !important;
     }
+
+    .table-footer {
+        text-align: center;
+        color: $grey-1;
+        padding: 20px 0;
+        border: $grey-border;
+        border-top: none;
+    }
 }

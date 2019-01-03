@@ -14,7 +14,7 @@
                 >删除</button>
             </template>
         </menu-events-table>
-        <div class="empty-table">
+        <div class="table-footer">
             <button
                 class="btn btn-primary"
                 @click="onSave"
@@ -88,17 +88,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "~@/../sass/vars.scss";
-
 .menu-events-setting {
     width: 1000px;
-}
-
-.empty-table {
-    text-align: center;
-    color: $grey-1;
-    padding: 20px 0;
-    border: $grey-border;
-    border-top: none;
 }
 </style>

@@ -794,6 +794,13 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 /* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(38);
+
+
+/***/ }),
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -866,14 +873,99 @@ var OTHER_EVENT_TYPES = {
 };
 
 /***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-module.exports = __webpack_require__(38);
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["b"] = getMenus;
+/* harmony export (immutable) */ __webpack_exports__["a"] = createMenus;
+/* harmony export (immutable) */ __webpack_exports__["c"] = getSettings;
+/* harmony export (immutable) */ __webpack_exports__["d"] = saveSettings;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue__);
 
+
+
+var bassURLEl = document.querySelector('#wechat-menu-prefix');
+var baseURL = bassURLEl && bassURLEl.getAttribute('data-prefix');
+__WEBPACK_IMPORTED_MODULE_0_axios___default.a.defaults.baseURL = baseURL || 'wechat-menu';
+
+__WEBPACK_IMPORTED_MODULE_0_axios___default.a.interceptors.response.use(function (res) {
+    var config = res.config;
+
+    var msg = res.data.msg;
+    var status = res.data.status;
+
+    if (msg) {
+        if (status && config.noErrorNotice) {
+            __WEBPACK_IMPORTED_MODULE_1_vue___default.a.$notice({
+                msg: msg,
+                type: 'success'
+            });
+        } else if (!config.noErrorNotice) {
+            __WEBPACK_IMPORTED_MODULE_1_vue___default.a.$notice({
+                msg: msg,
+                type: status ? 'success' : 'error'
+            });
+        }
+    }
+
+    return res;
+}, function (err) {
+    var res = err.response;
+    var msg = void 0;
+
+    if (!res) {
+        msg = '请求出错';
+    } else {
+        switch (res.status) {
+            case 404:
+                msg = '请求的网址的不存在';
+                break;
+            default:
+                msg = '\u670D\u52A1\u5668\u9519\u8BEF(code: ' + res.status + ')';
+        }
+    }
+
+    __WEBPACK_IMPORTED_MODULE_1_vue___default.a.$notice({
+        msg: msg,
+        type: 'error'
+    });
+
+    return Promise.reject(err);
+});
+
+function getMenus() {
+    return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/menus');
+}
+
+function createMenus(data) {
+    return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/menus', {
+        data: data
+    }, {
+        noErrorNotice: true
+    });
+}
+
+function getSettings(key) {
+    return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/settings', {
+        params: {
+            key: key
+        }
+    });
+}
+
+function saveSettings(key, data) {
+    return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/settings', {
+        key: key,
+        data: data
+    });
+}
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11967,10 +12059,10 @@ Vue.compile = compileToFunctions;
 
 module.exports = Vue;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(24).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(24).setImmediate))
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports) {
 
 var g;
@@ -11995,98 +12087,6 @@ try {
 
 module.exports = g;
 
-
-/***/ }),
-/* 8 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["b"] = getMenus;
-/* harmony export (immutable) */ __webpack_exports__["a"] = createMenus;
-/* harmony export (immutable) */ __webpack_exports__["c"] = getSettings;
-/* harmony export (immutable) */ __webpack_exports__["d"] = saveSettings;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(40);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue__);
-
-
-
-var bassURLEl = document.querySelector('#wechat-menu-prefix');
-var baseURL = bassURLEl && bassURLEl.getAttribute('data-prefix');
-__WEBPACK_IMPORTED_MODULE_0_axios___default.a.defaults.baseURL = baseURL || 'wechat-menu';
-
-__WEBPACK_IMPORTED_MODULE_0_axios___default.a.interceptors.response.use(function (res) {
-    var config = res.config;
-
-    var msg = res.data.msg;
-    var status = res.data.status;
-
-    if (msg) {
-        if (status && config.noErrorNotice) {
-            __WEBPACK_IMPORTED_MODULE_1_vue___default.a.$notice({
-                msg: msg,
-                type: 'success'
-            });
-        } else if (!config.noErrorNotice) {
-            __WEBPACK_IMPORTED_MODULE_1_vue___default.a.$notice({
-                msg: msg,
-                type: status ? 'success' : 'error'
-            });
-        }
-    }
-
-    return res;
-}, function (err) {
-    var res = err.response;
-    var msg = void 0;
-
-    if (!res) {
-        msg = '请求出错';
-    } else {
-        switch (res.status) {
-            case 404:
-                msg = '请求的网址的不存在';
-                break;
-            default:
-                msg = '\u670D\u52A1\u5668\u9519\u8BEF(code: ' + res.status + ')';
-        }
-    }
-
-    __WEBPACK_IMPORTED_MODULE_1_vue___default.a.$notice({
-        msg: msg,
-        type: 'error'
-    });
-
-    return Promise.reject(err);
-});
-
-function getMenus() {
-    return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/menus');
-}
-
-function createMenus(data) {
-    return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/menus', {
-        data: data
-    }, {
-        noErrorNotice: true
-    });
-}
-
-function getSettings(key) {
-    return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/settings', {
-        params: {
-            key: key
-        }
-    });
-}
-
-function saveSettings(key, data) {
-    return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/settings', {
-        key: key,
-        data: data
-    });
-}
 
 /***/ }),
 /* 9 */
@@ -13251,9 +13251,9 @@ module.exports = Component.exports
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api_wechat__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api_wechat__ = __webpack_require__(6);
 
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
@@ -13397,7 +13397,7 @@ module.exports = __webpack_require__(103);
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__common_notice_bar__ = __webpack_require__(26);
 
@@ -13405,8 +13405,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1__common_notice_bar__["a" /* default */]);
 
-window.log = console.log.bind(console);
-window.Vue = __WEBPACK_IMPORTED_MODULE_0_vue___default.a;
+if (true) {
+    window.log = console.log.bind(console);
+    window.Vue = __WEBPACK_IMPORTED_MODULE_0_vue___default.a;
+} else {
+    window.log = function () {};
+}
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('menus-editor', __webpack_require__(34));
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('menu-events-setting', __webpack_require__(93));
@@ -13496,7 +13500,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
                          (typeof global !== "undefined" && global.clearImmediate) ||
                          (this && this.clearImmediate);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
 /* 25 */
@@ -13689,7 +13693,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(10)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(10)))
 
 /***/ }),
 /* 26 */
@@ -13859,7 +13863,7 @@ module.exports = function listToStyles (parentId, list) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_RenderContent__ = __webpack_require__(32);
 //
@@ -14085,16 +14089,16 @@ exports.push([module.i, "\n.edit-area[data-v-46ceefe6] {\n  height: 600px;\n  di
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api_wechat__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api_wechat__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Menus__ = __webpack_require__(59);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Menus___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_Menus__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_ContentView__ = __webpack_require__(70);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_ContentView___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_ContentView__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_ContentEvent__ = __webpack_require__(75);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_ContentEvent___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_ContentEvent__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__common_constants__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__common_constants__ = __webpack_require__(5);
 
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -16164,7 +16168,7 @@ exports.push([module.i, "\n.menus[data-v-78617599] {\n  height: 50px;\n  backgro
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_MenuItem__ = __webpack_require__(63);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_MenuItem___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_MenuItem__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__common_constants__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__common_constants__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuedraggable__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vuedraggable__);
 //
@@ -16403,7 +16407,7 @@ exports.push([module.i, "\n.menu[data-v-23ec797d] {\n  -webkit-box-flex: 1;\n   
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common_constants__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common_constants__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuedraggable__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vuedraggable__);
 //
@@ -18519,7 +18523,7 @@ exports.push([module.i, "\n.click-item .label[data-v-2a1225e8] {\n  width: 80px;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__common_utils__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_MenuEventsTable__ = __webpack_require__(18);
@@ -18772,6 +18776,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -18910,15 +18915,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     props: {
         value: String,
-        events: Array
+        events: Array,
+        // 同分组下，共享下拉选择数据
+        group: {
+            type: String,
+            default: 'default'
+        }
     },
     computed: {
         filteredCallbacks: function filteredCallbacks() {
             var _this = this;
 
             return this.callbacks.filter(function (d) {
-                return d.indexOf(_this.value) === 0;
+                return d.indexOf(_this.value || '') === 0;
             });
+        },
+        callbacksChangeEventName: function callbacksChangeEventName() {
+            return 'callbacksChange-' + this.group;
         }
     },
     created: function created() {
@@ -18930,9 +18943,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {
         document.addEventListener('click', this.onClickOtherArea);
+        this.$bus.$on(this.callbacksChangeEventName, this.onCallbacksChange);
     },
     beforeDestroy: function beforeDestroy() {
         document.removeEventListener('click', this.onClickOtherArea);
+        this.$bus.$off(this.callbacksChangeEventName, this.onCallbacksChange);
     },
 
     methods: {
@@ -18957,10 +18972,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         onCallbackChange: function onCallbackChange(val) {
+            if (!val) {
+                return;
+            }
+
             var t = val.split('@');
             if (t.length == 2 && this.callbacks.indexOf(t[0]) === -1) {
                 this.callbacks.push(t[0]);
             }
+        },
+        onCallbacksChange: function onCallbacksChange(callbacks) {
+            log(111);
+            this.callbacks = callbacks;
         }
     },
     watch: {
@@ -18972,6 +18995,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.$emit('blur', this.value);
                 this.onCallbackChange(this.value);
             }
+        },
+        callbacks: function callbacks(newValue) {
+            this.$bus.$emit(this.callbacksChangeEventName, newValue);
         }
     }
 });
@@ -19102,7 +19128,7 @@ exports.push([module.i, "", ""]);
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common_constants__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common_constants__ = __webpack_require__(5);
 //
 //
 //
@@ -19273,7 +19299,10 @@ var render = function() {
                 : _c("callback-input", {
                     ref: "inputs",
                     refInFor: true,
-                    attrs: { events: _vm.eventsForCallbacks },
+                    attrs: {
+                      events: _vm.eventsForCallbacks,
+                      group: "menuEvents"
+                    },
                     model: {
                       value: e.content,
                       callback: function($$v) {
@@ -19741,7 +19770,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n.menu-events-setting[data-v-14dd9606] {\n  width: 1000px;\n}\n.empty-table[data-v-14dd9606] {\n  text-align: center;\n  color: #8d8d8d;\n  padding: 20px 0;\n  border: 1px solid #e7e7eb;\n  border-top: none;\n}\n", ""]);
+exports.push([module.i, "\n.menu-events-setting[data-v-14dd9606] {\n  width: 1000px;\n}\n", ""]);
 
 // exports
 
@@ -19752,9 +19781,9 @@ exports.push([module.i, "\n.menu-events-setting[data-v-14dd9606] {\n  width: 100
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api_wechat__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api_wechat__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_MenuEventsTable__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_MenuEventsTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_MenuEventsTable__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_utils__ = __webpack_require__(17);
@@ -19921,7 +19950,7 @@ var render = function() {
         ])
       }),
       _vm._v(" "),
-      _c("div", { staticClass: "empty-table" }, [
+      _c("div", { staticClass: "table-footer" }, [
         _c(
           "button",
           {
@@ -20051,18 +20080,54 @@ exports.push([module.i, "\n.other-events-setting[data-v-7b855ff2] {\n  width: 10
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_ChangeHandleType__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_ChangeHandleType___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_ChangeHandleType__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_CallbackInput__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_CallbackInput___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_CallbackInput__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_constants__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__api_wechat__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common_constants__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__api_wechat__ = __webpack_require__(6);
 
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -20119,7 +20184,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             columns: [{
                 field: 'name',
                 name: '事件',
-                width: '150'
+                width: '200'
             }, {
                 field: 'type',
                 name: '处理方法',
@@ -20127,20 +20192,13 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             }, {
                 field: 'content',
                 name: '内容'
+            }, {
+                field: 'actions',
+                name: '操作',
+                width: '80'
             }],
-            events: [{
-                key: 'subscribe',
-                type: 'msg',
-                content: '欢迎订阅'
-            }, {
-                key: 'unsubscribe',
-                type: 'callback',
-                content: 'App\\Services\\WechatService@scanResult'
-            }, {
-                key: 'none',
-                type: 'callback',
-                content: 'App\\Services\\WechatService@scanResult'
-            }]
+            events: [],
+            saving: false
         };
     },
     created: function created() {
@@ -20166,10 +20224,10 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 _ref2 = _context.sent;
                                 data = _ref2.data;
 
+                                this.events = data.data;
+                                this.initDefaultEvents();
 
-                                log(data);
-
-                            case 5:
+                            case 6:
                             case 'end':
                                 return _context.stop();
                         }
@@ -20182,7 +20240,140 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             }
 
             return getData;
-        }()
+        }(),
+
+        /**
+         * 初始化事件设定，比如首次使用时，一些默认的事件用户是没有配置的。或者之后用户删除了某些默认事件
+         */
+        initDefaultEvents: function initDefaultEvents() {
+            // 预设事件，就是 OTHER_EVENT_TYPES 常量中的
+            var defaultEvents = [];
+            // 用户添加的其他事件，可能是我漏掉没有放到预设中的，或者公众号后期新增的
+            var userEvents = [];
+            // key 与 事件配置 的键值对
+            var mappedEvents = {};
+
+            this.events.forEach(function (e) {
+                if (__WEBPACK_IMPORTED_MODULE_3__common_constants__["e" /* OTHER_EVENT_TYPES */][e.key]) {
+                    mappedEvents[e.key] = e;
+                } else {
+                    userEvents.push(e);
+                }
+            });
+
+            // 如果请求获取的事件配置数据中，没有某些预设事件的配置，则给个默认的
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = Object.keys(__WEBPACK_IMPORTED_MODULE_3__common_constants__["e" /* OTHER_EVENT_TYPES */])[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var key = _step.value;
+
+                    if (!mappedEvents[key]) {
+                        defaultEvents.push({
+                            key: key,
+                            type: 'callback',
+                            content: ''
+                        });
+                    } else {
+                        defaultEvents.push(mappedEvents[key]);
+                    }
+                }
+
+                // 把预设的放前面，用户自行添加的全部放后面
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
+
+            this.events = [].concat(defaultEvents, userEvents);
+            this.eventsBak = JSON.stringify(this.events);
+        },
+        onNewEvent: function onNewEvent() {
+            var _this = this;
+
+            this.events.push({
+                key: '',
+                type: 'callback',
+                content: ''
+            });
+
+            this.$nextTick(function () {
+                _this.$refs.inputs[_this.events.length - 1].focus();
+            });
+        },
+        onReset: function onReset() {
+            this.events = JSON.parse(this.eventsBak);
+        },
+        onSave: function () {
+            var _ref3 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2() {
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                if (!this.saving) {
+                                    _context2.next = 2;
+                                    break;
+                                }
+
+                                return _context2.abrupt('return');
+
+                            case 2:
+                                _context2.prev = 2;
+
+                                this.saving = true;
+                                _context2.next = 6;
+                                return Object(__WEBPACK_IMPORTED_MODULE_4__api_wechat__["d" /* saveSettings */])('other_events', this.events);
+
+                            case 6:
+                                return _context2.abrupt('return', _context2.sent);
+
+                            case 7:
+                                _context2.prev = 7;
+
+                                this.saving = false;
+                                return _context2.finish(7);
+
+                            case 10:
+                            case 'end':
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this, [[2,, 7, 10]]);
+            }));
+
+            function onSave() {
+                return _ref3.apply(this, arguments);
+            }
+
+            return onSave;
+        }(),
+        isDefaultEvent: function isDefaultEvent(event) {
+            return !!__WEBPACK_IMPORTED_MODULE_3__common_constants__["e" /* OTHER_EVENT_TYPES */][event.key];
+        },
+        onRemove: function onRemove(index) {
+            var e = this.events[index];
+            if (this.isDefaultEvent(e)) {
+                this.$notice({
+                    msg: '不能删除预设的事件',
+                    type: 'error'
+                });
+                return;
+            }
+
+            confirm('确定删除？') && this.events.splice(index, 1);
+        }
     }
 });
 
@@ -20210,9 +20401,39 @@ var render = function() {
         _vm._v(" "),
         _vm._l(_vm.events, function(e, index) {
           return _c("tr", { key: index }, [
-            _c("td", { attrs: { title: e.key } }, [
-              _vm._v(_vm._s(_vm.typeText(e.key)))
-            ]),
+            _vm.isDefaultEvent(e)
+              ? _c("td", [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.typeText(e.key)) +
+                      "(" +
+                      _vm._s(e.key) +
+                      ")\n            "
+                  )
+                ])
+              : _c("td", [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: e.key,
+                        expression: "e.key"
+                      }
+                    ],
+                    staticClass: "input table-input",
+                    attrs: { type: "text" },
+                    domProps: { value: e.key },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(e, "key", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
             _vm._v(" "),
             _c("td", [_c("change-handle-type", { attrs: { event: e } })], 1),
             _vm._v(" "),
@@ -20246,7 +20467,7 @@ var render = function() {
                   : _c("callback-input", {
                       ref: "inputs",
                       refInFor: true,
-                      attrs: { events: [] },
+                      attrs: { events: _vm.events, group: "otherEvents" },
                       model: {
                         value: e.content,
                         callback: function($$v) {
@@ -20257,12 +20478,49 @@ var render = function() {
                     })
               ],
               1
-            )
+            ),
+            _vm._v(" "),
+            _c("td", [
+              !_vm.isDefaultEvent(e)
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger btn-sm",
+                      on: {
+                        click: function($event) {
+                          _vm.onRemove(index)
+                        }
+                      }
+                    },
+                    [_vm._v("删除")]
+                  )
+                : _vm._e()
+            ])
           ])
         })
       ],
       2
-    )
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "table-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary",
+          attrs: { disabled: _vm.saving },
+          on: { click: _vm.onSave }
+        },
+        [_vm._v("保存")]
+      ),
+      _vm._v(" "),
+      _c("button", { staticClass: "btn", on: { click: _vm.onReset } }, [
+        _vm._v("重置")
+      ]),
+      _vm._v(" "),
+      _c("button", { staticClass: "btn", on: { click: _vm.onNewEvent } }, [
+        _vm._v("添加一个")
+      ])
+    ])
   ])
 }
 var staticRenderFns = []

@@ -13,7 +13,20 @@
                 v-for="(e, index) of events"
                 :key="index"
             >
-                <td :title="e.key">{{ typeText(e.key) }}</td>
+
+                <td
+                    v-if="isDefaultEvent(e)"
+                >
+                    {{ typeText(e.key) }}({{ e.key }})
+                </td>
+                <td v-else>
+                    <input
+                        type="text"
+                        class="input table-input"
+                        v-model="e.key"
+                    />
+                </td>
+
                 <td>
                     <change-handle-type :event="e"/>
                 </td>
@@ -28,12 +41,35 @@
                     <callback-input
                         v-else
                         v-model="e.content"
-                        :events="[]"
+                        :events="events"
+                        group="otherEvents"
                         ref="inputs"
                     />
                 </td>
+                <td>
+                    <button
+                        v-if="!isDefaultEvent(e)"
+                        class="btn btn-danger btn-sm"
+                        @click="onRemove(index)"
+                    >删除</button>
+                </td>
             </tr>
         </table>
+        <div class="table-footer">
+            <button
+                class="btn btn-primary"
+                @click="onSave"
+                :disabled="saving"
+            >保存</button>
+            <button
+                class="btn"
+                @click="onReset"
+            >重置</button>
+            <button
+                class="btn"
+                @click="onNewEvent"
+            >添加一个</button>
+        </div>
     </div>
 </template>
 
@@ -41,7 +77,7 @@
 import ChangeHandleType from '@/components/ChangeHandleType'
 import CallbackInput from '@/components/CallbackInput'
 import { OTHER_EVENT_TYPES } from '@/common/constants'
-import { getSettings } from '@/api/wechat'
+import { getSettings, saveSettings } from '@/api/wechat'
 
 export default {
     name: 'OtherEventsSetting',
@@ -55,7 +91,7 @@ export default {
                 {
                     field: 'name',
                     name: '事件',
-                    width: '150',
+                    width: '200',
                 },
                 {
                     field: 'type',
@@ -66,24 +102,14 @@ export default {
                     field: 'content',
                     name: '内容',
                 },
-            ],
-            events: [
                 {
-                    key: 'subscribe',
-                    type: 'msg',
-                    content: '欢迎订阅',
-                },
-                {
-                    key: 'unsubscribe',
-                    type: 'callback',
-                    content: 'App\\Services\\WechatService@scanResult',
-                },
-                {
-                    key: 'none',
-                    type: 'callback',
-                    content: 'App\\Services\\WechatService@scanResult',
+                    field: 'actions',
+                    name: '操作',
+                    width: '80',
                 },
             ],
+            events: [],
+            saving: false,
         }
     },
     created() {
@@ -95,8 +121,85 @@ export default {
         },
         async getData() {
             const { data } = await getSettings('other_events')
+            this.events = data.data
+            this.initDefaultEvents()
+        },
+        /**
+         * 初始化事件设定，比如首次使用时，一些默认的事件用户是没有配置的。或者之后用户删除了某些默认事件
+         */
+        initDefaultEvents() {
+            // 预设事件，就是 OTHER_EVENT_TYPES 常量中的
+            const defaultEvents = []
+            // 用户添加的其他事件，可能是我漏掉没有放到预设中的，或者公众号后期新增的
+            const userEvents = []
+            // key 与 事件配置 的键值对
+            const mappedEvents = {}
 
-            log(data)
+            this.events.forEach(e => {
+                if (OTHER_EVENT_TYPES[e.key]) {
+                    mappedEvents[e.key] = e
+                } else {
+                    userEvents.push(e)
+                }
+            })
+
+            // 如果请求获取的事件配置数据中，没有某些预设事件的配置，则给个默认的
+            for (let key of Object.keys(OTHER_EVENT_TYPES)) {
+                if (!mappedEvents[key]) {
+                    defaultEvents.push({
+                        key,
+                        type: 'callback',
+                        content: '',
+                    })
+                } else {
+                    defaultEvents.push(mappedEvents[key])
+                }
+            }
+
+            // 把预设的放前面，用户自行添加的全部放后面
+            this.events = [...defaultEvents, ...userEvents]
+            this.eventsBak = JSON.stringify(this.events)
+        },
+        onNewEvent() {
+            this.events.push({
+                key: '',
+                type: 'callback',
+                content: '',
+            })
+
+            this.$nextTick(() => {
+                this.$refs.inputs[this.events.length - 1].focus()
+            })
+        },
+        onReset() {
+            this.events = JSON.parse(this.eventsBak)
+        },
+        async onSave() {
+            if (this.saving) {
+                return
+            }
+
+            try {
+                this.saving = true
+                return await saveSettings('other_events', this.events)
+            } finally {
+                this.saving = false
+            }
+        },
+        isDefaultEvent(event) {
+            return !!OTHER_EVENT_TYPES[event.key]
+        },
+        onRemove(index) {
+            const e = this.events[index]
+            if (this.isDefaultEvent(e)) {
+                this.$notice({
+                    msg: '不能删除预设的事件',
+                    type: 'error',
+                })
+                return
+            }
+
+            confirm('确定删除？') && this.events.splice(index, 1)
         },
     },
 }

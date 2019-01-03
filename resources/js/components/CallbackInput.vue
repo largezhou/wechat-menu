@@ -41,10 +41,18 @@ export default {
     props: {
         value: String,
         events: Array,
+        // 同分组下，共享下拉选择数据
+        group: {
+            type: String,
+            default: 'default',
+        },
     },
     computed: {
         filteredCallbacks() {
-            return this.callbacks.filter(d => d.indexOf(this.value) === 0)
+            return this.callbacks.filter(d => d.indexOf(this.value || '') === 0)
+        },
+        callbacksChangeEventName() {
+            return `callbacksChange-${this.group}`
         },
     },
     created() {
@@ -54,9 +62,11 @@ export default {
     },
     mounted() {
         document.addEventListener('click', this.onClickOtherArea)
+        this.$bus.$on(this.callbacksChangeEventName, this.onCallbacksChange)
     },
     beforeDestroy() {
         document.removeEventListener('click', this.onClickOtherArea)
+        this.$bus.$off(this.callbacksChangeEventName, this.onCallbacksChange)
     },
     methods: {
         focus() {
@@ -80,10 +90,18 @@ export default {
             }
         },
         onCallbackChange(val) {
+            if (!val) {
+                return
+            }
+
             const t = val.split('@')
             if (t.length == 2 && this.callbacks.indexOf(t[0]) === -1) {
                 this.callbacks.push(t[0])
             }
+        },
+        onCallbacksChange(callbacks) {
+            log(111)
+            this.callbacks = callbacks
         },
     },
     watch: {
@@ -95,6 +113,9 @@ export default {
                 this.$emit('blur', this.value)
                 this.onCallbackChange(this.value)
             }
+        },
+        callbacks(newValue) {
+            this.$bus.$emit(this.callbacksChangeEventName, newValue)
         },
     },
 }

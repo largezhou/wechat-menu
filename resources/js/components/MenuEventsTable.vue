@@ -49,6 +49,7 @@
                     v-model="e.content"
                     :events="eventsForCallbacks"
                     ref="inputs"
+                    group="menuEvents"
                 />
             </td>
             <td v-if="$scopedSlots.actions">

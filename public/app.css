@@ -141,3 +141,11 @@
   width: 100% !important;
 }
 
+#wechat-menu .table-footer {
+  text-align: center;
+  color: #8d8d8d;
+  padding: 20px 0;
+  border: 1px solid #e7e7eb;
+  border-top: none;
+}
+
