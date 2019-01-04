@@ -32,6 +32,7 @@
                     :index="subIndex"
                     :menu="subMenu"
                     :key="subMenu.id"
+                    :deep-index="`${deepIndex}-${subIndex}`"
                 />
 
                 <menu-item
@@ -65,6 +66,7 @@ export default {
         menuWidth: Number,
         index: Number,
         isParent: Boolean,
+        deepIndex: String,
     },
     computed: {
         subMenus() {
@@ -112,7 +114,13 @@ export default {
         },
         onOtherActivated(menu) {
             this.$global.currentMenu = menu
-            this.active = (this.menu == menu)
+
+            if (this.menu === menu) {
+                this.active = true
+                this.$global.currentMenuIndex = this.deepIndex
+            } else {
+                this.active = false
+            }
         },
         onRemoveCurrent() {
             if (this.$global.currentMenu != this.menu) {

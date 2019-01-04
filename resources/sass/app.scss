@@ -86,6 +86,10 @@
         &:focus {
             border-color: #cdcdcd;
         }
+
+        &.has-error {
+            border-color: $danger-color;
+        }
     }
 
     .cursor-pointer {
@@ -106,10 +110,25 @@
         height: 40px;
         line-height: 40px;
         margin-right: 10px;
+        vertical-align: middle;
     }
 
-    .form-item + .form-item {
-        margin-top: 15px;
+    .form-item {
+        + .form-item {
+            margin-top: 20px;
+        }
+
+        .content {
+            display: inline-block;
+            position: relative;
+            vertical-align: middle;
+        }
+
+        .error-text {
+            position: absolute;
+            color: $danger-color;
+            font-size: 14px;
+        }
     }
 
     table {
@@ -147,5 +166,17 @@
         padding: 20px 0;
         border: $grey-border;
         border-top: none;
+    }
+
+    .radio-group {
+        padding: 0 5px;
+        line-height: 30px;
+        min-height: 30px;
+        border: 1px solid transparent;
+
+        &.has-error {
+            border: 1px solid $danger-color;
+            border-radius: 3px;
+        }
     }
 }

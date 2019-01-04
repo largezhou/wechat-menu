@@ -10,6 +10,7 @@
                 v-for="(menu, index) of menus"
                 :menu="menu"
                 :index="index"
+                :deep-index="index.toString()"
                 :key="menu.id"
                 :menu-width="menuWidth"
                 is-parent

@@ -2,17 +2,21 @@
     <div>
         <div class="form-item click-item">
             <span class="label">选择事件</span>
-            <select
-                v-model="$global.currentMenu.key"
-                class="input"
-            >
-                <option
-                    v-for="e of events"
-                    :key="e.key"
-                    :value="e.key"
-                    v-text="e.remark"
-                />
-            </select>
+            <div class="content">
+                <select
+                    v-model="$global.currentMenu.key"
+                    class="input"
+                    :class="{ 'has-error': hasError }"
+                >
+                    <option
+                        v-for="e of events"
+                        :key="e.key"
+                        :value="e.key"
+                        v-text="e.remark"
+                    />
+                </select>
+                <span class="error-text">{{ errorText }}</span>
+            </div>
             <button
                 v-show="!newEvent"
                 type="button"
@@ -64,6 +68,8 @@ export default {
     },
     props: {
         events: Array,
+        hasError: Boolean,
+        errorText: String,
     },
     computed: {
         eventsWithNew() {

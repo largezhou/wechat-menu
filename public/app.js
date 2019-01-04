@@ -1869,6 +1869,10 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -1888,7 +1892,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
     },
 
     props: {
-        events: Array
+        events: Array,
+        hasError: Boolean,
+        errorText: String
     },
     computed: {
         eventsWithNew: function eventsWithNew() {
@@ -1970,9 +1976,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: 'ContentView'
+    name: 'ContentView',
+    props: {
+        hasError: Boolean,
+        errorText: String
+    }
 });
 
 /***/ }),
@@ -2293,6 +2307,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -2313,7 +2328,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         menu: Object,
         menuWidth: Number,
         index: Number,
-        isParent: Boolean
+        isParent: Boolean,
+        deepIndex: String
     },
     computed: {
         subMenus: function subMenus() {
@@ -2362,7 +2378,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         onOtherActivated: function onOtherActivated(menu) {
             this.$global.currentMenu = menu;
-            this.active = this.menu == menu;
+
+            if (this.menu === menu) {
+                this.active = true;
+                this.$global.currentMenuIndex = this.deepIndex;
+            } else {
+                this.active = false;
+            }
         },
         onRemoveCurrent: function onRemoveCurrent() {
             if (this.$global.currentMenu != this.menu) {
@@ -2398,6 +2420,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__common_constants__ = __webpack_require__("./resources/js/common/constants.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuedraggable__ = __webpack_require__("./node_modules/vuedraggable/dist/vuedraggable.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vuedraggable__);
+//
 //
 //
 //
@@ -2558,8 +2581,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_vuelidate_lib_validators___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_vuelidate_lib_validators__);
 
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2658,9 +2697,6 @@ var buildMenusValidations = function buildMenusValidations(menus) {
         name: {
             required: __WEBPACK_IMPORTED_MODULE_6_vuelidate_lib_validators__["required"]
         },
-        key: {
-            required: __WEBPACK_IMPORTED_MODULE_6_vuelidate_lib_validators__["required"]
-        },
         type: {
             required: __WEBPACK_IMPORTED_MODULE_6_vuelidate_lib_validators__["required"]
         }
@@ -2673,7 +2709,20 @@ var buildMenusValidations = function buildMenusValidations(menus) {
                 sub_button: buildMenusValidations(menu.sub_button)
             };
         } else {
-            validations[index] = validators;
+            var t = _extends({}, validators);
+
+            if (menu.type == 'view') {
+                t.url = {
+                    required: __WEBPACK_IMPORTED_MODULE_6_vuelidate_lib_validators__["required"],
+                    url: __WEBPACK_IMPORTED_MODULE_6_vuelidate_lib_validators__["url"]
+                };
+            } else {
+                t.key = {
+                    required: __WEBPACK_IMPORTED_MODULE_6_vuelidate_lib_validators__["required"]
+                };
+            }
+
+            validations[index] = t;
         }
     });
 
@@ -2697,7 +2746,23 @@ var buildMenusValidations = function buildMenusValidations(menus) {
             menus: [],
             events: [],
             menuAutoId: 1,
-            saving: false
+            saving: false,
+
+            fieldErrors: {
+                name: {
+                    required: '必须填写'
+                },
+                key: {
+                    required: '必须选择'
+                },
+                type: {
+                    required: '必须选择'
+                },
+                url: {
+                    required: '必须填写',
+                    url: '必须是有效的 URL'
+                }
+            }
         };
     },
 
@@ -2708,11 +2773,33 @@ var buildMenusValidations = function buildMenusValidations(menus) {
         currentHasSub: function currentHasSub() {
             return this.$global.currentMenu.sub_button.length > 0;
         },
-        currentContentComponent: function currentContentComponent() {
+        currentContentType: function currentContentType() {
             var type = this.$global.currentMenu.type;
-            type = type == 'view' ? 'view' : 'event';
+            return type == 'view' ? 'view' : 'event';
+        },
+        currentContentComponent: function currentContentComponent() {
+            var type = this.currentContentType;
 
             return type ? 'content-' + type : null;
+        },
+        currentContentField: function currentContentField() {
+            return this.currentContentType == 'view' ? 'url' : 'key';
+        },
+
+        /**
+         * 当前激活菜单对应的验证相关数据
+         */
+        currentV: function currentV() {
+            var indexes = this.$global.currentMenuIndex.split('-');
+            var cur = null;
+            var subs = this.$v.menus;
+            do {
+                var i = indexes.shift();
+                cur = subs[i];
+                subs = cur.sub_button;
+            } while (indexes.length);
+
+            return cur;
         }
     },
     created: function created() {
@@ -2790,7 +2877,7 @@ var buildMenusValidations = function buildMenusValidations(menus) {
         },
         onSave: function () {
             var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2() {
-                var _ref3, data;
+                var errorMenu, _ref3, data;
 
                 return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
                     while (1) {
@@ -2799,21 +2886,23 @@ var buildMenusValidations = function buildMenusValidations(menus) {
                                 this.$v.$touch();
 
                                 if (!this.$v.$invalid) {
-                                    _context2.next = 4;
+                                    _context2.next = 5;
                                     break;
                                 }
 
-                                alert('出错了');
+                                errorMenu = this.getFirstErrorMenu();
+
+                                this.$bus.$emit('menuActive', errorMenu);
                                 return _context2.abrupt('return');
 
-                            case 4:
-                                _context2.prev = 4;
+                            case 5:
+                                _context2.prev = 5;
 
                                 this.saving = true;
-                                _context2.next = 8;
+                                _context2.next = 9;
                                 return Object(__WEBPACK_IMPORTED_MODULE_1__api_wechat__["a" /* createMenus */])(this.menus);
 
-                            case 8:
+                            case 9:
                                 _ref3 = _context2.sent;
                                 data = _ref3.data;
 
@@ -2841,18 +2930,18 @@ var buildMenusValidations = function buildMenusValidations(menus) {
                                     });
                                 }
 
-                            case 11:
-                                _context2.prev = 11;
+                            case 12:
+                                _context2.prev = 12;
 
                                 this.saving = false;
-                                return _context2.finish(11);
+                                return _context2.finish(12);
 
-                            case 14:
+                            case 15:
                             case 'end':
                                 return _context2.stop();
                         }
                     }
-                }, _callee2, this, [[4,, 11, 14]]);
+                }, _callee2, this, [[5,, 12, 15]]);
             }));
 
             function onSave() {
@@ -2867,8 +2956,6 @@ var buildMenusValidations = function buildMenusValidations(menus) {
             }
         },
         onRemoveMenu: function onRemoveMenu(_ref4) {
-            var _this2 = this;
-
             var parent = _ref4.parent,
                 sub = _ref4.sub;
 
@@ -2883,32 +2970,85 @@ var buildMenusValidations = function buildMenusValidations(menus) {
                 nextActive = parentMenu;
             }
 
-            this.$nextTick(function () {
-                _this2.$bus.$emit('menuActive', nextActive);
-            });
+            this.$bus.$emit('menuActive', nextActive);
         },
         activeFirstMenu: function activeFirstMenu() {
-            var _this3 = this;
+            var _this2 = this;
 
+            // 先清除当前的激活菜单，避免某些依赖于当前菜单数据的计算属性报错
+            this.$bus.$emit('menuActive', null);
             this.$nextTick(function () {
-                if (_this3.menus.length == 0) {
+                if (_this2.menus.length == 0) {
                     return;
                 }
 
                 var menu = null;
-                var subs = _this3.menus[0].sub_button;
+                var subs = _this2.menus[0].sub_button;
                 if (subs.length == 0) {
-                    menu = _this3.menus[0];
+                    menu = _this2.menus[0];
                 } else {
                     menu = subs[0];
                 }
 
-                _this3.$bus.$emit('menuActive', menu);
+                _this2.$bus.$emit('menuActive', menu);
             });
         },
         onReset: function onReset() {
             this.menus = JSON.parse(this.menusBak);
             this.activeFirstMenu();
+        },
+        hasError: function hasError(field) {
+            var curV = this.currentV[field];
+            return curV && curV.$invalid;
+        },
+        getError: function getError(field) {
+            var curV = this.currentV[field];
+            if (!curV) {
+                return;
+            }
+
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = Object.keys(curV.$params)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var i = _step.value;
+
+                    if (!curV[i]) {
+                        return this.fieldErrors[field][i];
+                    }
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
+        },
+        getFirstErrorMenu: function getFirstErrorMenu() {
+            var menus = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.menus;
+            var vMenus = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.$v.menus;
+
+            for (var i = 0; i < menus.length; i++) {
+                var menu = menus[i];
+                var vMenu = vMenus[i];
+
+                // 如果菜单有错误，则返回他子菜单中的某个错误菜单，或者自己
+                if (vMenu.$invalid) {
+                    return this.getFirstErrorMenu(menu.sub_button, vMenu.sub_button) || menu;
+                }
+            }
+
+            return null;
         }
     }
 });
@@ -3352,7 +3492,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.edit-area[data-v-46ceefe6] {\n  height: 600px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.preview[data-v-46ceefe6] {\n  min-width: 300px;\n  margin-right: 20px;\n  border: 1px solid #e7e7eb;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between;\n}\n.preview .header[data-v-46ceefe6] {\n    height: 50px;\n    background: #3a3a3e;\n    color: white;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n}\n.footer-toolbar[data-v-46ceefe6] {\n  margin-top: 30px;\n  text-align: center;\n}\n.menus-editor[data-v-46ceefe6] {\n  max-width: 1320px;\n  min-width: 1160px;\n}\n.form[data-v-46ceefe6] {\n  padding: 0 20px;\n  border: 1px solid #e7e7eb;\n  min-width: 840px;\n  width: 1000px;\n  background-color: #f4f5f9;\n}\n.form .header[data-v-46ceefe6] {\n    height: 40px;\n    line-height: 40px;\n    border-bottom: 1px solid #e7e7eb;\n    border-width: 2px;\n}\n.form .content-wrapper[data-v-46ceefe6] {\n    border: 1px solid #e7e7eb;\n    background-color: #fff;\n    padding: 20px;\n}\n.choose-hint[data-v-46ceefe6] {\n  min-width: 840px;\n  width: 1000px;\n  text-align: center;\n  line-height: 600px;\n  color: #8d8d8d;\n}\n.name-item[data-v-46ceefe6] {\n  margin-top: 30px;\n}\n", ""]);
+exports.push([module.i, "\n.edit-area[data-v-46ceefe6] {\n  height: 600px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.preview[data-v-46ceefe6] {\n  min-width: 300px;\n  margin-right: 20px;\n  border: 1px solid #e7e7eb;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: justify;\n      -ms-flex-pack: justify;\n          justify-content: space-between;\n}\n.preview .header[data-v-46ceefe6] {\n    height: 50px;\n    background: #3a3a3e;\n    color: white;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n}\n.footer-toolbar[data-v-46ceefe6] {\n  margin-top: 30px;\n  text-align: center;\n}\n.menus-editor[data-v-46ceefe6] {\n  max-width: 1320px;\n  min-width: 1170px;\n}\n.form[data-v-46ceefe6] {\n  padding: 0 20px;\n  border: 1px solid #e7e7eb;\n  min-width: 850px;\n  width: 1000px;\n  background-color: #f4f5f9;\n}\n.form .header[data-v-46ceefe6] {\n    height: 40px;\n    line-height: 40px;\n    border-bottom: 1px solid #e7e7eb;\n    border-width: 2px;\n}\n.form .content-wrapper[data-v-46ceefe6] {\n    border: 1px solid #e7e7eb;\n    background-color: #fff;\n    padding: 20px;\n}\n.choose-hint[data-v-46ceefe6] {\n  min-width: 850px;\n  width: 1000px;\n  text-align: center;\n  line-height: 600px;\n  color: #8d8d8d;\n}\n.name-item[data-v-46ceefe6] {\n  margin-top: 30px;\n}\n", ""]);
 
 // exports
 
@@ -6601,7 +6741,11 @@ var render = function() {
                       _vm._l(_vm.subMenus, function(subMenu, subIndex) {
                         return _c("menu-item", {
                           key: subMenu.id,
-                          attrs: { index: subIndex, menu: subMenu }
+                          attrs: {
+                            index: subIndex,
+                            menu: subMenu,
+                            "deep-index": _vm.deepIndex + "-" + subIndex
+                          }
                         })
                       }),
                       _vm._v(" "),
@@ -6652,44 +6796,51 @@ var render = function() {
       _c("div", { staticClass: "form-item click-item" }, [
         _c("span", { staticClass: "label" }, [_vm._v("选择事件")]),
         _vm._v(" "),
-        _c(
-          "select",
-          {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.$global.currentMenu.key,
-                expression: "$global.currentMenu.key"
+        _c("div", { staticClass: "content" }, [
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.$global.currentMenu.key,
+                  expression: "$global.currentMenu.key"
+                }
+              ],
+              staticClass: "input",
+              class: { "has-error": _vm.hasError },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.$set(
+                    _vm.$global.currentMenu,
+                    "key",
+                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                  )
+                }
               }
-            ],
-            staticClass: "input",
-            on: {
-              change: function($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function(o) {
-                    return o.selected
-                  })
-                  .map(function(o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.$set(
-                  _vm.$global.currentMenu,
-                  "key",
-                  $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                )
-              }
-            }
-          },
-          _vm._l(_vm.events, function(e) {
-            return _c("option", {
-              key: e.key,
-              domProps: { value: e.key, textContent: _vm._s(e.remark) }
-            })
-          }),
-          0
-        ),
+            },
+            _vm._l(_vm.events, function(e) {
+              return _c("option", {
+                key: e.key,
+                domProps: { value: e.key, textContent: _vm._s(e.remark) }
+              })
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c("span", { staticClass: "error-text" }, [
+            _vm._v(_vm._s(_vm.errorText))
+          ])
+        ]),
         _vm._v(" "),
         _c(
           "button",
@@ -6828,31 +6979,38 @@ var render = function() {
             _c("div", { staticClass: "form-item name-item" }, [
               _c("span", { staticClass: "label" }, [_vm._v("菜单名称")]),
               _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.$global.currentMenu.name,
-                    expression: "$global.currentMenu.name"
-                  }
-                ],
-                staticClass: "input",
-                attrs: { type: "text" },
-                domProps: { value: _vm.$global.currentMenu.name },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+              _c("div", { staticClass: "content" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.$global.currentMenu.name,
+                      expression: "$global.currentMenu.name"
                     }
-                    _vm.$set(
-                      _vm.$global.currentMenu,
-                      "name",
-                      $event.target.value
-                    )
+                  ],
+                  staticClass: "input",
+                  class: { "has-error": _vm.hasError("name") },
+                  attrs: { type: "text" },
+                  domProps: { value: _vm.$global.currentMenu.name },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.$global.currentMenu,
+                        "name",
+                        $event.target.value
+                      )
+                    }
                   }
-                }
-              })
+                }),
+                _vm._v(" "),
+                _c("span", { staticClass: "error-text" }, [
+                  _vm._v(_vm._s(_vm.getError("name")))
+                ])
+              ])
             ]),
             _vm._v(" "),
             _c(
@@ -6869,48 +7027,60 @@ var render = function() {
                 staticClass: "form-item"
               },
               [
-                _c(
-                  "div",
-                  { staticClass: "form-item" },
-                  [
-                    _c("span", { staticClass: "label" }, [_vm._v("菜单内容")]),
+                _c("div", { staticClass: "form-item" }, [
+                  _c("span", { staticClass: "label" }, [_vm._v("菜单内容")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "content" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "radio-group",
+                        class: { "has-error": _vm.hasError("type") }
+                      },
+                      _vm._l(Object.keys(_vm.menuTypes), function(key) {
+                        return _c(
+                          "label",
+                          { key: key, staticClass: "cursor-pointer" },
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.$global.currentMenu.type,
+                                  expression: "$global.currentMenu.type"
+                                }
+                              ],
+                              attrs: { type: "radio", name: "type" },
+                              domProps: {
+                                value: key,
+                                checked: _vm._q(
+                                  _vm.$global.currentMenu.type,
+                                  key
+                                )
+                              },
+                              on: {
+                                change: function($event) {
+                                  _vm.$set(_vm.$global.currentMenu, "type", key)
+                                }
+                              }
+                            }),
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(_vm.menuTypes[key]) +
+                                "\n                            "
+                            )
+                          ]
+                        )
+                      }),
+                      0
+                    ),
                     _vm._v(" "),
-                    _vm._l(Object.keys(_vm.menuTypes), function(key) {
-                      return _c(
-                        "label",
-                        { key: key, staticClass: "cursor-pointer" },
-                        [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.$global.currentMenu.type,
-                                expression: "$global.currentMenu.type"
-                              }
-                            ],
-                            attrs: { type: "radio", name: "type" },
-                            domProps: {
-                              value: key,
-                              checked: _vm._q(_vm.$global.currentMenu.type, key)
-                            },
-                            on: {
-                              change: function($event) {
-                                _vm.$set(_vm.$global.currentMenu, "type", key)
-                              }
-                            }
-                          }),
-                          _vm._v(
-                            "\n                        " +
-                              _vm._s(_vm.menuTypes[key]) +
-                              "\n                    "
-                          )
-                        ]
-                      )
-                    })
-                  ],
-                  2
-                ),
+                    _c("span", { staticClass: "error-text" }, [
+                      _vm._v(_vm._s(_vm.getError("type")))
+                    ])
+                  ])
+                ]),
                 _vm._v(" "),
                 _c(
                   "div",
@@ -6919,7 +7089,13 @@ var render = function() {
                     _vm.currentContentComponent
                       ? _c(_vm.currentContentComponent, {
                           tag: "component",
-                          attrs: { events: _vm.events }
+                          attrs: {
+                            "has-error": _vm.hasError(this.currentContentField),
+                            "error-text": _vm.getError(
+                              this.currentContentField
+                            ),
+                            events: _vm.events
+                          }
                         })
                       : _vm._e()
                   ],
@@ -7069,6 +7245,7 @@ var render = function() {
             attrs: {
               menu: menu,
               index: index,
+              "deep-index": index.toString(),
               "menu-width": _vm.menuWidth,
               "is-parent": ""
             }
@@ -7118,27 +7295,34 @@ var render = function() {
     _c("div", { staticClass: "form-item" }, [
       _c("span", { staticClass: "label" }, [_vm._v("页面地址")]),
       _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.$global.currentMenu.url,
-            expression: "$global.currentMenu.url"
-          }
-        ],
-        staticClass: "input",
-        attrs: { type: "text" },
-        domProps: { value: _vm.$global.currentMenu.url },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
+      _c("div", { staticClass: "content" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.$global.currentMenu.url,
+              expression: "$global.currentMenu.url"
             }
-            _vm.$set(_vm.$global.currentMenu, "url", $event.target.value)
+          ],
+          staticClass: "input",
+          class: { "has-error": _vm.hasError },
+          attrs: { type: "text" },
+          domProps: { value: _vm.$global.currentMenu.url },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.$global.currentMenu, "url", $event.target.value)
+            }
           }
-        }
-      })
+        }),
+        _vm._v(" "),
+        _c("span", { staticClass: "error-text" }, [
+          _vm._v(_vm._s(_vm.errorText))
+        ])
+      ])
     ])
   ])
 }
@@ -21626,16 +21810,21 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('menu-events-setting', __w
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('other-events-setting', __webpack_require__("./resources/js/components/OtherEventsSetting.vue"));
 
 // 传递事件
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.prototype.$bus = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a();
+var $bus = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a();
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.prototype.$bus = $bus;
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.$bus = $bus;
 
 // 全局数据
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.prototype.$global = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
+var $global = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     data: function data() {
         return {
-            currentMenu: null
+            currentMenu: null,
+            currentMenuIndex: null
         };
     }
 });
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.prototype.$global = $global;
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.$global = $global;
 
 new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     el: '#wechat-menu'

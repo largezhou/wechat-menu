@@ -17,16 +17,21 @@ Vue.component('menu-events-setting', require('@/components/MenuEventsSetting'))
 Vue.component('other-events-setting', require('@/components/OtherEventsSetting'))
 
 // 传递事件
-Vue.prototype.$bus = new Vue
+const $bus = new Vue
+Vue.prototype.$bus = $bus
+Vue.$bus = $bus
 
 // 全局数据
-Vue.prototype.$global = new Vue({
+const $global = new Vue({
     data() {
         return {
             currentMenu: null,
+            currentMenuIndex: null,
         }
     },
 })
+Vue.prototype.$global = $global
+Vue.$global = $global
 
 new Vue({
     el: '#wechat-menu',

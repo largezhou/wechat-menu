@@ -21,33 +21,47 @@
                 </div>
                 <div class="form-item name-item">
                     <span class="label">菜单名称</span>
-                    <input
-                        v-model="$global.currentMenu.name"
-                        type="text"
-                        class="input"
-                    >
+                    <div class="content">
+                        <input
+                            v-model="$global.currentMenu.name"
+                            type="text"
+                            class="input"
+                            :class="{ 'has-error': hasError('name') }"
+                        >
+                        <span class="error-text">{{ getError('name') }}</span>
+                    </div>
                 </div>
 
                 <div v-show="!currentHasSub" class="form-item">
                     <div class="form-item">
                         <span class="label">菜单内容</span>
-                        <label
-                            class="cursor-pointer"
-                            v-for="key of Object.keys(menuTypes)"
-                            :key="key"
-                        >
-                            <input
-                                type="radio"
-                                name="type"
-                                :value="key"
-                                v-model="$global.currentMenu.type"
+                        <div class="content">
+                            <div
+                                class="radio-group"
+                                :class="{ 'has-error': hasError('type') }"
                             >
-                            {{ menuTypes[key] }}
-                        </label>
+                                <label
+                                    class="cursor-pointer"
+                                    v-for="key of Object.keys(menuTypes)"
+                                    :key="key"
+                                >
+                                    <input
+                                        type="radio"
+                                        name="type"
+                                        :value="key"
+                                        v-model="$global.currentMenu.type"
+                                    >
+                                    {{ menuTypes[key] }}
+                                </label>
+                            </div>
+                            <span class="error-text">{{ getError('type') }}</span>
+                        </div>
                     </div>
 
                     <div class="form-item content-wrapper">
                         <component
+                            :has-error="hasError(this.currentContentField)"
+                            :error-text="getError(this.currentContentField)"
                             v-if="currentContentComponent"
                             :is="currentContentComponent"
                             :events="events"
@@ -84,7 +98,7 @@ import Menus from '@/components/Menus'
 import ContentView from '@/components/ContentView'
 import ContentEvent from '@/components/ContentEvent'
 import { MENU_TYPES, WECHAT_ERROR_CODES } from '@/common/constants'
-import { required } from 'vuelidate/lib/validators'
+import { required, url } from 'vuelidate/lib/validators'
 
 /**
  * 手动为无限嵌套的每个菜单单独生成验证
@@ -94,9 +108,6 @@ const buildMenusValidations = menus => {
     const validations = {}
     const validators = {
         name: {
-            required,
-        },
-        key: {
             required,
         },
         type: {
@@ -111,7 +122,20 @@ const buildMenusValidations = menus => {
                 sub_button: buildMenusValidations(menu.sub_button),
             }
         } else {
-            validations[index] = validators
+            const t = { ...validators }
+
+            if (menu.type == 'view') {
+                t.url = {
+                    required,
+                    url,
+                }
+            } else {
+                t.key = {
+                    required,
+                }
+            }
+
+            validations[index] = t
         }
     })
 
@@ -136,6 +160,22 @@ export default {
             events: [],
             menuAutoId: 1,
             saving: false,
+
+            fieldErrors: {
+                name: {
+                    required: '必须填写',
+                },
+                key: {
+                    required: '必须选择',
+                },
+                type: {
+                    required: '必须选择',
+                },
+                url: {
+                    required: '必须填写',
+                    url: '必须是有效的 URL',
+                },
+            },
         }
     },
     computed: {
@@ -145,11 +185,32 @@ export default {
         currentHasSub() {
             return this.$global.currentMenu.sub_button.length > 0
         },
-        currentContentComponent() {
+        currentContentType() {
             let type = this.$global.currentMenu.type
-            type = type == 'view' ? 'view' : 'event'
+            return type == 'view' ? 'view' : 'event'
+        },
+        currentContentComponent() {
+            let type = this.currentContentType
 
             return type ? `content-${type}` : null
+        },
+        currentContentField() {
+            return this.currentContentType == 'view' ? 'url' : 'key'
+        },
+        /**
+         * 当前激活菜单对应的验证相关数据
+         */
+        currentV() {
+            const indexes = this.$global.currentMenuIndex.split('-')
+            let cur = null
+            let subs = this.$v.menus
+            do {
+                let i = indexes.shift()
+                cur = subs[i]
+                subs = cur.sub_button
+            } while (indexes.length)
+
+            return cur
         },
     },
     created() {
@@ -193,7 +254,8 @@ export default {
             this.$v.$touch()
 
             if (this.$v.$invalid) {
-                alert('出错了')
+                const errorMenu = this.getFirstErrorMenu()
+                this.$bus.$emit('menuActive', errorMenu)
                 return
             }
 
@@ -250,11 +312,11 @@ export default {
                 nextActive = parentMenu
             }
 
-            this.$nextTick(() => {
-                this.$bus.$emit('menuActive', nextActive)
-            })
+            this.$bus.$emit('menuActive', nextActive)
         },
         activeFirstMenu() {
+            // 先清除当前的激活菜单，避免某些依赖于当前菜单数据的计算属性报错
+            this.$bus.$emit('menuActive', null)
             this.$nextTick(() => {
                 if (this.menus.length == 0) {
                     return
@@ -275,6 +337,35 @@ export default {
             this.menus = JSON.parse(this.menusBak)
             this.activeFirstMenu()
         },
+        hasError(field) {
+            const curV = this.currentV[field]
+            return curV && curV.$invalid
+        },
+        getError(field) {
+            const curV = this.currentV[field]
+            if (!curV) {
+                return
+            }
+
+            for (let i of Object.keys(curV.$params)) {
+                if (!curV[i]) {
+                    return this.fieldErrors[field][i]
+                }
+            }
+        },
+        getFirstErrorMenu(menus = this.menus, vMenus = this.$v.menus) {
+            for (let i = 0; i < menus.length; i++) {
+                const menu = menus[i]
+                const vMenu = vMenus[i]
+
+                // 如果菜单有错误，则返回他子菜单中的某个错误菜单，或者自己
+                if (vMenu.$invalid) {
+                    return this.getFirstErrorMenu(menu.sub_button, vMenu.sub_button) || menu
+                }
+            }
+
+            return null
+        },
     },
 }
 </script>
@@ -284,7 +375,7 @@ export default {
 
 $preview-width: 300px;
 $form-width: 1000px;
-$form-min-width: 840px;
+$form-min-width: 850px;
 
 .edit-area {
     height: 600px;
