@@ -25,7 +25,7 @@ class Content
     {
         $defaultMap = array_combine(static::RESOURCES, static::RESOURCES);
 
-        return safe_json(file_get_contents(__DIR__.'/../resources/mix-manifest.json'), $defaultMap);
+        return safe_json_decode(file_get_contents(__DIR__.'/../resources/mix-manifest.json'), $defaultMap);
     }
 
     /**

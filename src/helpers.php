@@ -1,6 +1,6 @@
 <?php
 
-if (!function_exists('safe_json')) {
+if (!function_exists('safe_json_decode')) {
     /**
      * 安全解析 json，可指定解析失败时的默认值
      *
@@ -9,7 +9,7 @@ if (!function_exists('safe_json')) {
      *
      * @return mixed|null
      */
-    function safe_json(string $json, $default = null)
+    function safe_json_decode(string $json, $default = null)
     {
         $data = json_decode($json, true);
 
