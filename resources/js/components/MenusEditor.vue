@@ -216,12 +216,6 @@ export default {
     created() {
         this.getData()
     },
-    mounted() {
-        this.$bus.$on('removeMenu', this.onRemoveMenu)
-    },
-    beforeDestroy() {
-        this.$bus.$off('removeMenu', this.onRemoveMenu)
-    },
     methods: {
         async getData() {
             let res = await getMenus()
@@ -296,11 +290,12 @@ export default {
             }
         },
         onRemoveCurrent() {
-            if (confirm('确认删除？')) {
-                this.$bus.$emit('removeCurrent')
+            if (!confirm('确认删除？')) {
+                return
             }
-        },
-        onRemoveMenu({ parent, sub }) {
+
+            const [parent, sub] = this.$global.currentMenuIndex.split('-')
+
             let nextActive = null
 
             if (sub === undefined) {

@@ -2362,11 +2362,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {
         !this.add && this.$bus.$on('menuActive', this.onOtherActivated);
-        !this.add && this.$bus.$on('removeCurrent', this.onRemoveCurrent);
     },
     beforeDestroy: function beforeDestroy() {
         this.$bus.$off('menuActive', this.onOtherActivated);
-        this.$bus.$off('removeCurrent', this.onRemoveCurrent);
     },
 
     methods: {
@@ -2385,25 +2383,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             } else {
                 this.active = false;
             }
-        },
-        onRemoveCurrent: function onRemoveCurrent() {
-            if (this.$global.currentMenu != this.menu) {
-                return;
-            }
-
-            var payload = void 0;
-            if (this.isParent) {
-                payload = {
-                    parent: this.index
-                };
-            } else {
-                payload = {
-                    parent: this.$parent.$parent.index,
-                    sub: this.index
-                };
-            }
-
-            this.$bus.$emit('removeMenu', payload);
         }
     }
 });
@@ -2580,6 +2559,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_vuelidate_lib_validators__ = __webpack_require__("./node_modules/vuelidate/lib/validators/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_vuelidate_lib_validators___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_vuelidate_lib_validators__);
 
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -2805,12 +2786,6 @@ var buildMenusValidations = function buildMenusValidations(menus) {
     created: function created() {
         this.getData();
     },
-    mounted: function mounted() {
-        this.$bus.$on('removeMenu', this.onRemoveMenu);
-    },
-    beforeDestroy: function beforeDestroy() {
-        this.$bus.$off('removeMenu', this.onRemoveMenu);
-    },
 
     methods: {
         getData: function () {
@@ -2951,13 +2926,14 @@ var buildMenusValidations = function buildMenusValidations(menus) {
             return onSave;
         }(),
         onRemoveCurrent: function onRemoveCurrent() {
-            if (confirm('确认删除？')) {
-                this.$bus.$emit('removeCurrent');
+            if (!confirm('确认删除？')) {
+                return;
             }
-        },
-        onRemoveMenu: function onRemoveMenu(_ref4) {
-            var parent = _ref4.parent,
-                sub = _ref4.sub;
+
+            var _$global$currentMenuI = this.$global.currentMenuIndex.split('-'),
+                _$global$currentMenuI2 = _slicedToArray(_$global$currentMenuI, 2),
+                parent = _$global$currentMenuI2[0],
+                sub = _$global$currentMenuI2[1];
 
             var nextActive = null;
 

@@ -99,11 +99,9 @@ export default {
     },
     mounted() {
         !this.add && this.$bus.$on('menuActive', this.onOtherActivated)
-        !this.add && this.$bus.$on('removeCurrent', this.onRemoveCurrent)
     },
     beforeDestroy() {
         this.$bus.$off('menuActive', this.onOtherActivated)
-        this.$bus.$off('removeCurrent', this.onRemoveCurrent)
     },
     methods: {
         onActive() {
@@ -121,25 +119,6 @@ export default {
             } else {
                 this.active = false
             }
-        },
-        onRemoveCurrent() {
-            if (this.$global.currentMenu != this.menu) {
-                return
-            }
-
-            let payload
-            if (this.isParent) {
-                payload = {
-                    parent: this.index,
-                }
-            } else {
-                payload = {
-                    parent: this.$parent.$parent.index,
-                    sub: this.index,
-                }
-            }
-
-            this.$bus.$emit('removeMenu', payload)
         },
     },
 }
