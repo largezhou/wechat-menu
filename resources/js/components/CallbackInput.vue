@@ -100,7 +100,6 @@ export default {
             }
         },
         onCallbacksChange(callbacks) {
-            log(111)
             this.callbacks = callbacks
         },
     },

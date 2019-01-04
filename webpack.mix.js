@@ -1,8 +1,13 @@
 const mix = require('laravel-mix')
 const webpack = require('webpack')
+const path = require('path')
 
-// 去掉生成 mix-manifest.json 文件
-Mix.manifest.refresh = () => {}
+// 修改生成 mix-manifest.json 文件的位置
+Mix.manifest.refresh = function() {
+    File.find(path.join('resources', this.name))
+        .makeDirectories()
+        .write(this.manifest)
+}
 
 mix
     .options({
@@ -18,6 +23,7 @@ mix
     .js('resources/js/app.js', 'public')
     .sass('resources/sass/app.scss', 'public')
     .copy('public', '../test_wechat_menu/public/vendor/wechat-menu')
+    .version()
     .webpackConfig({
         resolve: {
             symlinks: false,
