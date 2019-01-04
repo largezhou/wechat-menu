@@ -84,13 +84,51 @@ import Menus from '@/components/Menus'
 import ContentView from '@/components/ContentView'
 import ContentEvent from '@/components/ContentEvent'
 import { MENU_TYPES, WECHAT_ERROR_CODES } from '@/common/constants'
+import { required } from 'vuelidate/lib/validators'
+
+/**
+ * 手动为无限嵌套的每个菜单单独生成验证
+ * @param menus
+ */
+const buildMenusValidations = menus => {
+    const validations = {}
+    const validators = {
+        name: {
+            required,
+        },
+        key: {
+            required,
+        },
+        type: {
+            required,
+        },
+    }
+
+    menus.forEach((menu, index) => {
+        if (menu.sub_button.length > 0) {
+            validations[index] = {
+                name: validators.name,
+                sub_button: buildMenusValidations(menu.sub_button),
+            }
+        } else {
+            validations[index] = validators
+        }
+    })
+
+    return validations
+}
 
 export default {
-    name: 'MenuManager',
+    name: 'MenusEditor',
     components: {
         Menus,
         ContentView,
         ContentEvent,
+    },
+    validations() {
+        return {
+            menus: buildMenusValidations(this.menus),
+        }
     },
     data() {
         return {
@@ -152,6 +190,13 @@ export default {
             return id
         },
         async onSave() {
+            this.$v.$touch()
+
+            if (this.$v.$invalid) {
+                alert('出错了')
+                return
+            }
+
             try {
                 this.saving = true
                 const { data } = await createMenus(this.menus)
@@ -239,7 +284,7 @@ export default {
 
 $preview-width: 300px;
 $form-width: 1000px;
-$form-min-width: 800px;
+$form-min-width: 840px;
 
 .edit-area {
     height: 600px;
