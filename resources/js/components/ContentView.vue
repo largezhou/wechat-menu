@@ -1,6 +1,6 @@
 <template>
     <div>
-        <span class="label grey-1">点击菜单会跳转到该链接</span>
+        <span class="label hint grey-1">点击菜单会跳转到该链接</span>
         <w-input
             label="页面地址"
             v-bind="$props"
@@ -20,6 +20,8 @@ export default {
 }
 </script>
 
-<style lang="scss">
-
+<style lang="scss" scoped>
+.hint {
+    display: block !important;
+}
 </style>

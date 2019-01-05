@@ -1,22 +1,20 @@
 <template>
     <div>
-        <div class="form-item click-item">
-            <span class="label">选择事件</span>
-            <div class="content">
-                <select
-                    v-model="$global.currentMenu.key"
-                    class="input"
-                    :class="{ 'has-error': hasError }"
-                >
-                    <option
-                        v-for="e of events"
-                        :key="e.key"
-                        :value="e.key"
-                        v-text="e.remark"
-                    />
-                </select>
-                <span class="error-text">{{ errorText }}</span>
-            </div>
+        <w-select
+            label="选择事件"
+            :has-error="hasError"
+            :error-text="errorText"
+            v-model="$global.currentMenu.key"
+            inline
+        >
+            <option
+                v-for="e of events"
+                :key="e.key"
+                :value="e.key"
+                v-text="e.remark"
+            />
+        </w-select>
+        <div class="vertical-middle">
             <button
                 v-show="!newEvent"
                 type="button"
@@ -37,6 +35,7 @@
                 >取消</button>
             </div>
         </div>
+
         <menu-events-table
             class="new-event"
             v-show="newEvent"

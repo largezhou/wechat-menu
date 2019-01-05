@@ -9,8 +9,8 @@
         .content {
             width: 100%;
             display: inline-block;
-            position: relative;
             vertical-align: middle;
+            position: relative;
         }
 
         .error-text {
@@ -23,12 +23,22 @@
             .content {
                 width: auto;
             }
+
+            display: inline-block;
         }
 
         &.has-error {
             .input {
                 border-color: $danger-color;
             }
+        }
+
+        .label {
+            display: inline-block;
+            height: 40px;
+            line-height: 40px;
+            margin-right: 10px;
+            vertical-align: middle;
         }
     }
 }

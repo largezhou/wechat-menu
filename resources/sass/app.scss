@@ -102,14 +102,6 @@
         color: $grey;
     }
 
-    .label {
-        display: inline-block;
-        height: 40px;
-        line-height: 40px;
-        margin-right: 10px;
-        vertical-align: middle;
-    }
-
     table {
         border-collapse: collapse;
 
@@ -164,5 +156,10 @@
             border: 1px solid $danger-color;
             border-radius: 3px;
         }
+    }
+
+    .vertical-middle {
+        display: inline-block;
+        vertical-align: middle;
     }
 }

@@ -16,6 +16,7 @@ Vue.component('menus-editor', require('@/components/MenusEditor').default)
 Vue.component('menu-events-setting', require('@/components/MenuEventsSetting').default)
 Vue.component('other-events-setting', require('@/components/OtherEventsSetting').default)
 Vue.component('w-input', require('@/components/form/WInput').default)
+Vue.component('w-select', require('@/components/form/WSelect').default)
 
 // 传递事件
 const $bus = new Vue
