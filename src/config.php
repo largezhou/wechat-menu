@@ -31,13 +31,13 @@ return [
                 // 测试环境
                 'dev' => [
                     'driver' => 'single',
-                    'path' => storage_path('logs/wechat.log'),
+                    // 'path' => 'logs/wechat.log',
                     'level' => 'debug',
                 ],
                 // 生产环境
                 'prod' => [
                     'driver' => 'daily',
-                    'path' => storage_path('logs/wechat.log'),
+                    // 'path' => 'logs/wechat.log',
                     'level' => 'info',
                 ],
             ],
