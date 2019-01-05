@@ -50,6 +50,8 @@
             .error-text {
                 right: 12px;
                 top: 8px;
+                pointer-events: none;
+                background: #fff;
             }
         }
 

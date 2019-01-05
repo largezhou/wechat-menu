@@ -35,6 +35,8 @@
 #wechat-menu .form-item.error-inside .error-text {
   right: 12px;
   top: 8px;
+  pointer-events: none;
+  background: #fff;
 }
 
 #wechat-menu .form-item .label {
