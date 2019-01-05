@@ -2870,6 +2870,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 
 
@@ -4118,7 +4121,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".edit-area[data-v-46ceefe6] {\n  height: 600px;\n  display: flex;\n}\n.preview[data-v-46ceefe6] {\n  min-width: 300px;\n  margin-right: 20px;\n  border: 1px solid #e7e7eb;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n}\n.preview .header[data-v-46ceefe6] {\n  height: 50px;\n  background: #3a3a3e;\n  color: white;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.menus-editor[data-v-46ceefe6] {\n  max-width: 1320px;\n  min-width: 1170px;\n}\n.form[data-v-46ceefe6] {\n  padding: 0 20px;\n  border: 1px solid #e7e7eb;\n  min-width: 850px;\n  width: 1000px;\n  background-color: #f4f5f9;\n}\n.form .header[data-v-46ceefe6] {\n  height: 40px;\n  line-height: 40px;\n  border-bottom: 1px solid #e7e7eb;\n  border-width: 2px;\n  margin-bottom: 20px;\n}\n.form .content-wrapper[data-v-46ceefe6] {\n  border: 1px solid #e7e7eb;\n  background-color: #fff;\n  padding: 20px;\n}\n.choose-hint[data-v-46ceefe6] {\n  min-width: 850px;\n  width: 1000px;\n  text-align: center;\n  line-height: 600px;\n  color: #8d8d8d;\n}\n.name-item[data-v-46ceefe6] {\n  margin-top: 30px;\n}\n.footer-toolbar[data-v-46ceefe6] {\n  border: none !important;\n}", ""]);
+exports.push([module.i, ".edit-area[data-v-46ceefe6] {\n  height: 600px;\n  display: flex;\n}\n.preview[data-v-46ceefe6] {\n  min-width: 300px;\n  margin-right: 20px;\n  border: 1px solid #e7e7eb;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n}\n.preview .header[data-v-46ceefe6] {\n  height: 50px;\n  background: #3a3a3e;\n  color: white;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.menus-editor[data-v-46ceefe6] {\n  max-width: 1320px;\n  min-width: 1170px;\n}\n.form[data-v-46ceefe6] {\n  padding: 0 20px;\n  border: 1px solid #e7e7eb;\n  min-width: 850px;\n  width: 1000px;\n  background-color: #f4f5f9;\n}\n.form .header[data-v-46ceefe6] {\n  height: 40px;\n  line-height: 40px;\n  border-bottom: 1px solid #e7e7eb;\n  border-width: 2px;\n  margin-bottom: 20px;\n}\n.form .content-wrapper[data-v-46ceefe6] {\n  border: 1px solid #e7e7eb;\n  background-color: #fff;\n  padding: 20px;\n  margin-top: 20px;\n}\n.choose-hint[data-v-46ceefe6] {\n  min-width: 850px;\n  width: 1000px;\n  text-align: center;\n  line-height: 600px;\n  color: #8d8d8d;\n}\n.name-item[data-v-46ceefe6] {\n  margin-top: 30px;\n}\n.footer-toolbar[data-v-46ceefe6] {\n  border: none !important;\n}", ""]);
 
 // exports
 
@@ -8857,7 +8860,17 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "div",
-                { staticClass: "form-item content-wrapper" },
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: !_vm.currentHasSub,
+                      expression: "!currentHasSub"
+                    }
+                  ],
+                  staticClass: "content-wrapper"
+                },
                 [
                   _vm.currentContentComponent
                     ? _c(_vm.currentContentComponent, {

@@ -44,7 +44,10 @@
                     />
                 </w-radio>
 
-                <div class="form-item content-wrapper">
+                <div
+                    class="content-wrapper"
+                    v-show="!currentHasSub"
+                >
                     <component
                         :has-error="hasError(this.currentContentField)"
                         :error-text="getError(this.currentContentField)"
@@ -405,6 +408,7 @@ $form-min-width: 850px;
         border: $grey-border;
         background-color: #fff;
         padding: 20px;
+        margin-top: 20px;
     }
 }
 
