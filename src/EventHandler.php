@@ -135,7 +135,7 @@ class EventHandler implements EventHandlerInterface
         }
 
         try {
-            $res = call_user_func([new $class($payload), $method], $payload);
+            $res = call_user_func([new $class(), $method], $payload);
         } catch (\Throwable $e) {
             $res = Manager::getInstance()->getConfig('handler_error_msg');
             $this->logger->error(
