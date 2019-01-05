@@ -11,7 +11,13 @@ export const callback = (value, data) => {
     }
 
     if (data.type == 'callback') {
-        const [className, methodName] = value.split('@')
+        const t = value.split('@')
+
+        if (t.length != 2) {
+            return false
+        }
+
+        const [className, methodName] = t
 
         return !!(className && methodName)
     } else {

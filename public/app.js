@@ -23622,10 +23622,15 @@ var callback = function callback(value, data) {
   }
 
   if (data.type == 'callback') {
-    var _value$split = value.split('@'),
-        _value$split2 = _slicedToArray(_value$split, 2),
-        className = _value$split2[0],
-        methodName = _value$split2[1];
+    var t = value.split('@');
+
+    if (t.length != 2) {
+      return false;
+    }
+
+    var _t = _slicedToArray(t, 2),
+        className = _t[0],
+        methodName = _t[1];
 
     return !!(className && methodName);
   } else {
