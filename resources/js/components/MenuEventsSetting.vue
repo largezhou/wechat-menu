@@ -14,7 +14,7 @@
                 >删除</button>
             </template>
         </menu-events-table>
-        <div class="table-footer">
+        <div class="footer-toolbar">
             <button
                 class="btn btn-primary"
                 @click="onSave"

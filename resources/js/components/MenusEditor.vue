@@ -381,11 +381,6 @@ $form-min-width: 850px;
     }
 }
 
-.footer-toolbar {
-    margin: 30px 0;
-    text-align: center;
-}
-
 .menus-editor {
     max-width: $form-width + 20px + $preview-width;
     min-width: $form-min-width + 20px + $preview-width;

@@ -63,7 +63,7 @@
                 </td>
             </tr>
         </table>
-        <div class="table-footer">
+        <div class="footer-toolbar">
             <button
                 class="btn btn-primary"
                 @click="onSave"
