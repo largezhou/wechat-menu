@@ -19,18 +19,14 @@
                         @click="onRemoveCurrent"
                     >删除菜单</a>
                 </div>
-                <div class="form-item name-item">
-                    <span class="label">菜单名称</span>
-                    <div class="content">
-                        <input
-                            v-model="$global.currentMenu.name"
-                            type="text"
-                            class="input"
-                            :class="{ 'has-error': hasError('name') }"
-                        >
-                        <span class="error-text">{{ getError('name') }}</span>
-                    </div>
-                </div>
+
+                <w-input
+                    label="菜单名称"
+                    v-model="$global.currentMenu.name"
+                    :has-error="hasError('name')"
+                    :error-text="getError('name')"
+                    inline
+                />
 
                 <div v-show="!currentHasSub" class="form-item">
                     <div class="form-item">
@@ -396,7 +392,7 @@ $form-min-width: 850px;
 }
 
 .footer-toolbar {
-    margin-top: 30px;
+    margin: 30px 0;
     text-align: center;
 }
 
@@ -417,6 +413,7 @@ $form-min-width: 850px;
         line-height: 40px;
         border-bottom: $grey-border;
         border-width: 2px;
+        margin-bottom: 20px;
     }
 
     .content-wrapper {

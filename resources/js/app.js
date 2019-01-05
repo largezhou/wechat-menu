@@ -15,6 +15,7 @@ if (process.env.NODE_ENV == 'development') {
 Vue.component('menus-editor', require('@/components/MenusEditor').default)
 Vue.component('menu-events-setting', require('@/components/MenuEventsSetting').default)
 Vue.component('other-events-setting', require('@/components/OtherEventsSetting').default)
+Vue.component('w-input', require('@/components/form/wInput').default)
 
 // 传递事件
 const $bus = new Vue

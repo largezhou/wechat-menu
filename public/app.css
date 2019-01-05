@@ -1,3 +1,28 @@
+#wechat-menu .form-item + .form-item {
+  margin-top: 20px;
+}
+
+#wechat-menu .form-item .content {
+  width: 100%;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+}
+
+#wechat-menu .form-item .error-text {
+  position: absolute;
+  color: #f86161;
+  font-size: 14px;
+}
+
+#wechat-menu .form-item.inline .content {
+  width: auto;
+}
+
+#wechat-menu .form-item.has-error .input {
+  border-color: #f86161;
+}
+
 #wechat-menu * {
   box-sizing: border-box;
   font-size: 15px;
@@ -85,10 +110,6 @@
   border-color: #cdcdcd;
 }
 
-#wechat-menu .input.has-error {
-  border-color: #f86161;
-}
-
 #wechat-menu .cursor-pointer {
   cursor: pointer;
   -webkit-user-select: none;
@@ -111,23 +132,6 @@
   line-height: 40px;
   margin-right: 10px;
   vertical-align: middle;
-}
-
-#wechat-menu .form-item + .form-item {
-  margin-top: 20px;
-}
-
-#wechat-menu .form-item .content {
-  width: 100%;
-  display: inline-block;
-  position: relative;
-  vertical-align: middle;
-}
-
-#wechat-menu .form-item .error-text {
-  position: absolute;
-  color: #f86161;
-  font-size: 14px;
 }
 
 #wechat-menu table {
