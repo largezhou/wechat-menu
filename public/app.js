@@ -1805,6 +1805,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'CallbackInput',
   data: function data() {
@@ -1821,7 +1825,9 @@ __webpack_require__.r(__webpack_exports__);
     group: {
       type: String,
       default: 'default'
-    }
+    },
+    hasError: Boolean,
+    errorText: String
   },
   computed: {
     filteredCallbacks: function filteredCallbacks() {
@@ -3245,6 +3251,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_CallbackInput__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/CallbackInput */ "./resources/js/components/CallbackInput.vue");
 /* harmony import */ var _common_constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/common/constants */ "./resources/js/common/constants.js");
 /* harmony import */ var _api_wechat__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/api/wechat */ "./resources/js/api/wechat.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _common_validators__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/common/validators */ "./resources/js/common/validators.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -3326,6 +3335,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 
 
@@ -3355,8 +3375,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         width: '80'
       }],
       events: [],
-      saving: false
+      saving: false,
+      fieldErrors: {
+        key: {
+          required: '必须填写'
+        },
+        content: {
+          required: '必须填写',
+          callback: '不是有效的回调'
+        }
+      }
     };
+  },
+  validations: {
+    events: {
+      $each: {
+        key: {
+          required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_5__["required"]
+        },
+        content: {
+          callback: _common_validators__WEBPACK_IMPORTED_MODULE_6__["callback"]
+        }
+      }
+    }
   },
   created: function created() {
     this.getData();
@@ -3468,25 +3509,39 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context2.abrupt("return");
 
               case 2:
-                _context2.prev = 2;
-                this.saving = true;
-                _context2.next = 6;
-                return Object(_api_wechat__WEBPACK_IMPORTED_MODULE_4__["saveSettings"])('other_events', this.events);
+                this.$v.$touch();
+
+                if (!this.$v.$invalid) {
+                  _context2.next = 6;
+                  break;
+                }
+
+                this.$notice({
+                  msg: '请填写完正确的配置',
+                  type: 'error'
+                });
+                return _context2.abrupt("return");
 
               case 6:
-                return _context2.abrupt("return", _context2.sent);
-
-              case 7:
-                _context2.prev = 7;
-                this.saving = false;
-                return _context2.finish(7);
+                _context2.prev = 6;
+                this.saving = true;
+                _context2.next = 10;
+                return Object(_api_wechat__WEBPACK_IMPORTED_MODULE_4__["saveSettings"])('other_events', this.events);
 
               case 10:
+                return _context2.abrupt("return", _context2.sent);
+
+              case 11:
+                _context2.prev = 11;
+                this.saving = false;
+                return _context2.finish(11);
+
+              case 14:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[2,, 7, 10]]);
+        }, _callee2, this, [[6,, 11, 14]]);
       }));
 
       function onSave() {
@@ -3510,6 +3565,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
 
       confirm('确定删除？') && this.events.splice(index, 1);
+    },
+    hasError: function hasError(field, index) {
+      var v = this.$v.events.$each[index];
+      return v[field].$invalid;
+    },
+    getError: function getError(field, index) {
+      var v = this.$v.events.$each[index][field];
+
+      var _arr2 = Object.keys(v.$params);
+
+      for (var _i2 = 0; _i2 < _arr2.length; _i2++) {
+        var i = _arr2[_i2];
+
+        if (!v[i]) {
+          return this.fieldErrors[field][i];
+        }
+      }
     }
   }
 });
@@ -7495,67 +7567,82 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { ref: "callbackInput", staticClass: "callback-input" }, [
-    _c("input", {
-      ref: "input",
-      staticClass: "input",
-      attrs: { type: "text" },
-      domProps: { value: _vm.value },
-      on: {
-        focus: function($event) {
-          _vm.focused = true
-        },
-        blur: function($event) {
-          _vm.focused = false
-        },
-        input: function($event) {
-          _vm.$emit("input", $event.target.value)
-        },
-        keydown: function($event) {
-          if (
-            !("button" in $event) &&
-            _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-          ) {
-            return null
-          }
-          return _vm.onSelect($event)
-        }
-      }
-    }),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        directives: [
-          {
-            name: "show",
-            rawName: "v-show",
-            value: _vm.show && _vm.filteredCallbacks.length,
-            expression: "show && filteredCallbacks.length"
-          }
-        ],
-        staticClass: "autocomplete"
-      },
-      [
-        _vm._l(_vm.filteredCallbacks, function(i, index) {
-          return _c(
-            "div",
-            {
-              key: index,
-              staticClass: "item cursor-pointer",
-              on: {
-                click: function($event) {
-                  _vm.onSelect(i)
-                }
-              }
+  return _c(
+    "div",
+    { ref: "callbackInput", staticClass: "callback-input form-item" },
+    [
+      _c("div", { staticClass: "content" }, [
+        _c("input", {
+          ref: "input",
+          staticClass: "input",
+          class: { "has-error": _vm.hasError },
+          attrs: { type: "text" },
+          domProps: { value: _vm.value },
+          on: {
+            focus: function($event) {
+              _vm.focused = true
             },
-            [_vm._v("\n                " + _vm._s(i) + "\n            ")]
-          )
-        })
-      ],
-      2
-    )
-  ])
+            blur: function($event) {
+              _vm.focused = false
+            },
+            input: function($event) {
+              _vm.$emit("input", $event.target.value)
+            },
+            keydown: function($event) {
+              if (
+                !("button" in $event) &&
+                _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+              ) {
+                return null
+              }
+              return _vm.onSelect($event)
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.show && _vm.filteredCallbacks.length,
+                expression: "show && filteredCallbacks.length"
+              }
+            ],
+            staticClass: "autocomplete"
+          },
+          [
+            _vm._l(_vm.filteredCallbacks, function(i, index) {
+              return _c(
+                "div",
+                {
+                  key: index,
+                  staticClass: "item cursor-pointer",
+                  on: {
+                    click: function($event) {
+                      _vm.onSelect(i)
+                    }
+                  }
+                },
+                [
+                  _vm._v(
+                    "\n                    " + _vm._s(i) + "\n                "
+                  )
+                ]
+              )
+            })
+          ],
+          2
+        ),
+        _vm._v(" "),
+        _c("span", { staticClass: "error-text" }, [
+          _vm._v(_vm._s(_vm.errorText))
+        ])
+      ])
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -8541,34 +8628,42 @@ var render = function() {
                       ")\n            "
                   )
                 ])
-              : _c("td", [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: e.key,
-                        expression: "e.key"
-                      }
-                    ],
-                    staticClass: "input table-input",
-                    attrs: { type: "text" },
-                    domProps: { value: e.key },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+              : _c("td", { staticClass: "form-item" }, [
+                  _c("div", { staticClass: "content table-content" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: e.key,
+                          expression: "e.key"
                         }
-                        _vm.$set(e, "key", $event.target.value)
+                      ],
+                      staticClass: "input table-input",
+                      class: { "has-error": _vm.hasError("key", index) },
+                      attrs: { type: "text" },
+                      domProps: { value: e.key },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(e, "key", $event.target.value)
+                        }
                       }
-                    }
-                  })
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "error-text" }, [
+                      _vm._v(_vm._s(_vm.getError("key", index)))
+                    ])
+                  ])
                 ]),
             _vm._v(" "),
             _c("td", [_c("change-handle-type", { attrs: { event: e } })], 1),
             _vm._v(" "),
             _c(
               "td",
+              { staticClass: "table-content" },
               [
                 e.type == "msg"
                   ? _c("textarea", {
@@ -8597,7 +8692,12 @@ var render = function() {
                   : _c("callback-input", {
                       ref: "inputs",
                       refInFor: true,
-                      attrs: { events: _vm.events, group: "otherEvents" },
+                      attrs: {
+                        events: _vm.events,
+                        group: "otherEvents",
+                        "has-error": _vm.hasError("content", index),
+                        "error-text": _vm.getError("content", index)
+                      },
                       model: {
                         value: e.content,
                         callback: function($$v) {
@@ -22662,6 +22762,50 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "uniqueKey", function() { return uniqueKey; });
 var uniqueKey = function uniqueKey() {
   return Math.random().toString(32).substr(2);
+};
+
+/***/ }),
+
+/***/ "./resources/js/common/validators.js":
+/*!*******************************************!*\
+  !*** ./resources/js/common/validators.js ***!
+  \*******************************************/
+/*! exports provided: callback */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "callback", function() { return callback; });
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+/**
+ * 验证是不是 Path\To\Class@handle 类型的值
+ *
+ * @param value 当前字段值
+ * @param data 整个数据对象
+ * @returns {boolean}
+ */
+var callback = function callback(value, data) {
+  if (!value) {
+    return true;
+  }
+
+  if (data.type == 'callback') {
+    var _value$split = value.split('@'),
+        _value$split2 = _slicedToArray(_value$split, 2),
+        className = _value$split2[0],
+        methodName = _value$split2[1];
+
+    return !!(className && methodName);
+  } else {
+    return true;
+  }
 };
 
 /***/ }),

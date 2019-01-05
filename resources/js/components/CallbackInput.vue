@@ -1,29 +1,33 @@
 <template>
-    <div class="callback-input" ref="callbackInput">
-        <input
-            type="text"
-            class="input"
-            :value="value"
-            ref="input"
-            @focus="focused = true"
-            @blur="focused = false"
-            @input="$emit('input', $event.target.value)"
-            @keydown.enter="onSelect"
-        />
-        <div
-            v-show="show && filteredCallbacks.length"
-            class="autocomplete"
-        >
-            <template v-show="filteredCallbacks.length">
-                <div
-                    class="item cursor-pointer"
-                    v-for="(i, index) of filteredCallbacks"
-                    :key="index"
-                    @click="onSelect(i)"
-                >
-                    {{ i }}
-                </div>
-            </template>
+    <div class="callback-input form-item" ref="callbackInput">
+        <div class="content">
+            <input
+                type="text"
+                class="input"
+                :class="{ 'has-error': hasError }"
+                :value="value"
+                ref="input"
+                @focus="focused = true"
+                @blur="focused = false"
+                @input="$emit('input', $event.target.value)"
+                @keydown.enter="onSelect"
+            />
+            <div
+                v-show="show && filteredCallbacks.length"
+                class="autocomplete"
+            >
+                <template v-show="filteredCallbacks.length">
+                    <div
+                        class="item cursor-pointer"
+                        v-for="(i, index) of filteredCallbacks"
+                        :key="index"
+                        @click="onSelect(i)"
+                    >
+                        {{ i }}
+                    </div>
+                </template>
+            </div>
+            <span class="error-text">{{ errorText }}</span>
         </div>
     </div>
 </template>
@@ -46,6 +50,8 @@ export default {
             type: String,
             default: 'default',
         },
+        hasError: Boolean,
+        errorText: String,
     },
     computed: {
         filteredCallbacks() {

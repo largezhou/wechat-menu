@@ -19,18 +19,25 @@
                 >
                     {{ typeText(e.key) }}({{ e.key }})
                 </td>
-                <td v-else>
-                    <input
-                        type="text"
-                        class="input table-input"
-                        v-model="e.key"
-                    />
+                <td
+                    v-else
+                    class="form-item"
+                >
+                    <div class="content table-content">
+                        <input
+                            type="text"
+                            class="input table-input"
+                            :class="{ 'has-error': hasError('key', index) }"
+                            v-model="e.key"
+                        />
+                        <span class="error-text">{{ getError('key', index) }}</span>
+                    </div>
                 </td>
 
                 <td>
                     <change-handle-type :event="e"/>
                 </td>
-                <td>
+                <td class="table-content">
                     <textarea
                         v-if="e.type == 'msg'"
                         class="input table-input"
@@ -44,6 +51,8 @@
                         :events="events"
                         group="otherEvents"
                         ref="inputs"
+                        :has-error="hasError('content', index)"
+                        :error-text="getError('content', index)"
                     />
                 </td>
                 <td>
@@ -78,6 +87,8 @@ import ChangeHandleType from '@/components/ChangeHandleType'
 import CallbackInput from '@/components/CallbackInput'
 import { OTHER_EVENT_TYPES } from '@/common/constants'
 import { getSettings, saveSettings } from '@/api/wechat'
+import { required } from 'vuelidate/lib/validators'
+import { callback } from '@/common/validators'
 
 export default {
     name: 'OtherEventsSetting',
@@ -110,7 +121,29 @@ export default {
             ],
             events: [],
             saving: false,
+
+            fieldErrors: {
+                key: {
+                    required: '必须填写',
+                },
+                content: {
+                    required: '必须填写',
+                    callback: '不是有效的回调',
+                },
+            },
         }
+    },
+    validations: {
+        events: {
+            $each: {
+                key: {
+                    required,
+                },
+                content: {
+                    callback,
+                },
+            },
+        },
     },
     created() {
         this.getData()
@@ -179,6 +212,16 @@ export default {
                 return
             }
 
+            this.$v.$touch()
+
+            if (this.$v.$invalid) {
+                this.$notice({
+                    msg: '请填写完正确的配置',
+                    type: 'error',
+                })
+                return
+            }
+
             try {
                 this.saving = true
                 return await saveSettings('other_events', this.events)
@@ -200,6 +243,19 @@ export default {
             }
 
             confirm('确定删除？') && this.events.splice(index, 1)
+        },
+        hasError(field, index) {
+            const v = this.$v.events.$each[index]
+
+            return v[field].$invalid
+        },
+        getError(field, index) {
+            const v = this.$v.events.$each[index][field]
+            for (let i of Object.keys(v.$params)) {
+                if (!v[i]) {
+                    return this.fieldErrors[field][i]
+                }
+            }
         },
     },
 }

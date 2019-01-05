@@ -118,6 +118,7 @@
 }
 
 #wechat-menu .form-item .content {
+  width: 100%;
   display: inline-block;
   position: relative;
   vertical-align: middle;
@@ -155,6 +156,11 @@
 
 #wechat-menu .table-input {
   width: 100% !important;
+}
+
+#wechat-menu .table-content .error-text {
+  right: 12px;
+  top: 8px;
 }
 
 #wechat-menu .table-footer {

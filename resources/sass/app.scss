@@ -119,6 +119,7 @@
         }
 
         .content {
+            width: 100%;
             display: inline-block;
             position: relative;
             vertical-align: middle;
@@ -158,6 +159,13 @@
 
     .table-input {
         width: 100% !important;
+    }
+
+    .table-content {
+        .error-text {
+            right: 12px;
+            top: 8px;
+        }
     }
 
     .table-footer {
