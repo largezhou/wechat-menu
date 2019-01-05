@@ -12,14 +12,10 @@
 </template>
 
 <script>
-import FormItem from '@/components/form/FormItem'
 import FormItemHelper from '@/common/form-item'
 
 export default {
     name: 'WInput',
-    components: {
-        FormItem,
-    },
     mixins: [
         FormItemHelper,
     ],

@@ -2805,13 +2805,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -3628,8 +3621,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_form_FormItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/form/FormItem */ "./resources/js/components/form/FormItem.vue");
-/* harmony import */ var _common_form_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/common/form-item */ "./resources/js/common/form-item.js");
+/* harmony import */ var _common_form_item__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/common/form-item */ "./resources/js/common/form-item.js");
 //
 //
 //
@@ -3643,14 +3635,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'WInput',
-  components: {
-    FormItem: _components_form_FormItem__WEBPACK_IMPORTED_MODULE_0__["default"]
-  },
-  mixins: [_common_form_item__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  mixins: [_common_form_item__WEBPACK_IMPORTED_MODULE_0__["default"]],
   props: {
     value: [String, Number],
     type: {
@@ -3671,8 +3659,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_form_FormItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/form/FormItem */ "./resources/js/components/form/FormItem.vue");
-/* harmony import */ var _common_form_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/common/form-item */ "./resources/js/common/form-item.js");
+/* harmony import */ var _common_form_item__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/common/form-item */ "./resources/js/common/form-item.js");
 //
 //
 //
@@ -3686,14 +3673,79 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'WRadio',
-  components: {
-    FormItem: _components_form_FormItem__WEBPACK_IMPORTED_MODULE_0__["default"]
+  mixins: [_common_form_item__WEBPACK_IMPORTED_MODULE_0__["default"]],
+  props: {
+    value: [String, Number]
   },
-  mixins: [_common_form_item__WEBPACK_IMPORTED_MODULE_1__["default"]]
+  mounted: function mounted() {
+    this.$refs.formItem.$on('input', this.onInput);
+  },
+  beforeDestroy: function beforeDestroy() {
+    this.$refs.formItem.$off('input', this.onInput);
+  },
+  methods: {
+    onInput: function onInput(e) {
+      this.$emit('input', e);
+    }
+  },
+  watch: {
+    value: {
+      handler: function handler(newValue) {
+        var _this = this;
+
+        this.$slots.default.some(function (i) {
+          _this.$nextTick(function () {
+            var ins = i.componentInstance;
+            ins.check(ins.value === newValue);
+          });
+        });
+      },
+      immediate: true
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/form/WRadioItem.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/form/WRadioItem.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'WRadioItem',
+  props: {
+    label: String,
+    name: String,
+    value: [String, Number]
+  },
+  methods: {
+    check: function check(val) {
+      this.$refs.input.checked = val;
+    }
+  }
 });
 
 /***/ }),
@@ -3707,8 +3759,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_form_FormItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/form/FormItem */ "./resources/js/components/form/FormItem.vue");
-/* harmony import */ var _common_form_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/common/form-item */ "./resources/js/common/form-item.js");
+/* harmony import */ var _common_form_item__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/common/form-item */ "./resources/js/common/form-item.js");
 //
 //
 //
@@ -3723,14 +3774,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'WSelect',
-  components: {
-    FormItem: _components_form_FormItem__WEBPACK_IMPORTED_MODULE_0__["default"]
-  },
-  mixins: [_common_form_item__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  mixins: [_common_form_item__WEBPACK_IMPORTED_MODULE_0__["default"]],
   props: {
     value: [String, Number]
   }
@@ -8598,48 +8645,27 @@ var render = function() {
                       expression: "!currentHasSub"
                     }
                   ],
-                  staticClass: "width100",
                   attrs: {
                     label: "菜单内容",
                     inline: "",
                     "has-error": _vm.hasError("type"),
                     "error-text": _vm.getError("type")
+                  },
+                  model: {
+                    value: _vm.$global.currentMenu.type,
+                    callback: function($$v) {
+                      _vm.$set(_vm.$global.currentMenu, "type", $$v)
+                    },
+                    expression: "$global.currentMenu.type"
                   }
                 },
                 _vm._l(Object.keys(_vm.menuTypes), function(key) {
-                  return _c(
-                    "label",
-                    { key: key, staticClass: "cursor-pointer" },
-                    [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.$global.currentMenu.type,
-                            expression: "$global.currentMenu.type"
-                          }
-                        ],
-                        attrs: { type: "radio", name: "type" },
-                        domProps: {
-                          value: key,
-                          checked: _vm._q(_vm.$global.currentMenu.type, key)
-                        },
-                        on: {
-                          change: function($event) {
-                            _vm.$set(_vm.$global.currentMenu, "type", key)
-                          }
-                        }
-                      }),
-                      _vm._v(
-                        "\n                    " +
-                          _vm._s(_vm.menuTypes[key]) +
-                          "\n                "
-                      )
-                    ]
-                  )
+                  return _c("w-radio-item", {
+                    key: key,
+                    attrs: { label: _vm.menuTypes[key], value: key }
+                  })
                 }),
-                0
+                1
               ),
               _vm._v(" "),
               _c(
@@ -9052,13 +9078,49 @@ var render = function() {
   return _c(
     "form-item",
     _vm._b(
-      { staticClass: "radio-item" },
+      { ref: "formItem", staticClass: "radio-item" },
       "form-item",
       _vm._formItemProps,
       false
     ),
     [_c("div", { staticClass: "radio-group" }, [_vm._t("default")], 2)]
   )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/form/WRadioItem.vue?vue&type=template&id=09bfd4c7&":
+/*!******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/form/WRadioItem.vue?vue&type=template&id=09bfd4c7& ***!
+  \******************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("label", { staticClass: "cursor-pointer" }, [
+    _c("input", {
+      ref: "input",
+      attrs: { type: "radio" },
+      domProps: { value: _vm.value },
+      on: {
+        input: function($event) {
+          _vm.$parent.$emit("input", $event.target.value)
+        }
+      }
+    }),
+    _vm._v("\n    " + _vm._s(_vm.label) + "\n")
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -22796,6 +22858,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _common_notice_bar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/common/notice-bar */ "./resources/js/common/notice-bar.js");
 /* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuelidate */ "./node_modules/vuelidate/lib/index.js");
 /* harmony import */ var vuelidate__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vuelidate__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _common_global_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/common/global-components */ "./resources/js/common/global-components.js");
+
 
 
 
@@ -22805,14 +22869,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuelidate__WEBPACK_IMPORTED_MODUL
 if (true) {
   window.log = console.log.bind(console);
   window.Vue = vue__WEBPACK_IMPORTED_MODULE_0___default.a;
-} else {}
+} else {} // 传递事件
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('menus-editor', __webpack_require__(/*! @/components/MenusEditor */ "./resources/js/components/MenusEditor.vue").default);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('menu-events-setting', __webpack_require__(/*! @/components/MenuEventsSetting */ "./resources/js/components/MenuEventsSetting.vue").default);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('other-events-setting', __webpack_require__(/*! @/components/OtherEventsSetting */ "./resources/js/components/OtherEventsSetting.vue").default);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('w-input', __webpack_require__(/*! @/components/form/WInput */ "./resources/js/components/form/WInput.vue").default);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('w-select', __webpack_require__(/*! @/components/form/WSelect */ "./resources/js/components/form/WSelect.vue").default);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('w-radio', __webpack_require__(/*! @/components/form/WRadio */ "./resources/js/components/form/WRadio.vue").default); // 传递事件
 
 var $bus = new vue__WEBPACK_IMPORTED_MODULE_0___default.a();
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.prototype.$bus = $bus;
@@ -23088,6 +23146,29 @@ var props = {
     }
   }
 });
+
+/***/ }),
+
+/***/ "./resources/js/common/global-components.js":
+/*!**************************************************!*\
+  !*** ./resources/js/common/global-components.js ***!
+  \**************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('menus-editor', __webpack_require__(/*! @/components/MenusEditor */ "./resources/js/components/MenusEditor.vue").default);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('menu-events-setting', __webpack_require__(/*! @/components/MenuEventsSetting */ "./resources/js/components/MenuEventsSetting.vue").default);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('other-events-setting', __webpack_require__(/*! @/components/OtherEventsSetting */ "./resources/js/components/OtherEventsSetting.vue").default);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('w-input', __webpack_require__(/*! @/components/form/WInput */ "./resources/js/components/form/WInput.vue").default);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('w-select', __webpack_require__(/*! @/components/form/WSelect */ "./resources/js/components/form/WSelect.vue").default);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('w-radio', __webpack_require__(/*! @/components/form/WRadio */ "./resources/js/components/form/WRadio.vue").default);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('w-radio-item', __webpack_require__(/*! @/components/form/WRadioItem */ "./resources/js/components/form/WRadioItem.vue").default);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('form-item', __webpack_require__(/*! @/components/form/FormItem */ "./resources/js/components/form/FormItem.vue").default);
 
 /***/ }),
 
@@ -24411,6 +24492,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_WRadio_vue_vue_type_template_id_0fa955d8_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_WRadio_vue_vue_type_template_id_0fa955d8_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/form/WRadioItem.vue":
+/*!*****************************************************!*\
+  !*** ./resources/js/components/form/WRadioItem.vue ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _WRadioItem_vue_vue_type_template_id_09bfd4c7___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./WRadioItem.vue?vue&type=template&id=09bfd4c7& */ "./resources/js/components/form/WRadioItem.vue?vue&type=template&id=09bfd4c7&");
+/* harmony import */ var _WRadioItem_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./WRadioItem.vue?vue&type=script&lang=js& */ "./resources/js/components/form/WRadioItem.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _WRadioItem_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _WRadioItem_vue_vue_type_template_id_09bfd4c7___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _WRadioItem_vue_vue_type_template_id_09bfd4c7___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/form/WRadioItem.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/form/WRadioItem.vue?vue&type=script&lang=js&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/form/WRadioItem.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WRadioItem_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./WRadioItem.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/form/WRadioItem.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WRadioItem_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/form/WRadioItem.vue?vue&type=template&id=09bfd4c7&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/form/WRadioItem.vue?vue&type=template&id=09bfd4c7& ***!
+  \************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_WRadioItem_vue_vue_type_template_id_09bfd4c7___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./WRadioItem.vue?vue&type=template&id=09bfd4c7& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/form/WRadioItem.vue?vue&type=template&id=09bfd4c7&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_WRadioItem_vue_vue_type_template_id_09bfd4c7___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_WRadioItem_vue_vue_type_template_id_09bfd4c7___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

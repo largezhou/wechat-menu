@@ -34,21 +34,14 @@
                     inline
                     :has-error="hasError('type')"
                     :error-text="getError('type')"
-                    class="width100"
+                    v-model="$global.currentMenu.type"
                 >
-                    <label
-                        class="cursor-pointer"
+                    <w-radio-item
                         v-for="key of Object.keys(menuTypes)"
                         :key="key"
-                    >
-                        <input
-                            type="radio"
-                            name="type"
-                            :value="key"
-                            v-model="$global.currentMenu.type"
-                        >
-                        {{ menuTypes[key] }}
-                    </label>
+                        :label="menuTypes[key]"
+                        :value="key"
+                    />
                 </w-radio>
 
                 <div class="form-item content-wrapper">

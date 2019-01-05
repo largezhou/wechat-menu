@@ -2,27 +2,51 @@
     <form-item
         v-bind="_formItemProps"
         class="radio-item"
+        ref="formItem"
     >
         <div
             class="radio-group"
         >
-            <slot/>
+            <slot ref="items"/>
         </div>
     </form-item>
 </template>
 
 <script>
-import FormItem from '@/components/form/FormItem'
 import FormItemHelper from '@/common/form-item'
 
 export default {
     name: 'WRadio',
-    components: {
-        FormItem,
-    },
     mixins: [
         FormItemHelper,
     ],
+    props: {
+        value: [String, Number],
+    },
+    mounted() {
+        this.$refs.formItem.$on('input', this.onInput)
+    },
+    beforeDestroy() {
+        this.$refs.formItem.$off('input', this.onInput)
+    },
+    methods: {
+        onInput(e) {
+            this.$emit('input', e)
+        },
+    },
+    watch: {
+        value: {
+            handler(newValue) {
+                this.$slots.default.some(i => {
+                    this.$nextTick(() => {
+                        const ins = i.componentInstance
+                        ins.check(ins.value === newValue)
+                    })
+                })
+            },
+            immediate: true,
+        },
+    },
 }
 </script>
 
