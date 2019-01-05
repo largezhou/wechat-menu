@@ -106,7 +106,7 @@ class EventHandler implements EventHandlerInterface
         }
 
         if (!$eventHandler) {
-            $this->logger->error("没有与 {$key} 对应的处理方法");
+            $this->logger->error("没有与 [{$key}] 对应的处理方法");
 
             return '';
         }
@@ -114,18 +114,37 @@ class EventHandler implements EventHandlerInterface
         $type = $eventHandler['type'];
         $content = $eventHandler['content'];
 
+        if (!$content) {
+            $this->logger->error('处理内容为空');
+
+            return '';
+        }
+
         // 自动回复消息
         if ($type == 'msg') {
             return $content;
         }
 
         // 回调处理
-        list($class, $method) = explode('@', $content);
+        try {
+            list($class, $method) = explode('@', $content);
+        } catch (\Exception $e) {
+            $this->logger->error("事件处理回调格式错误: [{$content}]");
+
+            return '';
+        }
+
         try {
             $res = call_user_func([new $class($payload), $method], $payload);
         } catch (\Exception $e) {
             $res = Manager::getInstance()->getConfig('handler_error_msg');
-            $this->logger->error("事件处理回调出错：\n".$e->getMessage().PHP_EOL.$e->getTraceAsString());
+            $this->logger->error(
+                "事件处理回调出错: "
+                .PHP_EOL
+                .$e->getMessage()
+                .PHP_EOL
+                .$e->getTraceAsString()
+            );
         }
 
         return $res;
