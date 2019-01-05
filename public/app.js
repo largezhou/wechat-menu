@@ -2071,27 +2071,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _onSaveEvent = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var events, _ref, data;
+        var _this2 = this;
 
+        var events, res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 events = [].concat(_toConsumableArray(this.events), [_objectSpread({}, this.newEvent)]);
                 _context.next = 3;
-                return this.onSave(events);
+                return this.onSave(this.$refs.menuEventsTable.$v, events);
 
               case 3:
-                _ref = _context.sent;
-                data = _ref.data;
+                res = _context.sent;
 
-                if (data.status) {
+                if (res && res.data.status) {
                   this.events.push(this.newEvent);
-                  this.$global.currentMenu.key = this.newEvent.key;
-                  this.newEvent = null;
+                  this.$nextTick(function () {
+                    _this2.$global.currentMenu.key = _this2.newEvent.key;
+                    _this2.newEvent = null;
+                  });
                 }
 
-              case 6:
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -2290,6 +2292,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_CallbackInput__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/CallbackInput */ "./resources/js/components/CallbackInput.vue");
 /* harmony import */ var _components_ChangeHandleType__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/ChangeHandleType */ "./resources/js/components/ChangeHandleType.vue");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
+/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _common_validators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/common/validators */ "./resources/js/common/validators.js");
+/* harmony import */ var _common_event_error_helper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/common/event-error-helper */ "./resources/js/common/event-error-helper.js");
 //
 //
 //
@@ -2355,6 +2361,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
+
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2363,6 +2378,7 @@ __webpack_require__.r(__webpack_exports__);
     CallbackInput: _components_CallbackInput__WEBPACK_IMPORTED_MODULE_0__["default"],
     ChangeHandleType: _components_ChangeHandleType__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
+  mixins: [_common_event_error_helper__WEBPACK_IMPORTED_MODULE_4__["default"]],
   data: function data() {
     return {
       columns: [{
@@ -2381,7 +2397,44 @@ __webpack_require__.r(__webpack_exports__);
         field: 'content',
         name: '内容'
       }],
-      callbacks: []
+      callbacks: [],
+      fieldErrors: {
+        remark: {
+          required: '必须填写',
+          unique: '重复'
+        },
+        key: {
+          required: '必须填写',
+          unique: '重复'
+        },
+        content: {
+          required: '必须填写',
+          callback: '不是有效的回调'
+        }
+      }
+    };
+  },
+  validations: function validations() {
+    return {
+      events: {
+        $each: {
+          remark: {
+            required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__["required"],
+            // 如果有 allEvents ，则表示该组件是用来快速添加的，
+            // 此时，新添加的那条记录，暂时没有 push 到 events 数组中
+            // 所以，为了判断是否重复，这里的 excludeSelf 设置为 false
+            unique: Object(_common_validators__WEBPACK_IMPORTED_MODULE_3__["unique"])(this.remarks, !this.allEvents)
+          },
+          key: {
+            required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__["required"],
+            unique: Object(_common_validators__WEBPACK_IMPORTED_MODULE_3__["unique"])(this.keys, !this.allEvents)
+          },
+          content: {
+            required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__["required"],
+            callback: _common_validators__WEBPACK_IMPORTED_MODULE_3__["callback"]
+          }
+        }
+      }
     };
   },
   props: {
@@ -2398,6 +2451,18 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     eventsForCallbacks: function eventsForCallbacks() {
       return this.allEvents ? this.allEvents : this.events;
+    },
+    remarks: function remarks() {
+      var events = this.allEvents || this.events;
+      return events.map(function (e) {
+        return e.remark;
+      });
+    },
+    keys: function keys() {
+      var events = this.allEvents || this.events;
+      return events.map(function (e) {
+        return e.key;
+      });
     }
   }
 });
@@ -3234,6 +3299,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
 /* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _common_validators__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/common/validators */ "./resources/js/common/validators.js");
+/* harmony import */ var _common_event_error_helper__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/common/event-error-helper */ "./resources/js/common/event-error-helper.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -3329,12 +3395,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'OtherEventsSetting',
   components: {
     ChangeHandleType: _components_ChangeHandleType__WEBPACK_IMPORTED_MODULE_1__["default"],
     CallbackInput: _components_CallbackInput__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
+  mixins: [_common_event_error_helper__WEBPACK_IMPORTED_MODULE_7__["default"]],
   data: function data() {
     return {
       columns: [{
@@ -3544,23 +3612,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
 
       confirm('确定删除？') && this.events.splice(index, 1);
-    },
-    hasError: function hasError(field, index) {
-      var v = this.$v.events.$each[index];
-      return v[field].$invalid;
-    },
-    getError: function getError(field, index) {
-      var v = this.$v.events.$each[index][field];
-
-      var _arr2 = Object.keys(v.$params);
-
-      for (var _i2 = 0; _i2 < _arr2.length; _i2++) {
-        var i = _arr2[_i2];
-
-        if (!v[i]) {
-          return this.fieldErrors[field][i];
-        }
-      }
     }
   }
 });
@@ -4066,25 +4117,6 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 // module
 exports.push([module.i, ".menu-events-setting[data-v-14dd9606] {\n  width: 1000px;\n}", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/MenuEventsTable.vue?vue&type=style&index=0&id=fdb5168a&scoped=true&lang=scss&":
-/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/MenuEventsTable.vue?vue&type=style&index=0&id=fdb5168a&scoped=true&lang=scss& ***!
-  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "", ""]);
 
 // exports
 
@@ -7234,36 +7266,6 @@ if(false) {}
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/MenuEventsTable.vue?vue&type=style&index=0&id=fdb5168a&scoped=true&lang=scss&":
-/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/MenuEventsTable.vue?vue&type=style&index=0&id=fdb5168a&scoped=true&lang=scss& ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/lib/loader.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./MenuEventsTable.vue?vue&type=style&index=0&id=fdb5168a&scoped=true&lang=scss& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/MenuEventsTable.vue?vue&type=style&index=0&id=fdb5168a&scoped=true&lang=scss&");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
-
-/***/ }),
-
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/MenuItem.vue?vue&type=style&index=0&id=23ec797d&scoped=true&lang=scss&":
 /*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/MenuItem.vue?vue&type=style&index=0&id=23ec797d&scoped=true&lang=scss& ***!
@@ -8455,7 +8457,11 @@ var render = function() {
           {
             staticClass: "btn btn-primary",
             attrs: { disabled: _vm.saving },
-            on: { click: _vm.onSave }
+            on: {
+              click: function($event) {
+                _vm.onSave(_vm.$refs.menuEventsTable.$v)
+              }
+            }
           },
           [_vm._v("保存")]
         ),
@@ -8479,10 +8485,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/MenuEventsTable.vue?vue&type=template&id=fdb5168a&scoped=true&":
-/*!******************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/MenuEventsTable.vue?vue&type=template&id=fdb5168a&scoped=true& ***!
-  \******************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/MenuEventsTable.vue?vue&type=template&id=fdb5168a&":
+/*!******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/MenuEventsTable.vue?vue&type=template&id=fdb5168a& ***!
+  \******************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -8517,53 +8523,47 @@ var render = function() {
       _vm._v(" "),
       _vm._l(_vm.events, function(e, index) {
         return _c("tr", { key: index }, [
-          _c("td", [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
+          _c(
+            "td",
+            [
+              _c("w-input", {
+                attrs: {
+                  "has-error": _vm.hasError("remark", index),
+                  "error-text": _vm.getError("remark", index),
+                  "error-inside": ""
+                },
+                model: {
                   value: e.remark,
+                  callback: function($$v) {
+                    _vm.$set(e, "remark", $$v)
+                  },
                   expression: "e.remark"
                 }
-              ],
-              staticClass: "input table-input",
-              attrs: { type: "text" },
-              domProps: { value: e.remark },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(e, "remark", $event.target.value)
-                }
-              }
-            })
-          ]),
+              })
+            ],
+            1
+          ),
           _vm._v(" "),
-          _c("td", [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
+          _c(
+            "td",
+            [
+              _c("w-input", {
+                attrs: {
+                  "has-error": _vm.hasError("key", index),
+                  "error-text": _vm.getError("key", index),
+                  "error-inside": ""
+                },
+                model: {
                   value: e.key,
+                  callback: function($$v) {
+                    _vm.$set(e, "key", $$v)
+                  },
                   expression: "e.key"
                 }
-              ],
-              staticClass: "input table-input",
-              attrs: { type: "text" },
-              domProps: { value: e.key },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(e, "key", $event.target.value)
-                }
-              }
-            })
-          ]),
+              })
+            ],
+            1
+          ),
           _vm._v(" "),
           _c("td", [_c("change-handle-type", { attrs: { event: e } })], 1),
           _vm._v(" "),
@@ -8571,35 +8571,32 @@ var render = function() {
             "td",
             [
               e.type == "msg"
-                ? _c("textarea", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: e.content,
-                        expression: "e.content"
-                      }
-                    ],
+                ? _c("w-textarea", {
                     ref: "inputs",
                     refInFor: true,
-                    staticClass: "input table-input",
-                    attrs: { type: "text", rows: "2" },
-                    domProps: { value: e.content },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(e, "content", $event.target.value)
-                      }
+                    attrs: {
+                      rows: "2",
+                      "has-error": _vm.hasError("content", index),
+                      "error-text": _vm.getError("content", index),
+                      "error-inside": ""
+                    },
+                    model: {
+                      value: e.content,
+                      callback: function($$v) {
+                        _vm.$set(e, "content", $$v)
+                      },
+                      expression: "e.content"
                     }
                   })
-                : _c("callback-input", {
+                : _c("w-callback-input", {
                     ref: "inputs",
                     refInFor: true,
                     attrs: {
                       events: _vm.eventsForCallbacks,
-                      group: "menuEvents"
+                      group: "menuEvents",
+                      "has-error": _vm.hasError("content", index),
+                      "error-text": _vm.getError("content", index),
+                      "error-inside": ""
                     },
                     model: {
                       value: e.content,
@@ -23344,14 +23341,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _api_wechat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/api/wechat */ "./resources/js/api/wechat.js");
 
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
-
-function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -23362,114 +23351,101 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     onSave: function () {
       var _onSave = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(events) {
-        var valid;
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee($v, events) {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!this.saving) {
+                if (!($v instanceof Event || $v === undefined)) {
                   _context.next = 2;
                   break;
                 }
 
-                return _context.abrupt("return");
+                throw '必须传入一个 vuelidate 插件的 $v 对象';
 
               case 2:
-                if (events instanceof Event) {
-                  events = this.events;
+                if (!this.saving) {
+                  _context.next = 4;
+                  break;
                 }
 
-                valid = this.valid(events);
+                return _context.abrupt("return");
 
-                if (!(valid !== true)) {
-                  _context.next = 7;
+              case 4:
+                $v.$touch();
+
+                if (!$v.$invalid) {
+                  _context.next = 8;
                   break;
                 }
 
                 this.$notice({
-                  msg: valid,
+                  msg: '请填写完正确的配置',
                   type: 'error'
                 });
                 return _context.abrupt("return");
 
-              case 7:
-                _context.prev = 7;
+              case 8:
+                events = events || $v.events.$model;
+                _context.prev = 9;
                 this.saving = true;
-                _context.next = 11;
+                _context.next = 13;
                 return Object(_api_wechat__WEBPACK_IMPORTED_MODULE_1__["saveSettings"])('menu_events', events);
 
-              case 11:
+              case 13:
                 return _context.abrupt("return", _context.sent);
 
-              case 12:
-                _context.prev = 12;
+              case 14:
+                _context.prev = 14;
                 this.saving = false;
-                return _context.finish(12);
+                return _context.finish(14);
 
-              case 15:
+              case 17:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[7,, 12, 15]]);
+        }, _callee, this, [[9,, 14, 17]]);
       }));
 
-      function onSave(_x) {
+      function onSave(_x, _x2) {
         return _onSave.apply(this, arguments);
       }
 
       return onSave;
-    }(),
-    valid: function valid(events) {
-      var keys = [];
-      var remarks = [];
-      var errorMsg;
-      events.every(function (e, index) {
-        var prefix = "\u7B2C ".concat(index + 1, " \u4E2A\u914D\u7F6E\u7684");
+    }()
+  }
+});
 
-        if (!e.remark) {
-          errorMsg = prefix + '备注不能为空';
-          return false;
+/***/ }),
+
+/***/ "./resources/js/common/event-error-helper.js":
+/*!***************************************************!*\
+  !*** ./resources/js/common/event-error-helper.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  methods: {
+    hasError: function hasError(field, index) {
+      var v = this.$v.events.$each[index];
+      return v[field].$invalid;
+    },
+    getError: function getError(field, index) {
+      var v = this.$v.events.$each[index][field];
+
+      var _arr = Object.keys(v.$params);
+
+      for (var _i = 0; _i < _arr.length; _i++) {
+        var i = _arr[_i];
+
+        if (!v[i]) {
+          return this.fieldErrors[field][i];
         }
-
-        if (remarks.indexOf(e.remark) !== -1) {
-          errorMsg = prefix + '备注不能重复';
-          return false;
-        }
-
-        if (!e.key) {
-          errorMsg = prefix + '事件标识不能为空';
-          return false;
-        }
-
-        if (keys.indexOf(e.key) !== -1) {
-          errorMsg = prefix + '事件标识不能重复';
-          return false;
-        }
-
-        if (!e.content) {
-          errorMsg = prefix + '内容不能为空';
-          return false;
-        }
-
-        if (e.type == 'callback') {
-          var _e$content$split = e.content.split('@'),
-              _e$content$split2 = _slicedToArray(_e$content$split, 2),
-              className = _e$content$split2[0],
-              methodName = _e$content$split2[1];
-
-          if (!className || !methodName) {
-            errorMsg = prefix + '内容格式不对';
-            return false;
-          }
-        }
-
-        keys.push(e.key);
-        remarks.push(e.remark);
-        return true;
-      });
-      return errorMsg || true;
+      }
     }
   }
 });
@@ -23595,12 +23571,13 @@ var uniqueKey = function uniqueKey() {
 /*!*******************************************!*\
   !*** ./resources/js/common/validators.js ***!
   \*******************************************/
-/*! exports provided: callback */
+/*! exports provided: callback, unique */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "callback", function() { return callback; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unique", function() { return unique; });
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -23614,6 +23591,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
  *
  * @param value 当前字段值
  * @param data 整个数据对象
+ *
  * @returns {boolean}
  */
 var callback = function callback(value, data) {
@@ -23636,6 +23614,28 @@ var callback = function callback(value, data) {
   } else {
     return true;
   }
+};
+/**
+ * 验证是否重复
+ *
+ * 如果 param 中的值，会包含自己，就可能需要设置 excludeSelf 为 true，用来排除自己
+ * 如果 param 中的值，是固定的，应该设置 excludeSelf 为 false
+ *
+ * @param param 存储所有值的数组
+ * @param excludeSelf 是否排除自己
+ *
+ * @returns {function(*, *): boolean}
+ */
+
+var unique = function unique() {
+  var param = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var excludeSelf = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+  return function (value, data) {
+    var same = param.filter(function (p) {
+      return p === value;
+    });
+    return same.length <= (excludeSelf ? 1 : 0);
+  };
 };
 
 /***/ }),
@@ -24084,11 +24084,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _MenuEventsTable_vue_vue_type_template_id_fdb5168a_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MenuEventsTable.vue?vue&type=template&id=fdb5168a&scoped=true& */ "./resources/js/components/MenuEventsTable.vue?vue&type=template&id=fdb5168a&scoped=true&");
+/* harmony import */ var _MenuEventsTable_vue_vue_type_template_id_fdb5168a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MenuEventsTable.vue?vue&type=template&id=fdb5168a& */ "./resources/js/components/MenuEventsTable.vue?vue&type=template&id=fdb5168a&");
 /* harmony import */ var _MenuEventsTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MenuEventsTable.vue?vue&type=script&lang=js& */ "./resources/js/components/MenuEventsTable.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _MenuEventsTable_vue_vue_type_style_index_0_id_fdb5168a_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./MenuEventsTable.vue?vue&type=style&index=0&id=fdb5168a&scoped=true&lang=scss& */ "./resources/js/components/MenuEventsTable.vue?vue&type=style&index=0&id=fdb5168a&scoped=true&lang=scss&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -24096,13 +24094,13 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
   _MenuEventsTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _MenuEventsTable_vue_vue_type_template_id_fdb5168a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _MenuEventsTable_vue_vue_type_template_id_fdb5168a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _MenuEventsTable_vue_vue_type_template_id_fdb5168a___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _MenuEventsTable_vue_vue_type_template_id_fdb5168a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  "fdb5168a",
+  null,
   null
   
 )
@@ -24128,35 +24126,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/MenuEventsTable.vue?vue&type=style&index=0&id=fdb5168a&scoped=true&lang=scss&":
-/*!***************************************************************************************************************!*\
-  !*** ./resources/js/components/MenuEventsTable.vue?vue&type=style&index=0&id=fdb5168a&scoped=true&lang=scss& ***!
-  \***************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_MenuEventsTable_vue_vue_type_style_index_0_id_fdb5168a_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/lib/loader.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./MenuEventsTable.vue?vue&type=style&index=0&id=fdb5168a&scoped=true&lang=scss& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/MenuEventsTable.vue?vue&type=style&index=0&id=fdb5168a&scoped=true&lang=scss&");
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_MenuEventsTable_vue_vue_type_style_index_0_id_fdb5168a_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_MenuEventsTable_vue_vue_type_style_index_0_id_fdb5168a_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_MenuEventsTable_vue_vue_type_style_index_0_id_fdb5168a_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_MenuEventsTable_vue_vue_type_style_index_0_id_fdb5168a_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_MenuEventsTable_vue_vue_type_style_index_0_id_fdb5168a_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
-/***/ "./resources/js/components/MenuEventsTable.vue?vue&type=template&id=fdb5168a&scoped=true&":
-/*!************************************************************************************************!*\
-  !*** ./resources/js/components/MenuEventsTable.vue?vue&type=template&id=fdb5168a&scoped=true& ***!
-  \************************************************************************************************/
+/***/ "./resources/js/components/MenuEventsTable.vue?vue&type=template&id=fdb5168a&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/MenuEventsTable.vue?vue&type=template&id=fdb5168a& ***!
+  \************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MenuEventsTable_vue_vue_type_template_id_fdb5168a_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./MenuEventsTable.vue?vue&type=template&id=fdb5168a&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/MenuEventsTable.vue?vue&type=template&id=fdb5168a&scoped=true&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MenuEventsTable_vue_vue_type_template_id_fdb5168a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MenuEventsTable_vue_vue_type_template_id_fdb5168a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./MenuEventsTable.vue?vue&type=template&id=fdb5168a& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/MenuEventsTable.vue?vue&type=template&id=fdb5168a&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MenuEventsTable_vue_vue_type_template_id_fdb5168a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MenuEventsTable_vue_vue_type_template_id_fdb5168a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MenuEventsTable_vue_vue_type_template_id_fdb5168a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

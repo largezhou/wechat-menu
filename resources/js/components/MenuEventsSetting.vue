@@ -17,7 +17,7 @@
         <div class="footer-toolbar">
             <button
                 class="btn btn-primary"
-                @click="onSave"
+                @click="onSave($refs.menuEventsTable.$v)"
                 :disabled="saving"
             >保存</button>
             <button

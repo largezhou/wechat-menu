@@ -98,12 +98,14 @@ export default {
                 },
             ]
 
-            const { data } = await this.onSave(events)
+            const res = await this.onSave(this.$refs.menuEventsTable.$v, events)
 
-            if (data.status) {
+            if (res && res.data.status) {
                 this.events.push(this.newEvent)
-                this.$global.currentMenu.key = this.newEvent.key
-                this.newEvent = null
+                this.$nextTick(() => {
+                    this.$global.currentMenu.key = this.newEvent.key
+                    this.newEvent = null
+                })
             }
         },
     },

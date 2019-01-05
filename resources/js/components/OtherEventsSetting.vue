@@ -88,6 +88,7 @@ import { OTHER_EVENT_TYPES } from '@/common/constants'
 import { getSettings, saveSettings } from '@/api/wechat'
 import { required } from 'vuelidate/lib/validators'
 import { callback } from '@/common/validators'
+import EventErrorHelper from '@/common/event-error-helper'
 
 export default {
     name: 'OtherEventsSetting',
@@ -95,6 +96,9 @@ export default {
         ChangeHandleType,
         CallbackInput,
     },
+    mixins: [
+        EventErrorHelper,
+    ],
     data() {
         return {
             columns: [
@@ -242,19 +246,6 @@ export default {
             }
 
             confirm('确定删除？') && this.events.splice(index, 1)
-        },
-        hasError(field, index) {
-            const v = this.$v.events.$each[index]
-
-            return v[field].$invalid
-        },
-        getError(field, index) {
-            const v = this.$v.events.$each[index][field]
-            for (let i of Object.keys(v.$params)) {
-                if (!v[i]) {
-                    return this.fieldErrors[field][i]
-                }
-            }
         },
     },
 }

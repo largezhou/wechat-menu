@@ -19,37 +19,43 @@
             :key="index"
         >
             <td>
-                <input
-                    type="text"
-                    class="input table-input"
+                <w-input
                     v-model="e.remark"
+                    :has-error="hasError('remark', index)"
+                    :error-text="getError('remark', index)"
+                    error-inside
                 />
             </td>
             <td>
-                <input
-                    type="text"
-                    class="input table-input"
+                <w-input
                     v-model="e.key"
+                    :has-error="hasError('key', index)"
+                    :error-text="getError('key', index)"
+                    error-inside
                 />
             </td>
             <td>
                 <change-handle-type :event="e"/>
             </td>
             <td>
-                <textarea
+                <w-textarea
                     v-if="e.type == 'msg'"
-                    type="text"
-                    class="input table-input"
                     v-model="e.content"
                     ref="inputs"
                     rows="2"
+                    :has-error="hasError('content', index)"
+                    :error-text="getError('content', index)"
+                    error-inside
                 />
-                <callback-input
+                <w-callback-input
                     v-else
                     v-model="e.content"
                     :events="eventsForCallbacks"
                     ref="inputs"
                     group="menuEvents"
+                    :has-error="hasError('content', index)"
+                    :error-text="getError('content', index)"
+                    error-inside
                 />
             </td>
             <td v-if="$scopedSlots.actions">
@@ -66,6 +72,9 @@
 <script>
 import CallbackInput from '@/components/CallbackInput'
 import ChangeHandleType from '@/components/ChangeHandleType'
+import { required } from 'vuelidate/lib/validators'
+import { callback, unique } from '@/common/validators'
+import EventErrorHelper from '@/common/event-error-helper'
 
 export default {
     name: 'MenuEventsTable',
@@ -73,6 +82,9 @@ export default {
         CallbackInput,
         ChangeHandleType,
     },
+    mixins: [
+        EventErrorHelper,
+    ],
     data() {
         return {
             columns: [
@@ -97,6 +109,43 @@ export default {
                 },
             ],
             callbacks: [],
+            fieldErrors: {
+                remark: {
+                    required: '必须填写',
+                    unique: '重复',
+                },
+                key: {
+                    required: '必须填写',
+                    unique: '重复',
+                },
+                content: {
+                    required: '必须填写',
+                    callback: '不是有效的回调',
+                },
+            },
+        }
+    },
+    validations() {
+        return {
+            events: {
+                $each: {
+                    remark: {
+                        required,
+                        // 如果有 allEvents ，则表示该组件是用来快速添加的，
+                        // 此时，新添加的那条记录，暂时没有 push 到 events 数组中
+                        // 所以，为了判断是否重复，这里的 excludeSelf 设置为 false
+                        unique: unique(this.remarks, !this.allEvents),
+                    },
+                    key: {
+                        required,
+                        unique: unique(this.keys, !this.allEvents),
+                    },
+                    content: {
+                        required,
+                        callback,
+                    },
+                },
+            },
         }
     },
     props: {
@@ -115,9 +164,16 @@ export default {
                 ? this.allEvents
                 : this.events
         },
+        remarks() {
+            const events = this.allEvents || this.events
+
+            return events.map(e => e.remark)
+        },
+        keys() {
+            const events = this.allEvents || this.events
+
+            return events.map(e => e.key)
+        },
     },
 }
 </script>
-
-<style scoped lang="scss">
-</style>
