@@ -43,7 +43,7 @@
                         :error-text="getError('content', index)"
                         error-inside
                     />
-                    <callback-input
+                    <w-callback-input
                         v-else
                         v-model="e.content"
                         :events="events"
@@ -51,6 +51,7 @@
                         ref="inputs"
                         :has-error="hasError('content', index)"
                         :error-text="getError('content', index)"
+                        error-inside
                     />
                 </td>
                 <td>

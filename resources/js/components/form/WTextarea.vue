@@ -8,6 +8,7 @@
             :cols="cols"
             @input="$emit('input', $event.target.value)"
             class="input"
+            ref="textarea"
         />
     </form-item>
 </template>
@@ -24,6 +25,11 @@ export default {
         value: [String, Number],
         rows: [String, Number],
         cols: [String, Number],
+    },
+    methods: {
+        focus() {
+            this.$refs.textarea.focus()
+        },
     },
 }
 </script>
