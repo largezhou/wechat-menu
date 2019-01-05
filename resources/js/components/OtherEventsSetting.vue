@@ -66,7 +66,7 @@
         <div class="footer-toolbar">
             <button
                 class="btn btn-primary"
-                @click="onSave"
+                @click="onSave($v, events, 'other_events')"
                 :disabled="saving"
             >保存</button>
             <button
@@ -89,6 +89,7 @@ import { getSettings, saveSettings } from '@/api/wechat'
 import { required } from 'vuelidate/lib/validators'
 import { callback } from '@/common/validators'
 import EventErrorHelper from '@/common/event-error-helper'
+import CreateEvents from '@/common/create-events'
 
 export default {
     name: 'OtherEventsSetting',
@@ -98,6 +99,7 @@ export default {
     },
     mixins: [
         EventErrorHelper,
+        CreateEvents,
     ],
     data() {
         return {
@@ -209,28 +211,6 @@ export default {
         },
         onReset() {
             this.events = JSON.parse(this.eventsBak)
-        },
-        async onSave() {
-            if (this.saving) {
-                return
-            }
-
-            this.$v.$touch()
-
-            if (this.$v.$invalid) {
-                this.$notice({
-                    msg: '请填写完正确的配置',
-                    type: 'error',
-                })
-                return
-            }
-
-            try {
-                this.saving = true
-                return await saveSettings('other_events', this.events)
-            } finally {
-                this.saving = false
-            }
         },
         isDefaultEvent(event) {
             return !!OTHER_EVENT_TYPES[event.key]

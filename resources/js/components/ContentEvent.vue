@@ -98,7 +98,7 @@ export default {
                 },
             ]
 
-            const res = await this.onSave(this.$refs.menuEventsTable.$v, events)
+            const res = await this.onSave(this.$refs.menuEventsTable.$v, events, 'menu_events')
 
             if (res && res.data.status) {
                 this.events.push(this.newEvent)

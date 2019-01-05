@@ -2080,7 +2080,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 events = [].concat(_toConsumableArray(this.events), [_objectSpread({}, this.newEvent)]);
                 _context.next = 3;
-                return this.onSave(this.$refs.menuEventsTable.$v, events);
+                return this.onSave(this.$refs.menuEventsTable.$v, events, 'menu_events');
 
               case 3:
                 res = _context.sent;
@@ -3300,6 +3300,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _common_validators__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/common/validators */ "./resources/js/common/validators.js");
 /* harmony import */ var _common_event_error_helper__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/common/event-error-helper */ "./resources/js/common/event-error-helper.js");
+/* harmony import */ var _common_create_events__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/common/create-events */ "./resources/js/common/create-events.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -3396,13 +3397,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'OtherEventsSetting',
   components: {
     ChangeHandleType: _components_ChangeHandleType__WEBPACK_IMPORTED_MODULE_1__["default"],
     CallbackInput: _components_CallbackInput__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
-  mixins: [_common_event_error_helper__WEBPACK_IMPORTED_MODULE_7__["default"]],
+  mixins: [_common_event_error_helper__WEBPACK_IMPORTED_MODULE_7__["default"], _common_create_events__WEBPACK_IMPORTED_MODULE_8__["default"]],
   data: function data() {
     return {
       columns: [{
@@ -3540,63 +3542,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     onReset: function onReset() {
       this.events = JSON.parse(this.eventsBak);
     },
-    onSave: function () {
-      var _onSave = _asyncToGenerator(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                if (!this.saving) {
-                  _context2.next = 2;
-                  break;
-                }
-
-                return _context2.abrupt("return");
-
-              case 2:
-                this.$v.$touch();
-
-                if (!this.$v.$invalid) {
-                  _context2.next = 6;
-                  break;
-                }
-
-                this.$notice({
-                  msg: '请填写完正确的配置',
-                  type: 'error'
-                });
-                return _context2.abrupt("return");
-
-              case 6:
-                _context2.prev = 6;
-                this.saving = true;
-                _context2.next = 10;
-                return Object(_api_wechat__WEBPACK_IMPORTED_MODULE_4__["saveSettings"])('other_events', this.events);
-
-              case 10:
-                return _context2.abrupt("return", _context2.sent);
-
-              case 11:
-                _context2.prev = 11;
-                this.saving = false;
-                return _context2.finish(11);
-
-              case 14:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this, [[6,, 11, 14]]);
-      }));
-
-      function onSave() {
-        return _onSave.apply(this, arguments);
-      }
-
-      return onSave;
-    }(),
     isDefaultEvent: function isDefaultEvent(event) {
       return !!_common_constants__WEBPACK_IMPORTED_MODULE_3__["OTHER_EVENT_TYPES"][event.key];
     },
@@ -8459,7 +8404,11 @@ var render = function() {
             attrs: { disabled: _vm.saving },
             on: {
               click: function($event) {
-                _vm.onSave(_vm.$refs.menuEventsTable.$v)
+                _vm.onSave(
+                  _vm.$refs.menuEventsTable.$v,
+                  _vm.events,
+                  "menu_events"
+                )
               }
             }
           },
@@ -9170,7 +9119,11 @@ var render = function() {
         {
           staticClass: "btn btn-primary",
           attrs: { disabled: _vm.saving },
-          on: { click: _vm.onSave }
+          on: {
+            click: function($event) {
+              _vm.onSave(_vm.$v, _vm.events, "other_events")
+            }
+          }
         },
         [_vm._v("保存")]
       ),
@@ -23348,10 +23301,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   methods: {
+    /**
+     * 保存事件配置
+     *
+     * @param $v vuelidate 的 $v 对象
+     * @param events 要保存的数据
+     * @param key 保存到的键值
+     * @returns {Promise<void>}
+     */
     onSave: function () {
       var _onSave = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee($v, events) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee($v, events, key) {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -23386,29 +23347,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context.abrupt("return");
 
               case 8:
-                events = events || $v.events.$model;
-                _context.prev = 9;
+                _context.prev = 8;
                 this.saving = true;
-                _context.next = 13;
-                return Object(_api_wechat__WEBPACK_IMPORTED_MODULE_1__["saveSettings"])('menu_events', events);
+                _context.next = 12;
+                return Object(_api_wechat__WEBPACK_IMPORTED_MODULE_1__["saveSettings"])(key, events);
 
-              case 13:
+              case 12:
                 return _context.abrupt("return", _context.sent);
 
-              case 14:
-                _context.prev = 14;
+              case 13:
+                _context.prev = 13;
                 this.saving = false;
-                return _context.finish(14);
+                return _context.finish(13);
 
-              case 17:
+              case 16:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[9,, 14, 17]]);
+        }, _callee, this, [[8,, 13, 16]]);
       }));
 
-      function onSave(_x, _x2) {
+      function onSave(_x, _x2, _x3) {
         return _onSave.apply(this, arguments);
       }
 
