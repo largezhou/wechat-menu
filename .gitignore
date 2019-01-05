@@ -8,3 +8,4 @@ composer.lock
 .php_cs.cache
 
 /node_modules
+/public-dev
