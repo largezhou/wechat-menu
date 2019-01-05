@@ -3,7 +3,7 @@ import Vue from 'vue'
 
 const bassURLEl = document.querySelector('#wechat-menu-prefix')
 const baseURL = bassURLEl && bassURLEl.getAttribute('data-prefix')
-axios.defaults.baseURL = baseURL || 'wechat-menu'
+axios.defaults.baseURL = baseURL || '/wechat-menu'
 
 axios.interceptors.response.use(
     res => {
