@@ -139,18 +139,6 @@
         border-top: none;
     }
 
-    .radio-group {
-        padding: 0 5px;
-        line-height: 30px;
-        min-height: 30px;
-        border: 1px solid transparent;
-
-        &.has-error {
-            border: 1px solid $danger-color;
-            border-radius: 3px;
-        }
-    }
-
     .vertical-middle {
         display: inline-block;
         vertical-align: middle;

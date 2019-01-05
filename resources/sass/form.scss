@@ -18,8 +18,7 @@
 
         .content {
             width: 100%;
-            display: inline-block;
-            vertical-align: middle;
+            display: block;
             position: relative;
         }
 
@@ -31,14 +30,18 @@
 
         &.inline {
             .content {
+                display: inline-block;
+                vertical-align: middle;
                 width: 350px;
             }
-
-            display: inline-block;
         }
 
         &.has-error {
             .input {
+                border-color: $danger-color;
+            }
+
+            .radio-group {
                 border-color: $danger-color;
             }
         }
@@ -56,6 +59,20 @@
             line-height: 40px;
             margin-right: 10px;
             vertical-align: middle;
+        }
+
+        .radio-group {
+            padding: 0 5px;
+            line-height: 30px;
+            min-height: 30px;
+            border: 1px solid transparent;
+            border-radius: 3px;
+        }
+
+        &.radio-item {
+            .content {
+                width: auto;
+            }
         }
     }
 }

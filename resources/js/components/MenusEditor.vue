@@ -28,42 +28,39 @@
                     inline
                 />
 
-                <div v-show="!currentHasSub" class="form-item">
-                    <div class="form-item">
-                        <span class="label">菜单内容</span>
-                        <div class="content">
-                            <div
-                                class="radio-group"
-                                :class="{ 'has-error': hasError('type') }"
-                            >
-                                <label
-                                    class="cursor-pointer"
-                                    v-for="key of Object.keys(menuTypes)"
-                                    :key="key"
-                                >
-                                    <input
-                                        type="radio"
-                                        name="type"
-                                        :value="key"
-                                        v-model="$global.currentMenu.type"
-                                    >
-                                    {{ menuTypes[key] }}
-                                </label>
-                            </div>
-                            <span class="error-text">{{ getError('type') }}</span>
-                        </div>
-                    </div>
+                <w-radio
+                    v-show="!currentHasSub"
+                    label="菜单内容"
+                    inline
+                    :has-error="hasError('type')"
+                    :error-text="getError('type')"
+                    class="width100"
+                >
+                    <label
+                        class="cursor-pointer"
+                        v-for="key of Object.keys(menuTypes)"
+                        :key="key"
+                    >
+                        <input
+                            type="radio"
+                            name="type"
+                            :value="key"
+                            v-model="$global.currentMenu.type"
+                        >
+                        {{ menuTypes[key] }}
+                    </label>
+                </w-radio>
 
-                    <div class="form-item content-wrapper">
-                        <component
-                            :has-error="hasError(this.currentContentField)"
-                            :error-text="getError(this.currentContentField)"
-                            v-if="currentContentComponent"
-                            :is="currentContentComponent"
-                            :events="events"
-                        />
-                    </div>
+                <div class="form-item content-wrapper">
+                    <component
+                        :has-error="hasError(this.currentContentField)"
+                        :error-text="getError(this.currentContentField)"
+                        v-if="currentContentComponent"
+                        :is="currentContentComponent"
+                        :events="events"
+                    />
                 </div>
+
                 <div v-show="currentHasSub" style="margin-top: 20px;">
                     <span class="grey-1">已设置子菜单，只能编辑菜单名</span>
                 </div>

@@ -1,6 +1,7 @@
 <template>
     <div>
         <w-select
+            class="vertical-middle"
             label="选择事件"
             :has-error="hasError"
             :error-text="errorText"
