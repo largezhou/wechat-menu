@@ -1,26 +1,22 @@
+const props = {
+    label: [String, Number],
+    hasError: Boolean,
+    errorText: String,
+    inline: Boolean,
+    errorInside: Boolean,
+}
+
 export default {
-    props: {
-        label: [String, Number],
-        hasError: Boolean,
-        errorText: String,
-        inline: Boolean,
-    },
+    props,
     computed: {
         _formItemProps() {
-            const formItemProps = [
-                'label',
-                'hasError',
-                'errorText',
-                'inline',
-            ]
+            const t = {}
 
-            const props = {}
-
-            formItemProps.forEach((p) => {
-                props[p] = this[p]
+            Object.keys(props).forEach((p) => {
+                t[p] = this[p]
             })
 
-            return props
+            return t
         },
     },
 }

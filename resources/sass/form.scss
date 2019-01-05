@@ -1,6 +1,16 @@
 @import "./vars";
 
 #wechat-menu {
+    td {
+        .form-item {
+            &.inline {
+                .content {
+                    width: auto;
+                }
+            }
+        }
+    }
+
     .form-item {
         + .form-item {
             margin-top: 20px;
@@ -21,7 +31,7 @@
 
         &.inline {
             .content {
-                width: auto;
+                width: 350px;
             }
 
             display: inline-block;
@@ -30,6 +40,13 @@
         &.has-error {
             .input {
                 border-color: $danger-color;
+            }
+        }
+
+        &.error-inside {
+            .error-text {
+                right: 12px;
+                top: 8px;
             }
         }
 

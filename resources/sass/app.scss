@@ -81,8 +81,8 @@
         border: $grey-border;
         padding: 0 0 0 10px;
         outline: 0;
-        width: 350px;
         border-radius: 3px;
+        width: 100%;
 
         &:focus {
             border-color: #cdcdcd;
@@ -129,13 +129,6 @@
 
     .table-input {
         width: 100% !important;
-    }
-
-    .table-content {
-        .error-text {
-            right: 12px;
-            top: 8px;
-        }
     }
 
     .table-footer {

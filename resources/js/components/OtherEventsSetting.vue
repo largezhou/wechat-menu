@@ -21,17 +21,14 @@
                 </td>
                 <td
                     v-else
-                    class="form-item"
                 >
-                    <div class="content table-content">
-                        <input
-                            type="text"
-                            class="input table-input"
-                            :class="{ 'has-error': hasError('key', index) }"
-                            v-model="e.key"
-                        />
-                        <span class="error-text">{{ getError('key', index) }}</span>
-                    </div>
+                    <w-input
+                        :has-error="hasError('key', index)"
+                        :error-text="getError('key', index)"
+                        v-model="e.key"
+                        inline
+                        error-inside
+                    />
                 </td>
 
                 <td>

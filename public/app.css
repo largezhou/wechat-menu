@@ -1,3 +1,7 @@
+#wechat-menu td .form-item.inline .content {
+  width: auto;
+}
+
 #wechat-menu .form-item + .form-item {
   margin-top: 20px;
 }
@@ -20,11 +24,16 @@
 }
 
 #wechat-menu .form-item.inline .content {
-  width: auto;
+  width: 350px;
 }
 
 #wechat-menu .form-item.has-error .input {
   border-color: #f86161;
+}
+
+#wechat-menu .form-item.error-inside .error-text {
+  right: 12px;
+  top: 8px;
 }
 
 #wechat-menu .form-item .label {
@@ -114,8 +123,8 @@
   border: 1px solid #e7e7eb;
   padding: 0 0 0 10px;
   outline: 0;
-  width: 350px;
   border-radius: 3px;
+  width: 100%;
 }
 
 #wechat-menu .input:focus {
@@ -164,11 +173,6 @@
 
 #wechat-menu .table-input {
   width: 100% !important;
-}
-
-#wechat-menu .table-content .error-text {
-  right: 12px;
-  top: 8px;
 }
 
 #wechat-menu .table-footer {

@@ -3330,9 +3330,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
 
 
 
@@ -8754,36 +8751,27 @@ var render = function() {
                       ")\n            "
                   )
                 ])
-              : _c("td", { staticClass: "form-item" }, [
-                  _c("div", { staticClass: "content table-content" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: e.key,
-                          expression: "e.key"
-                        }
-                      ],
-                      staticClass: "input table-input",
-                      class: { "has-error": _vm.hasError("key", index) },
-                      attrs: { type: "text" },
-                      domProps: { value: e.key },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(e, "key", $event.target.value)
-                        }
+              : _c(
+                  "td",
+                  [
+                    _c("w-input", {
+                      attrs: {
+                        "has-error": _vm.hasError("key", index),
+                        "error-text": _vm.getError("key", index),
+                        inline: "",
+                        "error-inside": ""
+                      },
+                      model: {
+                        value: e.key,
+                        callback: function($$v) {
+                          _vm.$set(e, "key", $$v)
+                        },
+                        expression: "e.key"
                       }
-                    }),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "error-text" }, [
-                      _vm._v(_vm._s(_vm.getError("key", index)))
-                    ])
-                  ])
-                ]),
+                    })
+                  ],
+                  1
+                ),
             _vm._v(" "),
             _c("td", [_c("change-handle-type", { attrs: { event: e } })], 1),
             _vm._v(" "),
@@ -22985,23 +22973,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+var props = {
+  label: [String, Number],
+  hasError: Boolean,
+  errorText: String,
+  inline: Boolean,
+  errorInside: Boolean
+};
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: {
-    label: [String, Number],
-    hasError: Boolean,
-    errorText: String,
-    inline: Boolean
-  },
+  props: props,
   computed: {
     _formItemProps: function _formItemProps() {
       var _this = this;
 
-      var formItemProps = ['label', 'hasError', 'errorText', 'inline'];
-      var props = {};
-      formItemProps.forEach(function (p) {
-        props[p] = _this[p];
+      var t = {};
+      Object.keys(props).forEach(function (p) {
+        t[p] = _this[p];
       });
-      return props;
+      return t;
     }
   }
 });
