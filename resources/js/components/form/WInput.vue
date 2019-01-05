@@ -16,7 +16,7 @@ import FormItem from '@/components/form/FormItem'
 import FormItemHelper from '@/common/form-item'
 
 export default {
-    name: 'wInput',
+    name: 'WInput',
     components: {
         FormItem,
     },
