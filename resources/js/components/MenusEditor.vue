@@ -419,4 +419,8 @@ $form-min-width: 850px;
 .name-item {
     margin-top: 30px;
 }
+
+.footer-toolbar {
+    border: none !important;
+}
 </style>
