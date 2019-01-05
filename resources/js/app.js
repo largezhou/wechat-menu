@@ -12,9 +12,9 @@ if (process.env.NODE_ENV == 'development') {
     window.log = () => {}
 }
 
-Vue.component('menus-editor', require('@/components/MenusEditor'))
-Vue.component('menu-events-setting', require('@/components/MenuEventsSetting'))
-Vue.component('other-events-setting', require('@/components/OtherEventsSetting'))
+Vue.component('menus-editor', require('@/components/MenusEditor').default)
+Vue.component('menu-events-setting', require('@/components/MenuEventsSetting').default)
+Vue.component('other-events-setting', require('@/components/OtherEventsSetting').default)
 
 // 传递事件
 const $bus = new Vue
