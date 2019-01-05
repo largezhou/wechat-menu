@@ -3321,6 +3321,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 
@@ -3780,6 +3781,43 @@ __webpack_require__.r(__webpack_exports__);
   mixins: [_common_form_item__WEBPACK_IMPORTED_MODULE_0__["default"]],
   props: {
     value: [String, Number]
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/form/WTextarea.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/form/WTextarea.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _common_form_item__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/common/form-item */ "./resources/js/common/form-item.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'WTextarea',
+  mixins: [_common_form_item__WEBPACK_IMPORTED_MODULE_0__["default"]],
+  props: {
+    value: [String, Number],
+    rows: [String, Number],
+    cols: [String, Number]
   }
 });
 
@@ -8844,7 +8882,6 @@ var render = function() {
                       attrs: {
                         "has-error": _vm.hasError("key", index),
                         "error-text": _vm.getError("key", index),
-                        inline: "",
                         "error-inside": ""
                       },
                       model: {
@@ -8866,27 +8903,21 @@ var render = function() {
               { staticClass: "table-content" },
               [
                 e.type == "msg"
-                  ? _c("textarea", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: e.content,
-                          expression: "e.content"
-                        }
-                      ],
+                  ? _c("w-textarea", {
                       ref: "inputs",
                       refInFor: true,
-                      staticClass: "input table-input",
-                      attrs: { rows: "2" },
-                      domProps: { value: e.content },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(e, "content", $event.target.value)
-                        }
+                      attrs: {
+                        rows: "2",
+                        "has-error": _vm.hasError("content", index),
+                        "error-text": _vm.getError("content", index),
+                        "error-inside": ""
+                      },
+                      model: {
+                        value: e.content,
+                        callback: function($$v) {
+                          _vm.$set(e, "content", $$v)
+                        },
+                        expression: "e.content"
                       }
                     })
                   : _c("callback-input", {
@@ -9159,6 +9190,41 @@ var render = function() {
       [_vm._t("default")],
       2
     )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/form/WTextarea.vue?vue&type=template&id=5a2da59e&":
+/*!*****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/form/WTextarea.vue?vue&type=template&id=5a2da59e& ***!
+  \*****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("form-item", _vm._b({}, "form-item", _vm._formItemProps, false), [
+    _c("textarea", {
+      staticClass: "input",
+      attrs: { rows: _vm.rows, cols: _vm.cols },
+      domProps: { value: _vm.value },
+      on: {
+        input: function($event) {
+          _vm.$emit("input", $event.target.value)
+        }
+      }
+    })
   ])
 }
 var staticRenderFns = []
@@ -23169,6 +23235,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('w-select', __webpack_requi
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('w-radio', __webpack_require__(/*! @/components/form/WRadio */ "./resources/js/components/form/WRadio.vue").default);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('w-radio-item', __webpack_require__(/*! @/components/form/WRadioItem */ "./resources/js/components/form/WRadioItem.vue").default);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('form-item', __webpack_require__(/*! @/components/form/FormItem */ "./resources/js/components/form/FormItem.vue").default);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('w-textarea', __webpack_require__(/*! @/components/form/WTextarea */ "./resources/js/components/form/WTextarea.vue").default);
 
 /***/ }),
 
@@ -24630,6 +24697,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_WSelect_vue_vue_type_template_id_a56af49a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_WSelect_vue_vue_type_template_id_a56af49a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/form/WTextarea.vue":
+/*!****************************************************!*\
+  !*** ./resources/js/components/form/WTextarea.vue ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _WTextarea_vue_vue_type_template_id_5a2da59e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./WTextarea.vue?vue&type=template&id=5a2da59e& */ "./resources/js/components/form/WTextarea.vue?vue&type=template&id=5a2da59e&");
+/* harmony import */ var _WTextarea_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./WTextarea.vue?vue&type=script&lang=js& */ "./resources/js/components/form/WTextarea.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _WTextarea_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _WTextarea_vue_vue_type_template_id_5a2da59e___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _WTextarea_vue_vue_type_template_id_5a2da59e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/form/WTextarea.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/form/WTextarea.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/form/WTextarea.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WTextarea_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./WTextarea.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/form/WTextarea.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WTextarea_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/form/WTextarea.vue?vue&type=template&id=5a2da59e&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/components/form/WTextarea.vue?vue&type=template&id=5a2da59e& ***!
+  \***********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_WTextarea_vue_vue_type_template_id_5a2da59e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./WTextarea.vue?vue&type=template&id=5a2da59e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/form/WTextarea.vue?vue&type=template&id=5a2da59e&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_WTextarea_vue_vue_type_template_id_5a2da59e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_WTextarea_vue_vue_type_template_id_5a2da59e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

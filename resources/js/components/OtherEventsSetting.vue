@@ -26,7 +26,6 @@
                         :has-error="hasError('key', index)"
                         :error-text="getError('key', index)"
                         v-model="e.key"
-                        inline
                         error-inside
                     />
                 </td>
@@ -35,12 +34,14 @@
                     <change-handle-type :event="e"/>
                 </td>
                 <td class="table-content">
-                    <textarea
+                    <w-textarea
                         v-if="e.type == 'msg'"
-                        class="input table-input"
                         v-model="e.content"
                         ref="inputs"
                         rows="2"
+                        :has-error="hasError('content', index)"
+                        :error-text="getError('content', index)"
+                        error-inside
                     />
                     <callback-input
                         v-else
