@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { getSettings } from '@/api/wechat'
+import { getResources } from '@/api/wechat'
 import MenuEventsTable from '@/components/MenuEventsTable'
 import { uniqueKey } from '@/common/utils'
 import CreateEvents from '@/common/create-events'
@@ -62,7 +62,7 @@ export default {
     },
     methods: {
         async getData() {
-            const { data } = await getSettings('menu_events')
+            const { data } = await getResources('menu_events')
             this.events = data.data
             this.eventsBak = JSON.stringify(this.events)
         },

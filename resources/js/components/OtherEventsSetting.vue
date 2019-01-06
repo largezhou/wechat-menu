@@ -85,7 +85,7 @@
 import ChangeHandleType from '@/components/ChangeHandleType'
 import CallbackInput from '@/components/CallbackInput'
 import { OTHER_EVENT_TYPES } from '@/common/constants'
-import { getSettings, saveSettings } from '@/api/wechat'
+import { getResources } from '@/api/wechat'
 import { required } from 'vuelidate/lib/validators'
 import { callback } from '@/common/validators'
 import EventErrorHelper from '@/common/event-error-helper'
@@ -158,7 +158,7 @@ export default {
             return OTHER_EVENT_TYPES[type] || type
         },
         async getData() {
-            const { data } = await getSettings('other_events')
+            const { data } = await getResources('other_events')
             this.events = data.data
             this.initDefaultEvents()
         },

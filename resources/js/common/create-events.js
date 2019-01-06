@@ -1,4 +1,4 @@
-import { saveSettings } from '@/api/wechat'
+import { postResources } from '@/api/wechat'
 
 export default {
     methods: {
@@ -33,7 +33,7 @@ export default {
 
             try {
                 this.saving = true
-                return await saveSettings(key, events)
+                return await postResources(key, events)
             } finally {
                 this.saving = false
             }

@@ -53,33 +53,17 @@ axios.interceptors.response.use(
     },
 )
 
-export function getMenus() {
-    return axios.get('/menus')
-}
-
-export function createMenus(data) {
-    return axios.post(
-        '/menus',
-        {
-            data,
-        },
-        {
-            noErrorNotice: true,
-        },
-    )
-}
-
-export function getSettings(key) {
-    return axios.get('/settings', {
+export function getResources(type) {
+    return axios.get('/resources', {
         params: {
-            key,
+            type,
         },
     })
 }
 
-export function saveSettings(key, data) {
-    return axios.post('/settings', {
-        key: key,
+export function postResources(type, data) {
+    return axios.post('/resources', {
+        type,
         data,
     })
 }

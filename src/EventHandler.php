@@ -37,7 +37,12 @@ class EventHandler implements EventHandlerInterface
     {
         $this->logger->info("[payload]\n".json_encode($payload, JSON_UNESCAPED_UNICODE + JSON_PRETTY_PRINT));
 
-        $msgType = $payload['MsgType'];
+        $msgType = $payload['MsgType'] ?? null;
+
+        if (!$msgType) {
+            return '';
+        }
+
         $eventType = $payload['Event'] ?? null;
         $eventKey = $payload['EventKey'] ?? null;
 

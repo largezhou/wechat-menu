@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import { getMenus, createMenus, getSettings } from '@/api/wechat'
+import { postResources, getResources } from '@/api/wechat'
 import Menus from '@/components/Menus'
 import ContentView from '@/components/ContentView'
 import ContentEvent from '@/components/ContentEvent'
@@ -207,7 +207,7 @@ export default {
     },
     methods: {
         async getData() {
-            let res = await getMenus()
+            let res = await getResources('menus')
             this.menus = res.data.data.menu.button
             this.menusBak = JSON.stringify(this.menus)
 
@@ -215,7 +215,7 @@ export default {
 
             this.activeFirstMenu()
 
-            res = await getSettings('menu_events')
+            res = await getResources('menu_events')
             this.events = res.data.data
         },
 
@@ -244,7 +244,7 @@ export default {
 
             try {
                 this.saving = true
-                const { data } = await createMenus(this.menus)
+                const { data } = await postResources('menus', this.menus)
 
                 if (data.status) {
                     this.$notice({

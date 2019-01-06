@@ -7,6 +7,15 @@ use Largezhou\WechatMenu\Exceptions\WechatMenuException;
 class Data
 {
     /**
+     * 允许的请求类型，如果没有类型，则视为是微信回调
+     */
+    const REQUEST_TYPES = [
+        'menus',
+        'menu_events',
+        'other_events',
+    ];
+
+    /**
      * 返回成功
      *
      * @param string $msg 消息
@@ -19,8 +28,8 @@ class Data
         return json_encode(
             [
                 'status' => true,
-                'msg' => $msg,
-                'data' => $data,
+                'msg'    => $msg,
+                'data'   => $data,
             ]
         );
     }
@@ -38,8 +47,8 @@ class Data
         return json_encode(
             [
                 'status' => false,
-                'msg' => $msg,
-                'data' => $data,
+                'msg'    => $msg,
+                'data'   => $data,
             ]
         );
     }
@@ -63,6 +72,16 @@ class Data
     }
 
     /**
+     * 存储数据
+     *
+     * @param mixed $allData 需要保存的数据
+     */
+    public static function saveData($allData)
+    {
+        file_put_contents(Manager::getInstance()->getConfig('data_path'), $allData);
+    }
+
+    /**
      * 返回从微信服务器获取的公众号菜单
      *
      * @return string
@@ -81,32 +100,56 @@ class Data
      * @return string
      * @throws Exceptions\WechatMenuException
      */
-    public static function createMenus(array $menus): string
+    public static function postMenus(array $menus): string
     {
         $res = Manager::getInstance()->getWechat()->menu->create($menus);
 
         if ($res['errcode'] == 0) {
-            return Data::success('菜单保存成功');
+            return static::success('菜单保存成功');
         } else {
-            return Data::error("[{$res['errcode']}] {$res['errmsg']}");
+            return static::error("[{$res['errcode']}] {$res['errmsg']}");
+        }
+    }
+
+    /**
+     * 获取指定类型的数据，如果没有指定类型
+     *
+     * @param array $data 请求中的数据
+     *
+     * @return string json_encode 后的数据
+     */
+    public static function getResources(array $data): string
+    {
+        $type = static::checkAndGetType($data);
+
+        if ($type == 'menus') {
+            return static::getMenus();
+        } else {
+            return static::getSettings($type);
+        }
+    }
+
+    public static function postResources(array $data): string
+    {
+        $type = static::checkAndGetType($data);
+
+        if ($type == 'menus') {
+            return static::postMenus($data['data'] ?? null);
+        } else {
+            return static::postSettings($type, $data['data'] ?? null);
         }
     }
 
     /**
      * 获取指定键的数据
      *
-     * @param string     $type
-     * @param null|mixed $data
+     * @param string $type
      *
      * @return string
      */
-    public static function getSettings($type, $data = null): string
+    public static function getSettings($type): string
     {
-        if (!$data) {
-            $data = static::getData($type);
-        }
-
-        return Data::success('', $data);
+        return static::success('', static::getData($type));
     }
 
     /**
@@ -117,14 +160,36 @@ class Data
      *
      * @return string
      */
-    public static function saveSettings($type, $data): string
+    public static function postSettings(string $type, $data): string
     {
         $allData = static::getData();
         $allData[$type] = $data;
         $allData = json_encode($allData, JSON_UNESCAPED_UNICODE + JSON_PRETTY_PRINT);
 
-        file_put_contents(Manager::getInstance()->getConfig('data_path'), $allData);
+        static::saveData($allData);
 
-        return Data::success('保存设置成功');
+        return static::success('保存设置成功');
+    }
+
+    /**
+     * 检测请求中的 type 值，并返回
+     *
+     * @param array $data 请求中的数据
+     *
+     * @return string
+     */
+    protected static function checkAndGetType(array $data): string
+    {
+        $type = trim($data['type'] ?? '');
+
+        if (!$type) {
+            throw new WechatMenuException('请求中 type 不能为空');
+        }
+
+        if (!in_array($type, static::REQUEST_TYPES)) {
+            throw new WechatMenuException('请求中 type 参数不正确');
+        }
+
+        return $type;
     }
 }

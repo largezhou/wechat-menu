@@ -21,7 +21,9 @@ $ composer require largezhou/wechat-menu -vvv
 
 然后把 [`public`](public) 下的静态资源，复制一份到你项目的，一般也为 `public` 文件夹下的 `vendor/wechat-menu` 目录下。
 
-### 首先，你需要定义三个 `get` 路由，来返回下面三个页面：
+### 首先
+
+你需要定义三个 `get` 路由，来返回下面三个页面：
 
 `Content::renderMenusEditor()` 返回菜单编辑页的网页内容，你可以把该内容，插入到你的模板中相应的位置。
 
@@ -29,21 +31,15 @@ $ composer require largezhou/wechat-menu -vvv
 
 `Content::renderOtherEventsSetting()` 返回其他事件，比如收到文字，用户关注等处理方法的配置的网页。
 
-### 其次，你需要定义 5 个路由，来获取或者保存数据和启动微信服务：
+### 其次
 
-`get@menus` 用来获取微信菜单配置。该控制器方法中可直接调用 `Data::getMenus()` 获取菜单。
+在你的控制其中使用 `Largezhou\WechatMenu\Controller` 这个 `trait` ，该 `trait` 提供一个方法 `resources`。是处理页面中所有 `ajax` 请求的方法。该方法会通过请求数据中的 `type` 字段的值和请求方法来区分获取和保存不同的数据。
 
-`post@menus` 用来发布微信菜单配置。使用 `Data::createMenus($_POST['data'])` 发布菜单。
+`anyRequestMethod@anyMethodName` 用来启动微信服务。使用 `Manager::getInstance()->serve()->send()` 来启动服务。具体参考 [EasyWechat 文档](https://www.easywechat.com/docs/master/official-account/server)
 
-`get@settings` 用来获取自定义微信菜单事件处理配置和其他事件配置。使用 `Data::getSettings($_GET['key'])` 获取配置。
+### 最后
 
-`post@settings` 用来保存事件处理配置。使用 `Data::saveSettings($_POST['key'], _POST['data'])` 保存配置。
-
-`post@anyMethodName` 用来启动微信服务。使用 `Manager::getInstance()->serve()->send()` 来启动服务。具体参考 [EasyWechat 文档](https://www.easywechat.com/docs/master/official-account/server)
-
-注意1：由于不是使用表单提交的数据，`$_POST` 中可能获取不到数据，可使用 `file_get_contents("php://input")` 或者你正在用的框架中的相应的获取 `post` 数据的方法。
-
-注意2：上面的 5 个路由中，使用的方法，都可以自行定义，只要返回的数据格式保持一致即可。该组件默认把数据保存在配置中 `data_path` 设置的路径。你自行定义的话，可以保存到数据库，或者为其他形式。
+该扩展使用一个 `json` 文件来保存设置数据，如果你需要用数据库来保存，可以重写 `Data` 中的部分方法来实现。
 
 ## TODO
 
