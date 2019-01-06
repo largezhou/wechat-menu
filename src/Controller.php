@@ -4,7 +4,6 @@ namespace Largezhou\WechatMenu;
 
 use Largezhou\WechatMenu\Exceptions\WechatMenuException;
 
-
 trait Controller
 {
     public function resources()

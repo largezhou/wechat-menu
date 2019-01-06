@@ -23,7 +23,7 @@ if (!function_exists('safe_json_decode')) {
 
 if (!function_exists('camelize')) {
     /**
-     * 把用指定分隔符分割的字符串，转成驼峰形式
+     * 把用指定分隔符分割的字符串，转成驼峰形式.
      *
      * @param string $str 要被转换的字符串
      * @param string $sep 指定分隔符

@@ -54,7 +54,7 @@ class EventHandler implements EventHandlerInterface
     }
 
     /**
-     * 处理菜单点击事件
+     * 处理菜单点击事件.
      *
      * @param array  $payload
      * @param string $eventKey
@@ -73,7 +73,7 @@ class EventHandler implements EventHandlerInterface
     }
 
     /**
-     * 处理其他事件
+     * 处理其他事件.
      *
      * @param array  $payload
      * @param string $msgType
@@ -92,11 +92,11 @@ class EventHandler implements EventHandlerInterface
     }
 
     /**
-     * 调用回调
+     * 调用回调.
      *
      * @param array  $payload
      * @param string $dataType 回调设置数据中的 key（分组）
-     * @param string $key 事件标识
+     * @param string $key      事件标识
      *
      * @return string
      */
@@ -144,7 +144,7 @@ class EventHandler implements EventHandlerInterface
         } catch (\Throwable $e) {
             $res = Manager::getInstance()->getConfig('handler_error_msg');
             $this->logger->error(
-                "事件处理回调出错: "
+                '事件处理回调出错: '
                 .PHP_EOL
                 .$e->getMessage()
                 .PHP_EOL

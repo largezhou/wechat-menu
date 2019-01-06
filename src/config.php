@@ -1,23 +1,23 @@
 <?php
 
 return [
-    /**
+    /*
      * axios 请求的路由前缀，例如：/wechat-menu/menus
      */
     'routePrefix' => 'wechat-menu',
 
-    /**
+    /*
      * 存储微信菜单和事件设置的文件
      * 可以自行用其他方式来存储和读取
      */
     'data_path' => '/path/to/wechat_menu.json',
 
-    /**
+    /*
      * 事件回调出错的消息
      */
     'handler_error_msg' => '服务器开小差了',
 
-    /**
+    /*
      * easy wechat 扩展的配置
      */
     'easyWechat' => [

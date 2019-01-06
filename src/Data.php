@@ -7,7 +7,7 @@ use Largezhou\WechatMenu\Exceptions\WechatMenuException;
 class Data
 {
     /**
-     * 允许的请求类型，如果没有类型，则视为是微信回调
+     * 允许的请求类型，如果没有类型，则视为是微信回调.
      */
     const REQUEST_TYPES = [
         'menus',
@@ -18,7 +18,7 @@ class Data
     /**
      * 返回成功
      *
-     * @param string $msg 消息
+     * @param string $msg  消息
      * @param string $data 附带数据
      *
      * @return string
@@ -28,16 +28,16 @@ class Data
         return json_encode(
             [
                 'status' => true,
-                'msg'    => $msg,
-                'data'   => $data,
+                'msg' => $msg,
+                'data' => $data,
             ]
         );
     }
 
     /**
-     * 返回错误
+     * 返回错误.
      *
-     * @param string $msg 消息
+     * @param string $msg  消息
      * @param string $data 附带数据
      *
      * @return string
@@ -47,14 +47,14 @@ class Data
         return json_encode(
             [
                 'status' => false,
-                'msg'    => $msg,
-                'data'   => $data,
+                'msg' => $msg,
+                'data' => $data,
             ]
         );
     }
 
     /**
-     * 获取存储的数据
+     * 获取存储的数据.
      *
      * @param string|null $type
      *
@@ -72,7 +72,7 @@ class Data
     }
 
     /**
-     * 存储数据
+     * 存储数据.
      *
      * @param mixed $allData 需要保存的数据
      */
@@ -82,9 +82,10 @@ class Data
     }
 
     /**
-     * 返回从微信服务器获取的公众号菜单
+     * 返回从微信服务器获取的公众号菜单.
      *
      * @return string
+     *
      * @throws Exceptions\WechatMenuException
      */
     public static function getMenus(): string
@@ -93,11 +94,12 @@ class Data
     }
 
     /**
-     * 创建公众号菜单
+     * 创建公众号菜单.
      *
      * @param array $menus
      *
      * @return string
+     *
      * @throws Exceptions\WechatMenuException
      */
     public static function postMenus(array $menus): string
@@ -112,11 +114,13 @@ class Data
     }
 
     /**
-     * 获取指定类型的数据，如果没有指定类型
+     * 获取指定类型的数据，如果没有指定类型.
      *
      * @param array $data 请求中的数据
      *
      * @return string json_encode 后的数据
+     *
+     * @throws WechatMenuException
      */
     public static function getResources(array $data): string
     {
@@ -141,7 +145,7 @@ class Data
     }
 
     /**
-     * 获取指定键的数据
+     * 获取指定键的数据.
      *
      * @param string $type
      *
@@ -153,7 +157,7 @@ class Data
     }
 
     /**
-     * 保存来自请求的数据
+     * 保存来自请求的数据.
      *
      * @param string $type
      * @param mixed  $data
@@ -172,11 +176,13 @@ class Data
     }
 
     /**
-     * 检测请求中的 type 值，并返回
+     * 检测请求中的 type 值，并返回.
      *
      * @param array $data 请求中的数据
      *
      * @return string
+     *
+     * @throws WechatMenuException
      */
     protected static function checkAndGetType(array $data): string
     {

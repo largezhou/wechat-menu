@@ -20,7 +20,7 @@ class Manager
     }
 
     /**
-     * 获取管理实例
+     * 获取管理实例.
      *
      * @return Manager
      */
@@ -34,9 +34,10 @@ class Manager
     }
 
     /**
-     * 获取公众号管理实例
+     * 获取公众号管理实例.
      *
      * @return \EasyWeChat\OfficialAccount\Application
+     *
      * @throws WechatMenuException
      */
     public function getWechat()
@@ -55,9 +56,10 @@ class Manager
     }
 
     /**
-     * 公众号回调接口
+     * 公众号回调接口.
      *
      * @return \Symfony\Component\HttpFoundation\Response
+     *
      * @throws WechatMenuException
      * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
@@ -73,10 +75,10 @@ class Manager
     }
 
     /**
-     * 配置
+     * 配置.
      *
-     * @param  array|string $key
-     * @param  mixed        $value
+     * @param array|string $key
+     * @param mixed        $value
      */
     public function setConfig($key, $value = null)
     {
@@ -90,7 +92,7 @@ class Manager
     }
 
     /**
-     * 获取配置
+     * 获取配置.
      *
      * @param string|null $key
      * @param mixed       $default

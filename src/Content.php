@@ -10,7 +10,7 @@ class Content
     ];
 
     /**
-     * 返回用来设置前端 axios 请求的 baseURL 元素
+     * 返回用来设置前端 axios 请求的 baseURL 元素.
      *
      * @return string
      */
@@ -29,7 +29,7 @@ class Content
     }
 
     /**
-     * 返回页面内容前，加上请求地址前缀的元素
+     * 返回页面内容前，加上请求地址前缀的元素.
      *
      * @param $html
      *
@@ -48,7 +48,7 @@ class Content
     }
 
     /**
-     * 返回编辑菜单的 html 页面内容
+     * 返回编辑菜单的 html 页面内容.
      *
      * @return string
      */
@@ -58,7 +58,7 @@ class Content
     }
 
     /**
-     * 返回事件标识对应时间处理函数的 增删改查 页面
+     * 返回事件标识对应时间处理函数的 增删改查 页面.
      *
      * @return string
      */
