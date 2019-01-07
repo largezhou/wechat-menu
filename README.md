@@ -2,6 +2,9 @@
 
 <p align="center">可视化的微信菜单管理组件</p>
 
+## DEMO
+
+[http://test_wechat_menu.l.com](http://test_wechat_menu.l.com)
 
 ## 安装
 
