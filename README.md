@@ -4,7 +4,7 @@
 
 ## DEMO
 
-[http://test_wechat_menu.l.com](http://test_wechat_menu.l.com)
+[http://wechat-menu.lzis.me](http://wechat-menu.lzis.me)
 
 ## 安装
 
