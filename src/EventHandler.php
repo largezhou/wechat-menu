@@ -33,7 +33,7 @@ class EventHandler implements EventHandlerInterface
         $this->logger = $this->manager->getWechat()->logger;
     }
 
-    public function handle($payload = null): string
+    public function handle($payload = null)
     {
         $this->logger->info("[payload]\n".json_encode($payload, JSON_UNESCAPED_UNICODE + JSON_PRETTY_PRINT));
 
@@ -59,9 +59,9 @@ class EventHandler implements EventHandlerInterface
      * @param array  $payload
      * @param string $eventKey
      *
-     * @return string
+     * @return mixed
      */
-    protected function handleMenuEvent(array $payload, string $eventKey): string
+    protected function handleMenuEvent(array $payload, string $eventKey)
     {
         if (!$eventKey) {
             $this->logger->error('无法获取到 EventKey');
@@ -79,9 +79,9 @@ class EventHandler implements EventHandlerInterface
      * @param string $msgType
      * @param string $eventType
      *
-     * @return string
+     * @return mixed
      */
-    protected function handleOtherEvent(array $payload, string $msgType, string $eventType = null): string
+    protected function handleOtherEvent(array $payload, string $msgType, string $eventType = null)
     {
         // 订阅和取消订阅的 MsgType 为 event，单独处理一下
         if ($msgType == 'event' && in_array($eventType, static::SUBSCRIBE_EVENTS)) {
@@ -96,11 +96,11 @@ class EventHandler implements EventHandlerInterface
      *
      * @param array  $payload
      * @param string $dataType 回调设置数据中的 key（分组）
-     * @param string $key      事件标识
+     * @param string $key 事件标识
      *
-     * @return string
+     * @return mixed
      */
-    protected function resolveHandler(array $payload, string $dataType, string $key): string
+    protected function resolveHandler(array $payload, string $dataType, string $key)
     {
         $eventHandler = null;
         foreach (Data::getData($dataType) as $e) {
