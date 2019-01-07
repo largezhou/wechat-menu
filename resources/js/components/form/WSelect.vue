@@ -1,6 +1,7 @@
 <template>
     <form-item
         v-bind="_formItemProps"
+        class="w-select"
     >
         <select
             :value="value"

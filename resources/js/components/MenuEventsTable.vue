@@ -141,7 +141,7 @@ export default {
                         unique: unique(this.keys, !this.allEvents),
                     },
                     content: {
-                        required,
+                        // required,
                         callback,
                     },
                 },

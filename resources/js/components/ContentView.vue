@@ -6,6 +6,7 @@
             v-bind="$props"
             v-model="$global.currentMenu.url"
             inline
+            error-inside
         />
     </div>
 </template>
@@ -23,5 +24,6 @@ export default {
 <style lang="scss" scoped>
 .hint {
     display: block !important;
+    margin-bottom: 15px;
 }
 </style>

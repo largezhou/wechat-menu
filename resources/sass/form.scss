@@ -55,6 +55,14 @@
             }
         }
 
+        &.w-select {
+            &.error-inside {
+                .error-text {
+                    right: 20px;
+                }
+            }
+        }
+
         .label {
             display: inline-block;
             height: 40px;

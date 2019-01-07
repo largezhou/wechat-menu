@@ -7,6 +7,7 @@
             :error-text="errorText"
             v-model="$global.currentMenu.key"
             inline
+            error-inside
         >
             <option
                 v-for="e of events"

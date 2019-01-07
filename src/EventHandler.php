@@ -120,7 +120,7 @@ class EventHandler implements EventHandlerInterface
         $content = $eventHandler['content'];
 
         if (!$content) {
-            $this->logger->error('处理内容为空');
+            $this->logger->info('处理内容为空');
 
             return '';
         }
