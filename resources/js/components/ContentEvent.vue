@@ -8,14 +8,10 @@
             v-model="$global.currentMenu.key"
             inline
             error-inside
-        >
-            <option
-                v-for="e of events"
-                :key="e.key"
-                :value="e.key"
-                v-text="e.remark"
-            />
-        </w-select>
+            :options="events"
+            value-field="key"
+            text-field="remark"
+        />
         <div class="vertical-middle">
             <button
                 v-show="!newEvent"
