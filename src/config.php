@@ -2,7 +2,9 @@
 
 return [
     /*
-     * axios 请求的路由前缀，例如：/wechat-menu/menus
+     * axios 请求的路由前缀，最终会请求这个地址 routePrefix/resources
+     *
+     * 请注意，你填写的 'wechat-menu' 和 '/wechat-menu' 是有区别的
      */
     'routePrefix' => 'wechat-menu',
 
@@ -13,7 +15,7 @@ return [
     'data_path' => '/path/to/wechat_menu.json',
 
     /*
-     * 事件回调出错的消息
+     * 微信事件回调出错时，返回给用户微信的消息
      */
     'handler_error_msg' => '服务器开小差了',
 

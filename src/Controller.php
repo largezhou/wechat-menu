@@ -6,6 +6,11 @@ use Largezhou\WechatMenu\Exceptions\WechatMenuException;
 
 trait Controller
 {
+    /**
+     * 前端 ajax 请求的统一处理方法.
+     *
+     * @return string
+     */
     public function resources()
     {
         $method = strtolower($_SERVER['REQUEST_METHOD'] ?? '');

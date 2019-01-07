@@ -7,7 +7,7 @@ use Largezhou\WechatMenu\Exceptions\WechatMenuException;
 class Data
 {
     /**
-     * 允许的请求类型，如果没有类型，则视为是微信回调.
+     * 允许的请求类型.
      */
     const REQUEST_TYPES = [
         'menus',
@@ -16,7 +16,7 @@ class Data
     ];
 
     /**
-     * 返回成功
+     * 返回成功.
      *
      * @param string $msg  消息
      * @param string $data 附带数据
@@ -114,7 +114,7 @@ class Data
     }
 
     /**
-     * 获取指定类型的数据，如果没有指定类型.
+     * 获取指定类型的数据.
      *
      * @param array $data 请求中的数据
      *
@@ -133,6 +133,15 @@ class Data
         }
     }
 
+    /**
+     * 存储指定类型的数据.
+     *
+     * @param array $data
+     *
+     * @return string
+     *
+     * @throws WechatMenuException
+     */
     public static function postResources(array $data): string
     {
         $type = static::checkAndGetType($data);
