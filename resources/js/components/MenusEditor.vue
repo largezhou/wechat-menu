@@ -73,6 +73,7 @@
                 @click="onSave"
                 :disabled="saving"
             >保存</button>
+            <refresh :on-refresh="getData"/>
             <button
                 class="btn"
                 @click="onReset"
@@ -205,18 +206,30 @@ export default {
     created() {
         this.getData()
     },
+    destroyed() {
+        // 该组件销毁后，清除全局数据中的，关于当前激活菜单的值
+        this.$global.currentMenu = null
+        this.$global.currentMenuIndex = null
+    },
     methods: {
-        async getData() {
-            let res = await getResources('menus')
-            this.menus = res.data.data.menu.button
+        getData() {
+            this.getMenus()
+            this.getEvents()
+        },
+
+        async getMenus() {
+            const { data } = await getResources('menus')
+            this.menus = data.data.menu.button
             this.menusBak = JSON.stringify(this.menus)
 
             this.menuAutoId = this.addUniqueKey(this.menus)
 
             this.activeFirstMenu()
+        },
 
-            res = await getResources('menu_events')
-            this.events = res.data.data
+        async getEvents() {
+            const { data } = await getResources('menu_events')
+            this.events = data.data
         },
 
         /**
@@ -358,17 +371,17 @@ export default {
 @import "~@/../sass/vars.scss";
 
 $preview-width: 300px;
-$form-width: 1000px;
-$form-min-width: 850px;
+$margin-right: 20px;
+$form-width: $page-width - $margin-right - $preview-width;
 
 .edit-area {
-    height: 600px;
+    height: 500px;
     display: flex;
 }
 
 .preview {
     min-width: $preview-width;
-    margin-right: 20px;
+    margin-right: $margin-right;
     border: $grey-border;
     display: flex;
     flex-direction: column;
@@ -384,15 +397,9 @@ $form-min-width: 850px;
     }
 }
 
-.menus-editor {
-    max-width: $form-width + 20px + $preview-width;
-    min-width: $form-min-width + 20px + $preview-width;
-}
-
 .form {
     padding: 0 20px;
     border: $grey-border;
-    min-width: $form-min-width;
     width: $form-width;
     background-color: #f4f5f9;
 
@@ -413,7 +420,6 @@ $form-min-width: 850px;
 }
 
 .choose-hint {
-    min-width: $form-min-width;
     width: $form-width;
     text-align: center;
     line-height: 600px;

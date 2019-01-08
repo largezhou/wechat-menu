@@ -58,3 +58,14 @@ export const OTHER_EVENT_TYPES = {
     subscribe: '订阅',
     unsubscribe: '取消订阅',
 }
+
+/**
+ * 页面选项卡
+ *
+ * @type {Object}
+ */
+export const PAGES = {
+    'menus-editor': '菜单设置',
+    'menu-events-setting': '菜单事件配置',
+    'other-events-setting': '其他事件配置',
+}

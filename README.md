@@ -26,13 +26,9 @@ $ composer require largezhou/wechat-menu -vvv
 
 ### 首先
 
-你需要定义三个 `get` 路由，来返回下面三个页面：
+你需要定义一个 `get` 路由，来返回公众号管理页面
 
-`Content::renderMenusEditor()` 返回菜单编辑页的网页内容，你可以把该内容，插入到你的模板中相应的位置。
-
-`Content::renderMenuEventsSetting()` 返回自定义菜单事件配置页的网页内容。
-
-`Content::renderOtherEventsSetting()` 返回其他事件，比如收到文字，用户关注等处理方法的配置的网页。
+使用 `Content::renderWechatMenu()` 获取页面内容，你可以嵌在你的其他页面模板中。
 
 ### 其次
 

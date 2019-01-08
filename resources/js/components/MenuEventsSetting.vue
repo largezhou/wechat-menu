@@ -20,6 +20,7 @@
                 @click="onSave($refs.menuEventsTable.$v, events, 'menu_events')"
                 :disabled="saving"
             >保存</button>
+            <refresh :on-refresh="getData"/>
             <button
                 class="btn"
                 @click="onReset"
@@ -88,7 +89,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.menu-events-setting {
-    width: 1000px;
-}
 </style>

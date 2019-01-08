@@ -5,7 +5,7 @@
                 <th
                     v-for="(c, index) of columns"
                     :key="index"
-                    :width="c.width"
+                    :style="{ width: c.width}"
                 >{{ c.name }}
                 </th>
             </tr>
@@ -16,11 +16,13 @@
 
                 <td
                     v-if="isDefaultEvent(e)"
+                    :style="{ width: columns[0].width }"
                 >
                     {{ typeText(e.key) }}({{ e.key }})
                 </td>
                 <td
                     v-else
+                    :style="{ width: columns[0].width }"
                 >
                     <w-input
                         :has-error="hasError('key', index)"
@@ -30,10 +32,15 @@
                     />
                 </td>
 
-                <td>
+                <td
+                    :style="{ width: columns[1].width }"
+                >
                     <change-handle-type :event="e"/>
                 </td>
-                <td class="table-content">
+                <td
+                    class="table-content"
+                    :style="{ width: columns[2].width }"
+                >
                     <w-textarea
                         v-if="e.type == 'msg'"
                         v-model="e.content"
@@ -54,7 +61,9 @@
                         error-inside
                     />
                 </td>
-                <td>
+                <td
+                    :style="{ width: columns[3].width }"
+                >
                     <button
                         v-if="!isDefaultEvent(e)"
                         class="btn btn-danger btn-sm"
@@ -69,6 +78,7 @@
                 @click="onSave($v, events, 'other_events')"
                 :disabled="saving"
             >保存</button>
+            <refresh :on-refresh="getData"/>
             <button
                 class="btn"
                 @click="onReset"
@@ -107,12 +117,12 @@ export default {
                 {
                     field: 'name',
                     name: '事件',
-                    width: '200',
+                    width: '200px',
                 },
                 {
                     field: 'type',
                     name: '处理方法',
-                    width: '100',
+                    width: '100px',
                 },
                 {
                     field: 'content',
@@ -121,7 +131,7 @@ export default {
                 {
                     field: 'actions',
                     name: '操作',
-                    width: '80',
+                    width: '80px',
                 },
             ],
             events: [],
@@ -232,7 +242,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.other-events-setting {
-    width: 1000px;
-}
 </style>

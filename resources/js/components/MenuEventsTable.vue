@@ -4,11 +4,11 @@
             <th
                 v-for="(c, index) of columns"
                 :key="index"
-                :width="c.width"
+                :style="{ width: c.width }"
             >{{ c.name }}
             </th>
             <th
-                width="80"
+                style="width: 80px;"
                 v-if="$scopedSlots.actions"
             >
                 操作
@@ -18,7 +18,7 @@
             v-for="(e, index) of events"
             :key="index"
         >
-            <td>
+            <td :style="{ width: columns[0].width}">
                 <w-input
                     v-model="e.remark"
                     :has-error="hasError('remark', index)"
@@ -26,7 +26,7 @@
                     error-inside
                 />
             </td>
-            <td>
+            <td :style="{ width: columns[1].width}">
                 <w-input
                     v-model="e.key"
                     :has-error="hasError('key', index)"
@@ -34,10 +34,10 @@
                     error-inside
                 />
             </td>
-            <td>
+            <td :style="{ width: columns[2].width}">
                 <change-handle-type :event="e"/>
             </td>
-            <td>
+            <td :style="{ width: columns[3].width}">
                 <w-textarea
                     v-if="e.type == 'msg'"
                     v-model="e.content"
@@ -58,7 +58,10 @@
                     error-inside
                 />
             </td>
-            <td v-if="$scopedSlots.actions">
+            <td
+                style="width: 80px;"
+                v-if="$scopedSlots.actions"
+            >
                 <slot
                     name="actions"
                     :index="index"
@@ -91,17 +94,17 @@ export default {
                 {
                     field: 'remark',
                     name: '备注',
-                    width: '150',
+                    width: '150px',
                 },
                 {
                     field: 'key',
                     name: '事件标识',
-                    width: '150',
+                    width: '150px',
                 },
                 {
                     field: 'type',
                     name: '处理方法',
-                    width: '100',
+                    width: '100px',
                 },
                 {
                     field: 'content',

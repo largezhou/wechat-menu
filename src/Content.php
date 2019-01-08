@@ -67,8 +67,23 @@ class Content
         return static::wrapHtml('<menu-events-setting/>');
     }
 
+    /**
+     * 返回其他事件 增删改查 页面.
+     *
+     * @return string
+     */
     public static function renderOtherEventsSetting()
     {
         return static::wrapHtml('<other-events-setting/>');
+    }
+
+    /**
+     * 返回微信公众号管理页面，包含其他页面，用 选项卡 切换.
+     *
+     * @return string
+     */
+    public static function renderWechatMenu()
+    {
+        return static::wrapHtml('<wechat-menu/>');
     }
 }
