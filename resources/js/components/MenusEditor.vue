@@ -71,7 +71,8 @@
             <button
                 class="btn btn-primary"
                 @click="onSave"
-                :disabled="saving"
+                :disabled="!canSave"
+                :title="emptyMenus ? '至少要有一个菜单才能保存' : ''"
             >保存</button>
             <refresh :on-refresh="getData"/>
             <button
@@ -202,6 +203,12 @@ export default {
 
             return cur
         },
+        emptyMenus() {
+            return this.menus.length == 0
+        },
+        canSave() {
+            return !this.saving && !this.emptyMenus
+        },
     },
     created() {
         this.getData()
@@ -247,9 +254,17 @@ export default {
             return id
         },
         async onSave() {
+            if (!this.canSave) {
+                return
+            }
+
             this.$v.$touch()
 
             if (this.$v.$invalid) {
+                this.$notice({
+                    msg: '请填写完正确的配置',
+                    type: 'error',
+                })
                 const errorMenu = this.getFirstErrorMenu()
                 this.$bus.$emit('menuActive', errorMenu)
                 return

@@ -104,6 +104,10 @@ class Data
      */
     public static function postMenus(array $menus): string
     {
+        if (empty($menus)) {
+            return static::error('至少要有一个菜单才能保存');
+        }
+
         $res = Manager::getInstance()->getWechat()->menu->create($menus);
 
         if ($res['errcode'] == 0) {
