@@ -14,6 +14,13 @@
                 <component :is="hash"/>
             </keep-alive>
         </div>
+
+        <w-dialog
+            title="你好啊"
+            :content="(h) => h('strong', '呵呵')"
+            persistent
+            html
+        />
     </div>
 </template>
 
