@@ -1,7 +1,7 @@
 <template>
     <form-item
         v-bind="_formItemProps"
-        ref="vCallbackInput"
+        ref="wCallbackInput"
     >
         <input
             type="text"
@@ -36,7 +36,7 @@
 import FormItemHelper from '@/common/form-item'
 
 export default {
-    name: 'VCallbackInput',
+    name: 'WCallbackInput',
     mixins: [
         FormItemHelper,
     ],
@@ -96,7 +96,7 @@ export default {
             this.$emit('input', val + '@')
         },
         onClickOtherArea(e) {
-            if (!this.$refs.vCallbackInput.$el.contains(e.target)) {
+            if (!this.$refs.wCallbackInput.$el.contains(e.target)) {
                 this.show = false
             }
         },
