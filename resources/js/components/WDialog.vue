@@ -1,10 +1,12 @@
 <template>
     <transition
         name="mask-in"
+        @after-leave="onAfterLeave"
     >
         <div
             v-show="show"
             class="dialog-mask"
+            :class="{ disabled: persistent }"
             @click.self="onClickMask"
         >
             <div
@@ -18,43 +20,33 @@
                     {{ title }}
                     <span
                         class="header-close"
-                        @click="onHide"
+                        @click="onCancel"
                     >X</span>
                 </div>
                 <div class="content">
-                    <template v-if="isText">
-                        {{ content }}
-                    </template>
-                    <div
-                        v-else-if="isHtml"
-                        v-html="content"
-                    />
-                    <render-content
-                        v-else
-                        :h="content"
-                    />
+                    <slot>
+                        <template v-if="isText">
+                            {{ content }}
+                        </template>
+                        <div
+                            v-else-if="isHtml"
+                            v-html="content"
+                        />
+                        <render-content
+                            v-else
+                            :h="content"
+                        />
+                    </slot>
                 </div>
                 <div
                     class="footer"
                 >
-                    <template v-if="!buttons">
-                        <button
-                            class="btn btn-primary"
-                            @click="$emit('onOk')"
-                        >确定</button>
-                        <button
-                            class="btn"
-                            @click="onHide"
-                        >取消</button>
-                    </template>
-                    <template v-else>
-                        <button
-                            v-for="(b, index) of buttons"
-                            :class="b.class"
-                            @click="getBtnCallback(index)"
-                            v-text="b.text"
-                        />
-                    </template>
+                    <button
+                        v-for="(b, index) of buttons"
+                        :class="b.class"
+                        @click="onBtnClick(index)"
+                        v-text="b.text"
+                    />
                 </div>
             </div>
         </div>
@@ -83,15 +75,35 @@ export default {
             type: String,
             default: 'auto',
         },
-        title: String,
+        title: {
+            type: String,
+            default: '提示',
+        },
         content: {
             type: [String, Function],
             default: '',
         },
+        // 是否把字符串类型的 content 输出为 html
         html: Boolean,
+        // 点击遮罩层是否可关闭，true 不可关闭，false 可关闭
         persistent: Boolean,
-        buttons: Array,
-        btnCallbacks: Array,
+        // 底部按钮，如果有 callback ，则会调用 callback，否则会触发 buttonClicked 事件
+        buttons: {
+            type: Array,
+            default() {
+                return [
+                    {
+                        class: 'btn btn-primary',
+                        text: '确定',
+                    },
+                    {
+                        class: 'btn',
+                        text: '取消',
+                        callback: () => this.onCancel(),
+                    },
+                ]
+            },
+        },
     },
     mounted() {
         this.$nextTick(() => {
@@ -115,25 +127,29 @@ export default {
         },
     },
     methods: {
-        onHide() {
+        onCancel() {
             this.show = false
-            this.$emit('onHide')
+            this.$emit('onCancel')
         },
         onClickMask(e) {
             if (!this.persistent) {
-                return this.onHide(e)
+                return this.onCancel(e)
             }
         },
-        getBtnCallback(index) {
-            const cb = this.btnCallbacks[index]
+        onBtnClick(index) {
+            const callback = this.buttons[index].callback
+            if (typeof callback == 'function') {
+                callback(this)
+                return
+            }
 
-            if (typeof cb == 'function') {
-                return cb
-            } else {
-                console.warn(`第 ${index + 1} 个按钮回调，必须是函数类型`)
-                return () => {}
-            }
+            const values = this.buttons.map((b, i) => {
+                return index == i
+            })
+
+            this.$emit('buttonClicked', [this].concat(values))
         },
+        onAfterLeave() {},
     },
 }
 </script>
@@ -149,6 +165,14 @@ export default {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.3);
     z-index: 100;
+
+    &.disabled {
+        cursor: not-allowed !important;
+
+        .dialog * {
+            cursor: initial;
+        }
+    }
 }
 
 .dialog {
@@ -163,6 +187,7 @@ export default {
 .header {
     border-bottom: 2px solid $grey;
     padding: 20px 20px 10px 20px;
+    font-size: 18px !important;
 }
 
 .content {
@@ -184,7 +209,7 @@ export default {
 
 .mask-in-enter-active,
 .mask-in-leave-active {
-    transition: all .1s;
+    transition: all .2s;
 }
 
 .mask-in-enter,

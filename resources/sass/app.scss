@@ -23,6 +23,10 @@
         &[disabled] {
             color: $grey-1;
         }
+
+        + .btn {
+            margin-left: 10px;
+        }
     }
 
     .btn-primary {

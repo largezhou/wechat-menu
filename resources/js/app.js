@@ -2,9 +2,11 @@ import Vue from 'vue'
 import noticeBar from '@/common/notice-bar'
 import Vuelidate from 'vuelidate'
 import '@/common/global-components'
+import Dialog from '@/common/dialog'
 
 Vue.use(noticeBar)
 Vue.use(Vuelidate)
+Vue.use(Dialog)
 
 if (process.env.NODE_ENV == 'development') {
     window.log = console.log.bind(console)
