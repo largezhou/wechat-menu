@@ -1,47 +1,64 @@
 <template>
-    <div
-        v-show="show"
-        class="dialog-mask"
-        @click.self="onClickMask"
+    <transition
+        name="mask-in"
     >
         <div
-            class="dialog"
-            :style="styles"
+            v-show="show"
+            class="dialog-mask"
+            @click.self="onClickMask"
         >
             <div
-                v-show="title"
-                class="header"
+                class="dialog"
+                :style="styles"
             >
-                {{ title }}
-                <span
-                    class="header-close"
-                    @click="onHide"
-                >X</span>
-            </div>
-            <div class="content">
-                <template v-if="isText">
-                    {{ content }}
-                </template>
                 <div
-                    v-else-if="isHtml"
-                    v-html="content"
-                />
-                <render-content
-                    v-else
-                    :h="content"
-                />
-            </div>
-            <div class="footer">
-                <button
-                    class="btn btn-primary"
-                >确定</button>
-                <button
-                    class="btn"
-                    @click="onHide"
-                >取消</button>
+                    v-if="title"
+                    class="header"
+                >
+                    {{ title }}
+                    <span
+                        class="header-close"
+                        @click="onHide"
+                    >X</span>
+                </div>
+                <div class="content">
+                    <template v-if="isText">
+                        {{ content }}
+                    </template>
+                    <div
+                        v-else-if="isHtml"
+                        v-html="content"
+                    />
+                    <render-content
+                        v-else
+                        :h="content"
+                    />
+                </div>
+                <div
+                    class="footer"
+                >
+                    <template v-if="!buttons">
+                        <button
+                            class="btn btn-primary"
+                            @click="$emit('onOk')"
+                        >确定</button>
+                        <button
+                            class="btn"
+                            @click="onHide"
+                        >取消</button>
+                    </template>
+                    <template v-else>
+                        <button
+                            v-for="(b, index) of buttons"
+                            :class="b.class"
+                            @click="getBtnCallback(index)"
+                            v-text="b.text"
+                        />
+                    </template>
+                </div>
             </div>
         </div>
-    </div>
+    </transition>
 </template>
 
 <script>
@@ -54,7 +71,7 @@ export default {
     },
     data() {
         return {
-            show: true,
+            show: false,
         }
     },
     props: {
@@ -73,6 +90,13 @@ export default {
         },
         html: Boolean,
         persistent: Boolean,
+        buttons: Array,
+        btnCallbacks: Array,
+    },
+    mounted() {
+        this.$nextTick(() => {
+            this.show = true
+        })
     },
     computed: {
         styles() {
@@ -93,10 +117,21 @@ export default {
     methods: {
         onHide() {
             this.show = false
+            this.$emit('onHide')
         },
         onClickMask(e) {
             if (!this.persistent) {
                 return this.onHide(e)
+            }
+        },
+        getBtnCallback(index) {
+            const cb = this.btnCallbacks[index]
+
+            if (typeof cb == 'function') {
+                return cb
+            } else {
+                console.warn(`第 ${index + 1} 个按钮回调，必须是函数类型`)
+                return () => {}
             }
         },
     },
@@ -145,5 +180,15 @@ export default {
     cursor: pointer;
     font-weight: 600;
     color: $grey-1;
+}
+
+.mask-in-enter-active,
+.mask-in-leave-active {
+    transition: all .1s;
+}
+
+.mask-in-enter,
+.mask-in-leave-to {
+    opacity: 0;
 }
 </style>
