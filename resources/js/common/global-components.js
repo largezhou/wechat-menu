@@ -13,3 +13,4 @@ Vue.component('w-callback-input', require('@/components/form/VCallbackInput').de
 Vue.component('wechat-menu', require('@/components/WechatMenu').default)
 Vue.component('refresh', require('@/components/Refresh').default)
 Vue.component('w-dialog', require('@/components/WDialog').default)
+Vue.component('media-browser', require('@/components/MediaBrowser').default)

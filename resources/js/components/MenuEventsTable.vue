@@ -38,14 +38,13 @@
                 <change-handle-type :event="e"/>
             </td>
             <td :style="{ width: columns[3].width}">
-                <w-textarea
+                <w-media-picker
                     v-if="e.type == 'msg'"
                     v-model="e.content"
-                    ref="inputs"
-                    rows="2"
                     :has-error="hasError('content', index)"
                     :error-text="getError('content', index)"
                     error-inside
+                    ref="inputs"
                 />
                 <w-callback-input
                     v-else
@@ -78,12 +77,14 @@ import ChangeHandleType from '@/components/ChangeHandleType'
 import { required } from 'vuelidate/lib/validators'
 import { callback, unique } from '@/common/validators'
 import EventErrorHelper from '@/common/event-error-helper'
+import WMediaPicker from '@/components/form/WMediaPicker'
 
 export default {
     name: 'MenuEventsTable',
     components: {
         CallbackInput,
         ChangeHandleType,
+        WMediaPicker,
     },
     mixins: [
         EventErrorHelper,

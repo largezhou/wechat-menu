@@ -1,4 +1,4 @@
-import WDialog from '@//components/WDialog'
+import WDialog from '@/components/WDialog'
 import Vue from 'vue'
 
 const DialogComp = Vue.extend(WDialog)

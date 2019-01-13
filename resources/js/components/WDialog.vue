@@ -11,7 +11,6 @@
         >
             <div
                 class="dialog"
-                :style="styles"
             >
                 <div
                     v-if="title"
@@ -23,7 +22,10 @@
                         @click="onCancel"
                     >X</span>
                 </div>
-                <div class="content">
+                <div
+                    class="content"
+                    :style="styles"
+                >
                     <slot>
                         <template v-if="isText">
                             {{ content }}
@@ -104,6 +106,7 @@ export default {
                 ]
             },
         },
+        callback: Function,
     },
     mounted() {
         this.$nextTick(() => {
@@ -148,8 +151,14 @@ export default {
             })
 
             this.$emit('buttonClicked', [this].concat(values))
+            if (typeof this.callback == 'function') {
+                this.callback(this, ...values)
+            }
         },
         onAfterLeave() {},
+        close() {
+            this.show = false
+        },
     },
 }
 </script>
@@ -177,7 +186,7 @@ export default {
 
 .dialog {
     position: fixed;
-    top: 30%;
+    top: 100px;
     left: 50%;
     transform: translateX(-50%);
     background-color: #fff;
@@ -192,6 +201,7 @@ export default {
 
 .content {
     padding: 20px;
+    overflow: auto;
 }
 
 .footer {
@@ -202,7 +212,7 @@ export default {
 .header-close {
     float: right;
     padding: 0 10px 0 10px;
-    cursor: pointer;
+    cursor: pointer !important;
     font-weight: 600;
     color: $grey-1;
 }

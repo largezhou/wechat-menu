@@ -26,6 +26,10 @@ const $global = new Vue({
         return {
             currentMenu: null,
             currentMenuIndex: null,
+            news: [],
+            images: [],
+            voices: [],
+            videos: [],
         }
     },
 })
