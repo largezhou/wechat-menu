@@ -238,6 +238,7 @@ class Data
      * @param $data
      *
      * @return string
+     *
      * @throws WechatMenuException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
@@ -248,6 +249,13 @@ class Data
         if (!in_array($materialType, static::MATERIAL_TYPES)) {
             throw new WechatMenuException('请求中素材类型 material_type 参数不正确');
         }
+
+        $res = '{"status":true,"msg":"","data":{"item":[{"media_id":"eJVZz7nQs2HT-qsr4tPaYRbOfM8m8Ff9aAgJkWQvkI4","name":"CropImage","update_time":1547347013,"url":"http:\/\/mmbiz.qpic.cn\/mmbiz_jpg\/liaicg5kSaQiboYOcLZ97lCY8opMloibMDicmRuXoC6tNIKI0p1KV7XrtBT4iaq2iaEeciarTjnHZSeAuCuUeKJ0QMp7jQ\/0?wx_fmt=jpeg"},{"media_id":"eJVZz7nQs2HT-qsr4tPaYRVjWutSY7tdg4QVc04GMPY","name":"CropImage","update_time":1547346957,"url":"http:\/\/mmbiz.qpic.cn\/mmbiz_jpg\/liaicg5kSaQiboYOcLZ97lCY8opMloibMDicm1Pt8ibs1fcicHDda6K7MLVYiaQPPy4CF9BLwDlw6EBcAoO2NQEibWWK0kw\/0?wx_fmt=jpeg"},{"media_id":"eJVZz7nQs2HT-qsr4tPaYbfK_eHady5gv6FlW3OD4og","name":"CropImage","update_time":1547346957,"url":"http:\/\/mmbiz.qpic.cn\/mmbiz_jpg\/liaicg5kSaQiboYOcLZ97lCY8opMloibMDicmJLKxUga4ekG0rSkibVWz1e5og9FPxYTYxiba9otLQhUiaPBqSjtJJXiadA\/0?wx_fmt=jpeg"}],"total_count":1,"item_count":3,"per_page":3}}';
+        $res = json_decode($res, true);
+        $res['data']['total_count'] = 100;
+        shuffle($res['data']['item']);
+
+        return json_encode($res);
 
         $res = Manager::getInstance()
             ->getWechat()

@@ -6,7 +6,7 @@
         <div
             v-show="show"
             class="dialog-mask"
-            :class="{ disabled: persistent }"
+            :class="[{ disabled: persistent }, styleClass]"
             @click.self="onClickMask"
         >
             <div
@@ -69,6 +69,7 @@ export default {
         }
     },
     props: {
+        styleClass: String,
         width: {
             type: String,
             default: '500px',

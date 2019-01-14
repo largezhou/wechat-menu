@@ -55,6 +55,7 @@ export default {
     methods: {
         onPickMaterial() {
             this.$dialog({
+                styleClass: 'media-picker',
                 title: '选择素材',
                 width: '750px',
                 height: '450px',

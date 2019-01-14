@@ -19,6 +19,7 @@
             <div v-else-if="curType == 'news'">图文</div>
             <not-news-browser
                 v-else
+                :type="curType"
             />
         </div>
     </div>
@@ -112,5 +113,8 @@ export default {
         text-align: center;
         width: 120px;
     }
+
+    height: 100%;
+    position: relative;
 }
 </style>
