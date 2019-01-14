@@ -5,7 +5,6 @@
                 class="tab"
                 v-for="k of Object.keys(types)"
                 :key="k"
-                href="javascript:void(0)"
                 :class="{ active: curType == k }"
                 @click="curType = k"
             >{{ types[k] }}</span>
@@ -22,7 +21,7 @@
 </template>
 
 <script>
-import { AUTO_REPLY_TYPES } from '../common/constants'
+import { AUTO_REPLY_TYPES } from '@/common/constants'
 
 export default {
     name: 'MediaBrowser',
@@ -35,10 +34,42 @@ export default {
     props: {
         initText: String,
         initType: String,
+        value: Object,
     },
     computed: {
         types() {
             return AUTO_REPLY_TYPES
+        },
+    },
+    methods: {
+        onChange() {
+            const val = {
+                type: this.curType,
+            }
+
+            switch (this.curType) {
+                case 'text':
+                    val.text = this.text
+                    break;
+                case 'news':
+                    val.items = []
+                    break;
+                case 'image':
+                case 'voice':
+                case 'video':
+                    val.items = []
+                    break;
+            }
+
+            this.$emit('input', val)
+        },
+    },
+    watch: {
+        curType() {
+            this.onChange()
+        },
+        text() {
+            this.onChange()
         },
     },
 }

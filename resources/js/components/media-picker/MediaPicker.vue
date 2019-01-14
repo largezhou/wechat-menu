@@ -18,12 +18,18 @@
 <script>
 import FormItemHelper from '@/common/form-item'
 import { AUTO_REPLY_TYPES } from '@/common/constants'
+import { objGet } from '@/common/utils'
 
 export default {
-    name: 'WMediaPicker',
+    name: 'MediaPicker',
     mixins: [
         FormItemHelper,
     ],
+    data() {
+        return {
+            newValue: null,
+        }
+    },
     props: {
         value: {
             type: Object,
@@ -54,18 +60,25 @@ export default {
                 persistent: true,
                 content: (h) => {
                     const props = {
-                        initType: this.value.type,
+                        initType: objGet(this.value, 'type'),
+                        initText: objGet(this.value, 'text'),
+                        value: this.newValue,
                     }
-                    if (this.value.type == 'text') {
-                        props.initText = this.value.text
-                    }
+
                     return h('media-browser', {
                         props,
+                        on: {
+                            input: (value) => {
+                                this.newValue = value
+                            },
+                        },
                     })
                 },
-                callback(dialog, ok, cancel) {
-                    alert(ok)
-                    dialog.close()
+                callback: (dialog, ok, cancel) => {
+                    if (ok) {
+                        this.$emit('input', this.newValue)
+                        dialog.close()
+                    }
                 },
             })
         },
