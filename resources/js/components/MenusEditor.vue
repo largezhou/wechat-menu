@@ -272,36 +272,7 @@ export default {
 
             try {
                 this.saving = true
-                const { data } = await postResources('menus', this.menus)
-
-                if (data.status) {
-                    this.$notice({
-                        msg: data.msg,
-                        type: 'success',
-                    })
-                } else {
-                    this.$notice({
-                        type: 'error',
-                        duration: 6000,
-                        msg(h) {
-                            return h(
-                                'div',
-                                [
-                                    h('span', data.msg),
-                                    h('a', {
-                                        attrs: {
-                                            href: WECHAT_ERROR_CODES,
-                                            target: '_blank',
-                                        },
-                                        style: {
-                                            marginLeft: '10px',
-                                        },
-                                    }, '查看详情'),
-                                ],
-                            )
-                        },
-                    })
-                }
+                await postResources('menus', this.menus)
             } finally {
                 this.saving = false
             }

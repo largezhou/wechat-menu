@@ -13,7 +13,23 @@ class Data
         'menus',
         'menu_events',
         'other_events',
+        'materials',
     ];
+
+    /**
+     * 永久素材类型.
+     */
+    const MATERIAL_TYPES = [
+        'news',
+        'image',
+        'video',
+        'voice',
+    ];
+
+    /**
+     * 素材每页数.
+     */
+    const MEDIA_PER_PAGE = 3;
 
     /**
      * 返回成功.
@@ -38,17 +54,17 @@ class Data
      * 返回错误.
      *
      * @param string $msg  消息
-     * @param string $data 附带数据
+     * @param string $type 错误类型: default 默认，wechat 微信接口错误
      *
      * @return string
      */
-    public static function error($msg = '', $data = null): string
+    public static function error($msg = '', $type = 'default'): string
     {
         return json_encode(
             [
                 'status' => false,
                 'msg' => $msg,
-                'data' => $data,
+                'type' => $type,
             ]
         );
     }
@@ -113,7 +129,7 @@ class Data
         if ($res['errcode'] == 0) {
             return static::success('菜单保存成功');
         } else {
-            return static::error("[{$res['errcode']}] {$res['errmsg']}");
+            return static::error("[{$res['errcode']}] {$res['errmsg']}", 'wechat');
         }
     }
 
@@ -125,15 +141,19 @@ class Data
      * @return string json_encode 后的数据
      *
      * @throws WechatMenuException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public static function getResources(array $data): string
     {
         $type = static::checkAndGetType($data);
 
-        if ($type == 'menus') {
-            return static::getMenus();
-        } else {
-            return static::getSettings($type);
+        switch ($type) {
+            case 'menus':
+                return static::getMenus();
+            case 'materials':
+                return static::getMaterials($data);
+            default:
+                return static::getSettings($type);
         }
     }
 
@@ -210,5 +230,41 @@ class Data
         }
 
         return $type;
+    }
+
+    /**
+     * 获取素材列表.
+     *
+     * @param $data
+     *
+     * @return string
+     * @throws WechatMenuException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    protected static function getMaterials($data)
+    {
+        $materialType = $data['material_type'] ?? '';
+
+        if (!in_array($materialType, static::MATERIAL_TYPES)) {
+            throw new WechatMenuException('请求中素材类型 material_type 参数不正确');
+        }
+
+        $res = Manager::getInstance()
+            ->getWechat()
+            ->material
+            ->list(
+                $materialType,
+                ($data['page'] - 1) * static::MEDIA_PER_PAGE,
+                static::MEDIA_PER_PAGE
+            );
+
+        $errCode = $res['errcode'] ?? null;
+        if ($errCode) {
+            return static::error("[{$res['errcode']}] {$res['errmsg']}", 'wechat');
+        }
+
+        $res['per_page'] = static::MEDIA_PER_PAGE;
+
+        return static::success('', $res);
     }
 }

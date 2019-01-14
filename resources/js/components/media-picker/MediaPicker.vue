@@ -45,12 +45,13 @@ export default {
             }
 
             if (val.type == 'text') {
-                return val.text
+                return val.text || '点击设置文字内容'
             }
 
             return `已选择${AUTO_REPLY_TYPES[val.type]}`
         },
     },
+
     methods: {
         onPickMaterial() {
             this.$dialog({
@@ -58,6 +59,20 @@ export default {
                 width: '750px',
                 height: '450px',
                 persistent: true,
+                buttons: [
+                    {
+                        class: 'btn btn-primary',
+                        text: '确定',
+                    },
+                    {
+                        class: 'btn',
+                        text: '取消',
+                    },
+                    {
+                        class: 'btn',
+                        text: '清除',
+                    },
+                ],
                 content: (h) => {
                     const props = {
                         initType: objGet(this.value, 'type'),
@@ -74,11 +89,16 @@ export default {
                         },
                     })
                 },
-                callback: (dialog, ok, cancel) => {
+                callback: (dialog, ok, cancel, clear) => {
                     if (ok) {
                         this.$emit('input', this.newValue)
-                        dialog.close()
                     }
+
+                    if (clear) {
+                        this.$emit('input', null)
+                    }
+
+                    dialog.close()
                 },
             })
         },

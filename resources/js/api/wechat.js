@@ -1,5 +1,6 @@
 import axios from 'axios'
 import Vue from 'vue'
+import { WECHAT_ERROR_CODES } from '@/common/constants'
 
 const bassURLEl = document.querySelector('#wechat-menu-prefix')
 const baseURL = bassURLEl && bassURLEl.getAttribute('data-prefix')
@@ -7,23 +8,39 @@ axios.defaults.baseURL = baseURL || '/wechat-menu'
 
 axios.interceptors.response.use(
     res => {
-        const config = res.config
-
-        const msg = res.data.msg
+        let msg = res.data.msg
         const status = res.data.status
 
         if (msg) {
-            if (status && config.noErrorNotice) {
-                Vue.$notice({
-                    msg,
-                    type: 'success',
-                })
-            } else if (!config.noErrorNotice) {
-                Vue.$notice({
-                    msg,
-                    type: status ? 'success' : 'error',
-                })
+            if (!status) {
+                const errorType = res.data.type
+                // 微信错误，显示一个查看详情的链接
+                if (errorType == 'wechat') {
+                    const t = msg
+                    msg = (h) => {
+                        return h(
+                            'div',
+                            [
+                                h('span', t),
+                                h('a', {
+                                    attrs: {
+                                        href: WECHAT_ERROR_CODES,
+                                        target: '_blank',
+                                    },
+                                    style: {
+                                        marginLeft: '10px',
+                                    },
+                                }, '查看详情'),
+                            ],
+                        )
+                    }
+                }
             }
+
+            Vue.$notice({
+                msg,
+                type: status ? 'success' : 'error',
+            })
         }
 
         return res
@@ -53,10 +70,11 @@ axios.interceptors.response.use(
     },
 )
 
-export function getResources(type) {
+export function getResources(type, params = {}) {
     return axios.get('/resources', {
         params: {
             type,
+            ...params,
         },
     })
 }
