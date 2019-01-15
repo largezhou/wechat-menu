@@ -57,7 +57,7 @@ export default {
             this.$dialog({
                 styleClass: 'media-picker',
                 title: '选择素材',
-                width: '750px',
+                width: '700px',
                 height: '450px',
                 persistent: true,
                 buttons: [

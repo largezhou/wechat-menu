@@ -1,14 +1,13 @@
 <template>
-    <div>
-        <ul>
-            <li
-                v-for="(item, index) of items"
+    <div class="media-list">
+        <div class="items">
+            <media-item
+                v-for="(item, index) of rawItems"
                 :key="index"
-                style="display: inline-block;"
-            >
-                <img width="100" height="100" :src="item.url"/>
-            </li>
-        </ul>
+                :item="item"
+                :type="type"
+            />
+        </div>
         <div class="paginator">
             <paginator
                 :value="material.page"
@@ -23,11 +22,13 @@
 <script>
 import { getResources } from '@/api/wechat'
 import Paginator from '@/components/Paginator'
+import MediaItem from '@/components/media-picker/MediaItem'
 
 export default {
-    name: 'NotNewsBrowser',
+    name: 'MediaList',
     components: {
         Paginator,
+        MediaItem,
     },
     props: {
         type: String,
@@ -36,8 +37,33 @@ export default {
         offset() {
             return (this.material.page - 1) * this.$global.materialPerPage
         },
-        items() {
+        rawItems() {
             return this.material.items.slice(this.offset, this.offset + this.$global.materialPerPage)
+        },
+        items() {
+            return this.type == 'news'
+                ? this.newsItems
+                : this.rawItems
+        },
+        /**
+         * 图文的列表是二维数组
+         *
+         * @returns {Array}
+         */
+        newsItems() {
+            if (this.type != 'news') {
+                return []
+            }
+
+            const items = []
+
+            this.rawItems.forEach(i => {
+                i.content.news_item.forEach(j => {
+                    items.push(j)
+                })
+            })
+
+            return items
         },
         totalPage() {
             return Math.ceil(this.total / this.$global.materialPerPage)
@@ -122,8 +148,21 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "~@/../sass/vars";
+
+.media-list {
+    position: relative;
+}
+
 .paginator {
-    position: absolute;
-    bottom: 0;
+}
+
+.items {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+    height: 285px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 </style>

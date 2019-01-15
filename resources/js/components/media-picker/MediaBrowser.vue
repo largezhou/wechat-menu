@@ -16,8 +16,7 @@
                 v-model="text"
                 ref="textarea"
             />
-            <div v-else-if="curType == 'news'">图文</div>
-            <not-news-browser
+            <media-list
                 v-else
                 :type="curType"
             />
@@ -27,12 +26,12 @@
 
 <script>
 import { AUTO_REPLY_TYPES } from '@/common/constants'
-import NotNewsBrowser from '@/components/media-picker/NotNewsBrowser'
+import MediaList from '@/components/media-picker/MediaList'
 
 export default {
     name: 'MediaBrowser',
     components: {
-        NotNewsBrowser,
+        MediaList,
     },
     data() {
         return {
@@ -115,6 +114,5 @@ export default {
     }
 
     height: 100%;
-    position: relative;
 }
 </style>

@@ -23,6 +23,7 @@ mix
         },
     })
     .setPublicPath(target)
+    .setResourceRoot('/vendor/wechat-menu')
     .js('resources/js/app.js', target)
     .sass('resources/sass/app.scss', target)
     .copy(target, '../test_wechat_menu/public/vendor/wechat-menu')
