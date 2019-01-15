@@ -16,7 +16,7 @@
             target="_blank"
             :href="viewLink"
             class="view"
-            @click="onView"
+            @click.stop="onView"
         >查看</a>
     </div>
 </template>
@@ -45,6 +45,7 @@ export default {
             }
 
             // news 类型再细分为 news（图文集）和 newsItem （单个图文）类型
+            // 通过 content 判断
             if (typeof this.item.content == 'string') {
                 return 'newsItem'
             } else {
@@ -56,10 +57,12 @@ export default {
                 // 图文集，则返回图文集中的第一篇文章的封面
                 case 'news':
                     return this.item.content.news_item[0].thumb_url
+                // 单个图文，直接获取封面
                 case 'newsItem':
                     return this.item.thumb_url
                 case 'image':
                     return this.item.url
+                // 视频和音频，则用图标
                 case 'voice':
                 case 'video':
                     return require(`@/../img/${this.realType}.png`)
@@ -83,8 +86,11 @@ export default {
                 case 'image':
                     return this.item.url
                 case 'voice':
+                    // 音频可直接下载
                     return `${axios.defaults.baseURL}/resources?type=media&media_id=${this.item.media_id}`
                 case 'video':
+                    // 视频如果有 url，说明已经获取过了，直接跳转链接
+                    // 否则会执行 onView
                     if (this.item.url) {
                         return this.item.url
                     }
@@ -96,6 +102,13 @@ export default {
     methods: {
         async onView() {
             if (this.realType == 'video') {
+                // 视频的话，由于获取媒体详情后，返回的是一个链接，
+                // 所以请求后，设置 url，如果有 url 就不用再请求了，
+                // 点击可跳转到视频页
+                if (this.item.url) {
+                    return
+                }
+
                 const { data } = await getResources('media', {
                     media_id: this.item.media_id,
                 })
@@ -108,6 +121,7 @@ export default {
                     })
                 }
             } else if (this.realType == 'news') {
+                // 图文的话要打开一个弹窗，把里面所有图文列出来
                 this.$dialog({
                     title: '图文集',
                     width: '560px',

@@ -4,14 +4,13 @@
     >
         <a
             href="javascript:void(0);"
-            title="点击选择素材"
-            @click="onPickMaterial"
+            title="查看"
         >{{ content }}</a>
         <a
-            v-show="value"
             href="javascript:void(0);"
             style="float: right;"
-        >查看详情</a>
+            @click="onPickMaterial"
+        >选择素材</a>
     </form-item>
 </template>
 
@@ -41,11 +40,11 @@ export default {
             const val = this.value
 
             if (!val) {
-                return '点击选择素材'
+                return '还未选择素材'
             }
 
             if (val.type == 'text') {
-                return val.text || '点击设置文字内容'
+                return val.value || '点击设置文字内容'
             }
 
             return `已选择${AUTO_REPLY_TYPES[val.type]}`
@@ -77,8 +76,7 @@ export default {
                 content: (h) => {
                     const props = {
                         initType: objGet(this.value, 'type'),
-                        initText: objGet(this.value, 'text'),
-                        value: this.newValue,
+                        value: objGet(this.value, 'value'),
                     }
 
                     return h('media-browser', {

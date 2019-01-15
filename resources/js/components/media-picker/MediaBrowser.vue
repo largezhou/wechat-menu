@@ -19,6 +19,7 @@
             <media-list
                 v-else
                 :type="curType"
+                v-model="mediaDetail"
             />
         </div>
     </div>
@@ -36,13 +37,13 @@ export default {
     data() {
         return {
             curType: this.initType || 'text',
-            text: this.initText,
+            text: typeof this.value == 'string' ? this.value : '',
+            mediaDetail: null,
         }
     },
     props: {
-        initText: String,
         initType: String,
-        value: Object,
+        value: [Object, String],
     },
     computed: {
         types() {
@@ -56,20 +57,9 @@ export default {
         onChange() {
             const val = {
                 type: this.curType,
-            }
-
-            switch (this.curType) {
-                case 'text':
-                    val.text = this.text
-                    break
-                case 'news':
-                    val.items = []
-                    break
-                case 'image':
-                case 'voice':
-                case 'video':
-                    val.items = []
-                    break
+                value: this.curType == 'text'
+                    ? this.text
+                    : this.mediaDetail
             }
 
             this.$emit('input', val)
@@ -101,6 +91,9 @@ export default {
                 this.onChange()
             },
             immediate: true,
+        },
+        mediaDetail() {
+            this.onChange()
         },
     },
 }

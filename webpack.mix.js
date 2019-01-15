@@ -35,7 +35,4 @@ mix
                 '@': path.resolve(__dirname, 'resources/js/'),
             },
         },
-        plugins: [
-            new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-        ],
     })

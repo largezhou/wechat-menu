@@ -6,6 +6,7 @@
                 :key="index"
                 :item="item"
                 :type="type"
+                @click.native="onPickerMedia(item)"
             />
         </div>
         <div class="paginator">
@@ -32,6 +33,7 @@ export default {
     },
     props: {
         type: String,
+        value: Object,
     },
     computed: {
         offset() {
@@ -137,6 +139,27 @@ export default {
         },
         onPageChange(page) {
             this.getData(page)
+        },
+        onPickerMedia(item) {
+            this.$emit('input', this.convertData(item))
+        },
+        convertData(item) {
+            if (this.type == 'news') {
+                const items = item.content.news_item.map(i => {
+                    return {
+                        title: i.title,
+                        description: i.digest,
+                        image: i.thumb_url,
+                        url: i.url,
+                    }
+                })
+                return {
+                    media_id: item.media_id,
+                    items,
+                }
+            } else {
+                return item
+            }
         },
     },
     watch: {
