@@ -77,35 +77,39 @@ export default {
             if (data.status) {
                 const d = data.data
 
+                // 由于获取到数据之前，可能切换类型，
+                // 所以获取到数据之后，要操作的素材类型，应该用返回的数据中的类型来获取
+                const material = this.$global[d.type]
+
                 if (this.type != 'image') {
-                    this.material.total = d.total_count
-                    this.material.bottom = true
+                    material.total = d.total_count
+                    material.bottom = true
                 }
 
                 if (d.item.length == 0) {
-                    this.material.bottom = true
+                    material.bottom = true
                     return
                 }
 
                 const offset = (page - 1) * this.$global.materialPerPage
 
                 this.$global.materialPerPage = d.per_page
-                this.material.pages.push(page)
+                material.pages.push(page)
 
                 // 在全局数据中，缓存当前页数据
                 // 假设曾请求过第 1、3 页的数据，则生成的数据结构如下:
                 // [0, 1, 2, empty, empty, empty, 6, 7, 8]
-                if (this.material.items.length < offset) {
-                    this.material.items[offset] = null
-                    this.material.items.splice(offset, 1, ...d.item)
+                if (material.items.length < offset) {
+                    material.items[offset] = null
+                    material.items.splice(offset, 1, ...d.item)
                 } else {
-                    this.material.items.splice(offset, this.$global.materialPerPage, ...d.item)
+                    material.items.splice(offset, this.$global.materialPerPage, ...d.item)
                 }
 
-                this.material.page = page
+                material.page = page
 
                 if (d.item.length < this.$global.materialPerPage) {
-                    this.material.bottom = true
+                    material.bottom = true
                 }
             }
         },
