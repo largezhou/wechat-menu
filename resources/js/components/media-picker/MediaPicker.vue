@@ -44,7 +44,9 @@ export default {
             }
 
             if (val.type == 'text') {
-                return val.value || '点击设置文字内容'
+                return val.value || '请设置文字内容'
+            } else {
+                return (val.value ? '已选择' : '请选择') + AUTO_REPLY_TYPES[val.type]
             }
 
             return `已选择${AUTO_REPLY_TYPES[val.type]}`
@@ -104,6 +106,3 @@ export default {
     },
 }
 </script>
-
-<style scoped lang="scss">
-</style>
