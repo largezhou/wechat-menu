@@ -27,6 +27,11 @@ import { getResources } from '@/api/wechat'
 
 export default {
     name: 'MediaItem',
+    data() {
+        return {
+            active: false,
+        }
+    },
     props: {
         item: {
             type: Object,
@@ -36,7 +41,6 @@ export default {
             type: String,
             required: true,
         },
-        active: Boolean,
     },
     computed: {
         realType() {
@@ -99,6 +103,12 @@ export default {
             }
         },
     },
+    mounted() {
+        this.$bus.$on('mediaSelected', this.onMediaSelected)
+    },
+    beforeDestroy() {
+        this.$bus.$off('mediaSelected', this.onMediaSelected)
+    },
     methods: {
         async onView() {
             if (this.realType == 'video') {
@@ -144,6 +154,9 @@ export default {
                     ],
                 })
             }
+        },
+        onMediaSelected(item) {
+            this.active = item === this.item
         },
     },
 }

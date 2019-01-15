@@ -69,7 +69,7 @@ export default {
                         text: '取消',
                     },
                     {
-                        class: 'btn',
+                        class: 'btn btn-danger',
                         text: '清除',
                     },
                 ],

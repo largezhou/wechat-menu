@@ -2,7 +2,7 @@
     <div class="media-list">
         <div class="items">
             <media-item
-                v-for="(item, index) of rawItems"
+                v-for="(item, index) of items"
                 :key="index"
                 :item="item"
                 :type="type"
@@ -39,33 +39,8 @@ export default {
         offset() {
             return (this.material.page - 1) * this.$global.materialPerPage
         },
-        rawItems() {
-            return this.material.items.slice(this.offset, this.offset + this.$global.materialPerPage)
-        },
         items() {
-            return this.type == 'news'
-                ? this.newsItems
-                : this.rawItems
-        },
-        /**
-         * 图文的列表是二维数组
-         *
-         * @returns {Array}
-         */
-        newsItems() {
-            if (this.type != 'news') {
-                return []
-            }
-
-            const items = []
-
-            this.rawItems.forEach(i => {
-                i.content.news_item.forEach(j => {
-                    items.push(j)
-                })
-            })
-
-            return items
+            return this.material.items.slice(this.offset, this.offset + this.$global.materialPerPage)
         },
         totalPage() {
             return Math.ceil(this.total / this.$global.materialPerPage)
@@ -80,9 +55,6 @@ export default {
                 return this.material.total
             }
         },
-    },
-    created() {
-        this.getData(this.material.page)
     },
     methods: {
         async getData(page) {
@@ -138,9 +110,11 @@ export default {
             }
         },
         onPageChange(page) {
+            this.clearSelect()
             this.getData(page)
         },
         onPickerMedia(item) {
+            this.$bus.$emit('mediaSelected', item)
             this.$emit('input', this.convertData(item))
         },
         convertData(item) {
@@ -161,10 +135,18 @@ export default {
                 return item
             }
         },
+        clearSelect() {
+            this.$bus.$emit('mediaSelected', null)
+            this.$emit('input', null)
+        },
     },
     watch: {
-        type(newValue) {
-            this.getData(this.material.page)
+        type: {
+            handler() {
+                this.clearSelect()
+                this.getData(this.material.page)
+            },
+            immediate: true,
         },
     },
 }
