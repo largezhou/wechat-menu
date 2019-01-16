@@ -3,16 +3,26 @@
         v-bind="_formItemProps"
     >
         <a
+            href="javascript:void(0);"
+            style="float: right;"
+            @click="onPickMaterial"
+        >选择素材</a>
+        <div
+            v-if="type == 'text'"
+            class="text"
+        >
+            <w-textarea
+                :value="content"
+                readonly
+            />
+        </div>
+        <a
+            v-else
             :href="viewLink(item, type)"
             target="_blank"
             @click.stop="onView(item, type)"
             title="查看"
         >{{ content }}</a>
-        <a
-            href="javascript:void(0);"
-            style="float: right;"
-            @click="onPickMaterial"
-        >选择素材</a>
     </form-item>
 </template>
 
@@ -112,3 +122,9 @@ export default {
     },
 }
 </script>
+
+<style scoped lang="scss">
+.text {
+    width: 600px;
+}
+</style>

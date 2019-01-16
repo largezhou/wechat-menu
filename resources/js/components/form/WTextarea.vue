@@ -9,6 +9,7 @@
             @input="$emit('input', $event.target.value)"
             class="input"
             ref="textarea"
+            :readonly="readonly"
         />
     </form-item>
 </template>
@@ -25,6 +26,7 @@ export default {
         value: [String, Number],
         rows: [String, Number],
         cols: [String, Number],
+        readonly: Boolean,
     },
     methods: {
         focus() {

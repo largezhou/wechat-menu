@@ -41,14 +41,13 @@
                     class="table-content"
                     :style="{ width: columns[2].width }"
                 >
-                    <w-textarea
+                    <media-picker
                         v-if="e.type == 'msg'"
                         v-model="e.content"
-                        ref="inputs"
-                        rows="2"
                         :has-error="hasError('content', index)"
                         :error-text="getError('content', index)"
                         error-inside
+                        ref="inputs"
                     />
                     <w-callback-input
                         v-else
@@ -100,12 +99,14 @@ import { required } from 'vuelidate/lib/validators'
 import { callback } from '@/common/validators'
 import EventErrorHelper from '@/common/event-error-helper'
 import CreateEvents from '@/common/create-events'
+import MediaPicker from '@/components/media-picker/MediaPicker'
 
 export default {
     name: 'OtherEventsSetting',
     components: {
         ChangeHandleType,
         CallbackInput,
+        MediaPicker,
     },
     mixins: [
         EventErrorHelper,
