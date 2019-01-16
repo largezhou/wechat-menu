@@ -124,16 +124,19 @@ export default {
         convertData(item) {
             if (this.type == 'news') {
                 const items = item.content.news_item.map(i => {
+                    const { title, digest, thumb_url, url} = i
                     return {
-                        title: i.title,
-                        description: i.digest,
-                        image: i.thumb_url,
-                        url: i.url,
+                        title,
+                        digest,
+                        thumb_url,
+                        url,
                     }
                 })
                 return {
                     media_id: item.media_id,
-                    items,
+                    content: {
+                        news_item: items,
+                    },
                 }
             } else {
                 return item

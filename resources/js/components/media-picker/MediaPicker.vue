@@ -3,7 +3,9 @@
         v-bind="_formItemProps"
     >
         <a
-            href="javascript:void(0);"
+            :href="viewLink(item, type)"
+            target="_blank"
+            @click.stop="onView(item, type)"
             title="查看"
         >{{ content }}</a>
         <a
@@ -18,11 +20,13 @@
 import FormItemHelper from '@/common/form-item'
 import { AUTO_REPLY_TYPES } from '@/common/constants'
 import { objGet } from '@/common/utils'
+import viewMedia from '@/common/view-media'
 
 export default {
     name: 'MediaPicker',
     mixins: [
         FormItemHelper,
+        viewMedia,
     ],
     data() {
         return {
@@ -36,6 +40,12 @@ export default {
         },
     },
     computed: {
+        item() {
+            return objGet(this.value, 'value')
+        },
+        type() {
+            return objGet(this.value, 'type')
+        },
         content() {
             const val = this.value
 
