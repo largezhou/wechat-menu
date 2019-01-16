@@ -143,7 +143,7 @@ export default {
                     required: '必须填写',
                 },
                 content: {
-                    required: '必须填写',
+                    required: '必须设置',
                     callback: '不是有效的回调',
                 },
             },
@@ -156,6 +156,7 @@ export default {
                     required,
                 },
                 content: {
+                    // required,
                     callback,
                 },
             },
@@ -241,6 +242,3 @@ export default {
     },
 }
 </script>
-
-<style scoped lang="scss">
-</style>

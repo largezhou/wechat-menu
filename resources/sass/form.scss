@@ -44,6 +44,20 @@
             .radio-group {
                 border-color: $danger-color;
             }
+
+            &.media-picker {
+                .content {
+                    a {
+                        color: $danger-color !important;
+                    }
+                }
+            }
+        }
+
+        &.media-picker {
+            .error-text {
+                position: initial;
+            }
         }
 
         &.error-inside {

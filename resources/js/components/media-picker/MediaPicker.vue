@@ -1,6 +1,7 @@
 <template>
     <form-item
         v-bind="_formItemProps"
+        class="media-picker"
     >
         <a
             href="javascript:void(0);"
@@ -12,8 +13,7 @@
             class="text"
         >
             <w-textarea
-                :value="content"
-                readonly
+                v-model="value.value"
             />
         </div>
         <a
@@ -125,6 +125,6 @@ export default {
 
 <style scoped lang="scss">
 .text {
-    width: 600px;
+    width: calc(100% - 100px);
 }
 </style>
