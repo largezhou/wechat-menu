@@ -50,9 +50,6 @@ export default {
             return AUTO_REPLY_TYPES
         },
     },
-    created() {
-        this.setHeadNoReferrer()
-    },
     methods: {
         onChange() {
             const val = {
@@ -63,20 +60,6 @@ export default {
             }
 
             this.$emit('input', val)
-        },
-        /**
-         * 设置标签后，才能打开微信的图片，不然提示防盗链
-         */
-        setHeadNoReferrer() {
-            let referrerEl = document.querySelector('meta[name=referrer]')
-            if (referrerEl) {
-                referrerEl.content = 'never'
-            } else {
-                referrerEl = document.createElement('meta')
-                referrerEl.name = 'referrer'
-                referrerEl.content = 'never'
-                document.head.prepend(referrerEl)
-            }
         },
     },
     watch: {
