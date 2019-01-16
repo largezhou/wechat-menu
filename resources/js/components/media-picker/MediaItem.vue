@@ -156,7 +156,7 @@ export default {
         right: 0px;
         top: 0px;
         padding: 0 3px;
-        /*display: none;*/
+        display: none;
         color: #000 !important;
     }
 
