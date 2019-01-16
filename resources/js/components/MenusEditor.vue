@@ -226,12 +226,15 @@ export default {
 
         async getMenus() {
             const { data } = await getResources('menus')
-            this.menus = data.data.menu.button
-            this.menusBak = JSON.stringify(this.menus)
 
-            this.menuAutoId = this.addUniqueKey(this.menus)
+            if (data.status) {
+                this.menus = data.data.menu.button
+                this.menusBak = JSON.stringify(this.menus)
 
-            this.activeFirstMenu()
+                this.menuAutoId = this.addUniqueKey(this.menus)
+
+                this.activeFirstMenu()
+            }
         },
 
         async getEvents() {
@@ -272,36 +275,7 @@ export default {
 
             try {
                 this.saving = true
-                const { data } = await postResources('menus', this.menus)
-
-                if (data.status) {
-                    this.$notice({
-                        msg: data.msg,
-                        type: 'success',
-                    })
-                } else {
-                    this.$notice({
-                        type: 'error',
-                        duration: 6000,
-                        msg(h) {
-                            return h(
-                                'div',
-                                [
-                                    h('span', data.msg),
-                                    h('a', {
-                                        attrs: {
-                                            href: WECHAT_ERROR_CODES,
-                                            target: '_blank',
-                                        },
-                                        style: {
-                                            marginLeft: '10px',
-                                        },
-                                    }, '查看详情'),
-                                ],
-                            )
-                        },
-                    })
-                }
+                await postResources('menus', this.menus)
             } finally {
                 this.saving = false
             }

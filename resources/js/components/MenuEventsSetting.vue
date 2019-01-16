@@ -36,7 +36,7 @@
 <script>
 import { getResources } from '@/api/wechat'
 import MenuEventsTable from '@/components/MenuEventsTable'
-import { uniqueKey } from '@/common/utils'
+import { setHeadNoReferrer, uniqueKey } from '@/common/utils'
 import CreateEvents from '@/common/create-events'
 
 export default {
@@ -55,6 +55,7 @@ export default {
     },
     created() {
         this.getData()
+        setHeadNoReferrer()
     },
     computed: {
         keys() {

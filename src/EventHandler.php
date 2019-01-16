@@ -3,6 +3,9 @@
 namespace Largezhou\WechatMenu;
 
 use EasyWeChat\Kernel\Contracts\EventHandlerInterface;
+use EasyWeChat\Kernel\Messages\Media;
+use EasyWeChat\Kernel\Messages\News;
+use EasyWeChat\Kernel\Messages\NewsItem;
 
 class EventHandler implements EventHandlerInterface
 {
@@ -22,6 +25,17 @@ class EventHandler implements EventHandlerInterface
     const SUBSCRIBE_EVENTS = [
         'subscribe',
         'unsubscribe',
+    ];
+
+    /**
+     * 自动回复类型.
+     */
+    const AUTO_REPLY_TYPES = [
+        'text',
+        'news',
+        'image',
+        'video',
+        'voice',
     ];
 
     protected $logger;
@@ -96,7 +110,7 @@ class EventHandler implements EventHandlerInterface
      *
      * @param array  $payload
      * @param string $dataType 回调设置数据中的 key（分组）
-     * @param string $key 事件标识
+     * @param string $key      事件标识
      *
      * @return mixed
      */
@@ -127,7 +141,11 @@ class EventHandler implements EventHandlerInterface
 
         // 自动回复消息
         if ($type == 'msg') {
-            return $content;
+            try {
+                return $this->resolveMsg($content);
+            } catch (\Throwable $e) {
+                return $this->errorResponse($e, '自动回复消息失败');
+            }
         }
 
         // 回调处理
@@ -140,18 +158,105 @@ class EventHandler implements EventHandlerInterface
         }
 
         try {
-            $res = call_user_func([new $class(), $method], $payload);
+            return call_user_func([new $class(), $method], $payload);
         } catch (\Throwable $e) {
-            $res = Manager::getInstance()->getConfig('handler_error_msg');
-            $this->logger->error(
-                '事件处理回调出错: '
-                .PHP_EOL
-                .$e->getMessage()
-                .PHP_EOL
-                .$e->getTraceAsString()
-            );
+            return $this->errorResponse($e, '事件处理回调出错');
+        }
+    }
+
+    /**
+     * 处理自动回复消息.
+     *
+     * @param array|null $content
+     *
+     * @return Media|News|mixed|string|null
+     */
+    protected function resolveMsg(array $content = null)
+    {
+        if (!$content) {
+            $this->logger->info('自动回复内容为空');
+
+            return '';
         }
 
-        return $res;
+        $type = $content['type'] ?? null;
+        $value = $content['value'] ?? null;
+
+        if (!in_array($type, static::AUTO_REPLY_TYPES)) {
+            $this->logger->info('自动回复类型不对');
+
+            return '';
+        }
+
+        if (!$value) {
+            $this->logger->info('自动回复内容为空');
+
+            return '';
+        }
+
+        $mediaId = $value['media_id'] ?? '';
+        $this->logger->info('回复消息的 media_id：'.$mediaId);
+
+        switch ($type) {
+            case 'text':
+                return $value;
+            case 'news':
+                return $this->getNews($value);
+            case 'image':
+            case 'voice':
+            case 'video':
+                return new Media($mediaId, $type == 'video' ? 'mpvideo' : $type);
+        }
+    }
+
+    /**
+     * 组装图文.
+     *
+     * @param array $value
+     *
+     * @return News|string
+     */
+    protected function getNews(array $value)
+    {
+        $newsItems = $value['content']['news_item'] ?? null;
+
+        if (!$newsItems) {
+            $this->logger->info('自动回复内容为空');
+
+            return '';
+        }
+
+        $resItems = [];
+        foreach ($newsItems as $item) {
+            $resItems[] = new NewsItem([
+                'title' => $item['title'] ?? '',
+                'description' => $item['digest'] ?? '',
+                'image' => $item['thumb_url'] ?? '',
+                'url' => $item['url'] ?? '',
+            ]);
+        }
+
+        return new News($resItems);
+    }
+
+    /**
+     * log 错误，并返回设置好的错误消息
+     *
+     * @param \Throwable $e
+     * @param string     $msg
+     *
+     * @return string
+     */
+    protected function errorResponse(\Throwable $e, $msg): string
+    {
+        $this->logger->error(
+            $msg
+            .PHP_EOL
+            .$e->getMessage()
+            .PHP_EOL
+            .$e->getTraceAsString()
+        );
+
+        return Manager::getInstance()->getConfig('handler_error_msg');
     }
 }

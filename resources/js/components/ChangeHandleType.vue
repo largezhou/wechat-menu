@@ -21,7 +21,10 @@ export default {
     },
     methods: {
         onChangeType() {
-            this.event.type = this.event.type == 'msg' ? 'callback' : 'msg'
+            if (confirm('切换类型，会丢失之前配置的内容')) {
+                this.event.type = this.event.type == 'msg' ? 'callback' : 'msg'
+                this.event.content = null
+            }
         },
     },
 }

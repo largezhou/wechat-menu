@@ -69,3 +69,16 @@ export const PAGES = {
     'menu-events-setting': '菜单事件配置',
     'other-events-setting': '其他事件配置',
 }
+
+/**
+ * 自动回复的消息类型
+ *
+ * @type {Object}
+ */
+export const AUTO_REPLY_TYPES = {
+    text: '文本',
+    news: '图文',
+    image: '图片',
+    voice: '音频',
+    video: '视频',
+}

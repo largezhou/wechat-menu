@@ -69,7 +69,7 @@ export default Vue.extend({
     background: $grey;
     padding: 15px 20px;
     color: $grey-1;
-    z-index: 3;
+    z-index: 1000;
     width: 350px;
     word-break: break-all;
 

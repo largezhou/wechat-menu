@@ -51,32 +51,7 @@ export default {
 <style scoped lang="scss">
 @import '~@/../sass/vars';
 
-$tab-height: 50px;
-
 .wechat-menu {
     width: $page-width;
-
-    .tabs {
-        height: $tab-height;
-        line-height: $tab-height;
-        border-bottom: 3px solid $main-color;
-        box-sizing: content-box !important;
-        margin-bottom: 20px;
-    }
-
-    .tab {
-        color: $grey-1 !important;
-        display: inline-block;
-        padding: 0 20px;
-
-        &:hover {
-            background-color: $grey;
-        }
-
-        &.active {
-            background-color: $main-color;
-            color: #fff !important;
-        }
-    }
 }
 </style>
