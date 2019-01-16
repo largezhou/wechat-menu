@@ -33,11 +33,11 @@ export default {
             newValue: null,
         }
     },
-    props: {
-        value: {
-            type: Object,
-            default: () => {},
-        },
+    props: ['value'],
+    created() {
+        if (typeof this.value != 'object') {
+            this.$emit('input', null)
+        }
     },
     computed: {
         item() {
@@ -47,19 +47,15 @@ export default {
             return objGet(this.value, 'type')
         },
         content() {
-            const val = this.value
-
-            if (!val) {
+            if (!AUTO_REPLY_TYPES[this.type]) {
                 return '还未选择素材'
             }
 
-            if (val.type == 'text') {
-                return val.value || '请设置文字内容'
+            if (this.type == 'text') {
+                return this.item || '请设置文字内容'
             } else {
-                return (val.value ? '已选择' : '请选择') + AUTO_REPLY_TYPES[val.type]
+                return (this.item ? '已选择' : '请选择') + AUTO_REPLY_TYPES[this.type]
             }
-
-            return `已选择${AUTO_REPLY_TYPES[val.type]}`
         },
     },
 
