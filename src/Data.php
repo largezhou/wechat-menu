@@ -112,7 +112,13 @@ class Data
      */
     public static function getMenus(): string
     {
-        return static::success('', Manager::getInstance()->getWechat()->menu->list());
+        $res = Manager::getInstance()->getWechat()->menu->list();
+
+        if ($err = static::getWechatError($res)) {
+            return $err;
+        }
+
+        return static::success('', $res);
     }
 
     /**
@@ -132,11 +138,11 @@ class Data
 
         $res = Manager::getInstance()->getWechat()->menu->create($menus);
 
-        if ($res['errcode'] == 0) {
-            return static::success('菜单保存成功');
-        } else {
-            return static::error("[{$res['errcode']}] {$res['errmsg']}", 'wechat');
+        if ($err = static::getWechatError($res)) {
+            return $err;
         }
+
+        return static::success('菜单保存成功');
     }
 
     /**
@@ -267,9 +273,8 @@ class Data
                 static::MEDIA_PER_PAGE
             );
 
-        $errCode = $res['errcode'] ?? null;
-        if ($errCode) {
-            return static::error("[{$res['errcode']}] {$res['errmsg']}", 'wechat');
+        if ($err = static::getWechatError($res)) {
+            return $err;
         }
 
         $res['per_page'] = static::MEDIA_PER_PAGE;
@@ -298,17 +303,36 @@ class Data
 
         $res = Manager::getInstance()->getWechat()->material->get($mediaId);
 
+        if ($err = static::getWechatError($res)) {
+            return $err;
+        }
+
         // 其他则直接返回文件内容，前端打开可直接下载
         if ($res instanceof \EasyWeChat\Kernel\Http\StreamResponse) {
             return $res;
         }
 
-        // 视频和图文会返回一个数组，里面有相应的信息
+        return static::success('', $res);
+    }
+
+    /**
+     * 检查微信接口返回的消息是否有错误，有则返回响应内容，没有则返回 false
+     *
+     * @param mixed $res 微信接口返回的内容
+     *
+     * @return bool|string
+     */
+    protected static function getWechatError($res)
+    {
+        if (!is_array($res)) {
+            return false;
+        }
+
         $errCode = $res['errcode'] ?? null;
         if ($errCode) {
             return static::error("[{$res['errcode']}] {$res['errmsg']}", 'wechat');
         }
 
-        return static::success('', $res);
+        return false;
     }
 }

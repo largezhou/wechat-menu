@@ -226,12 +226,15 @@ export default {
 
         async getMenus() {
             const { data } = await getResources('menus')
-            this.menus = data.data.menu.button
-            this.menusBak = JSON.stringify(this.menus)
 
-            this.menuAutoId = this.addUniqueKey(this.menus)
+            if (data.status) {
+                this.menus = data.data.menu.button
+                this.menusBak = JSON.stringify(this.menus)
 
-            this.activeFirstMenu()
+                this.menuAutoId = this.addUniqueKey(this.menus)
+
+                this.activeFirstMenu()
+            }
         },
 
         async getEvents() {
