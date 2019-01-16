@@ -1,6 +1,19 @@
 <template>
     <div class="media-list">
-        <div class="items">
+        <div
+            v-show="loading"
+            class="items-loading"
+        >
+            加载中
+            <loading-dots
+                :loading="loading"
+                :num="6"
+            />
+        </div>
+        <div
+            v-show="!loading"
+            class="items"
+        >
             <media-item
                 v-for="(item, index) of items"
                 :key="index"
@@ -31,6 +44,11 @@ export default {
         Paginator,
         MediaItem,
     },
+    data() {
+        return {
+            loading: false,
+        }
+    },
     props: {
         type: String,
         value: Object,
@@ -58,6 +76,10 @@ export default {
     },
     methods: {
         async getData(page) {
+            if (this.loading) {
+                return
+            }
+
             // 如果是请求页大于当前最大页数，且被标记为没有数据了，则不请求
             if (this.material.bottom && page > this.totalPage) {
                 return
@@ -69,10 +91,19 @@ export default {
                 return
             }
 
-            const { data } = await getResources('materials', {
-                material_type: this.type,
-                page: page,
-            })
+            let data
+            this.loading = true
+            try {
+                (
+                    { data } = await getResources('materials', {
+                        material_type: this.type,
+                        page: page,
+                    })
+                )
+            } finally {
+                this.loading = false
+            }
+
 
             if (data.status) {
                 const d = data.data
@@ -124,7 +155,7 @@ export default {
         convertData(item) {
             if (this.type == 'news') {
                 const items = item.content.news_item.map(i => {
-                    const { title, digest, thumb_url, url} = i
+                    const { title, digest, thumb_url, url } = i
                     return {
                         title,
                         digest,
@@ -166,7 +197,16 @@ export default {
     position: relative;
 }
 
-.paginator {
+.items-loading,
+.items {
+    height: 285px;
+}
+
+.items-loading {
+    text-align: center;
+    padding-top: 100px;
+    font-size: 20px !important;
+    color: $main-color;
 }
 
 .items {

@@ -3,10 +3,19 @@ import Vue from 'vue'
 import axios from '@/api/wechat'
 
 export default {
+    data() {
+        return {
+            videoLinkLoading: false,
+        }
+    },
     methods: {
         // 视频和图文集的查看
         async onView(item, realType) {
             if (realType == 'video') {
+                if (this.videoLinkLoading) {
+                    return
+                }
+
                 // 视频的话，由于获取媒体详情后，返回的是一个链接，
                 // 所以请求后，设置 url，如果有 url 就不用再请求了，
                 // 点击可跳转到视频页
@@ -14,9 +23,17 @@ export default {
                     return
                 }
 
-                const { data } = await getResources('media', {
-                    media_id: item.media_id,
-                })
+                this.videoLinkLoading = true
+                let data
+                try {
+                    (
+                        { data } = await getResources('media', {
+                            media_id: item.media_id,
+                        })
+                    )
+                } finally {
+                    this.videoLinkLoading = false
+                }
 
                 if (data.status) {
                     Vue.set(item, 'url', data.data.down_url)

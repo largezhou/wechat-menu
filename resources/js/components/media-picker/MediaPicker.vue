@@ -22,7 +22,13 @@
             target="_blank"
             @click.stop="onView(item, type)"
             title="查看"
-        >{{ content }}</a>
+        >
+            <loading-dots
+                :loading="videoLinkLoading"
+                :num="20"
+                :text="content"
+            />
+        </a>
     </form-item>
 </template>
 

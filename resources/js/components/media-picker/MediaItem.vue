@@ -17,7 +17,13 @@
             :href="viewLink(item, realType)"
             class="view"
             @click.stop="onView(item, realType)"
-        >查看</a>
+        >
+            <loading-dots
+                :loading="videoLinkLoading"
+                :num="8"
+                text="查看"
+            />
+        </a>
     </div>
 </template>
 
@@ -150,7 +156,7 @@ export default {
         right: 0px;
         top: 0px;
         padding: 0 3px;
-        display: none;
+        /*display: none;*/
         color: #000 !important;
     }
 
