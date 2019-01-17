@@ -98,13 +98,20 @@ export default {
                     },
                 ],
                 content: (h) => {
-                    const props = {
-                        initType: objGet(this.value, 'type'),
-                        value: objGet(this.value, 'value'),
+                    let initType = objGet(this.value, 'type')
+                    let value = objGet(this.value, 'value')
+
+                    // 如果类型不对，则给个默认类型，并把值清除
+                    if (!AUTO_REPLY_TYPES[initType]) {
+                        initType = 'text'
+                        value = null
                     }
 
                     return h('media-browser', {
-                        props,
+                        props: {
+                            initType,
+                            value,
+                        },
                         on: {
                             input: (value) => {
                                 this.newValue = value
