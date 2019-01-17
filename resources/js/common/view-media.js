@@ -11,6 +11,10 @@ export default {
     methods: {
         // 视频和图文集的查看
         async onView(item, realType) {
+            if (!item) {
+                return
+            }
+
             if (realType == 'video') {
                 if (this.videoLinkLoading) {
                     return
@@ -69,6 +73,10 @@ export default {
         },
 
         viewLink(item, realType) {
+            if (!item) {
+                return 'javascript:void(0);'
+            }
+
             switch (realType) {
                 case 'newsItem':
                 case 'image':
