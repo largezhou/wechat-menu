@@ -15,12 +15,12 @@
 </template>
 
 <script>
-import FormItemHelper from '@/common/form-item'
+import formItemHelper from '@/common/form-item'
 
 export default {
     name: 'WTextarea',
     mixins: [
-        FormItemHelper,
+        formItemHelper,
     ],
     props: {
         value: [String, Number],

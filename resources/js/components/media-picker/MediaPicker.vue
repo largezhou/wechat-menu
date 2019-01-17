@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import FormItemHelper from '@/common/form-item'
+import formItemHelper from '@/common/form-item'
 import { AUTO_REPLY_TYPES } from '@/common/constants'
 import { objGet } from '@/common/utils'
 import viewMedia from '@/common/view-media'
@@ -41,7 +41,7 @@ import viewMedia from '@/common/view-media'
 export default {
     name: 'MediaPicker',
     mixins: [
-        FormItemHelper,
+        formItemHelper,
         viewMedia,
     ],
     data() {

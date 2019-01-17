@@ -33,12 +33,12 @@
 </template>
 
 <script>
-import FormItemHelper from '@/common/form-item'
+import formItemHelper from '@/common/form-item'
 
 export default {
     name: 'WCallbackInput',
     mixins: [
-        FormItemHelper,
+        formItemHelper,
     ],
     data() {
         return {

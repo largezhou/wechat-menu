@@ -97,8 +97,8 @@ import { OTHER_EVENT_TYPES } from '@/common/constants'
 import { getResources } from '@/api/wechat'
 import { required } from 'vuelidate/lib/validators'
 import { callback } from '@/common/validators'
-import EventErrorHelper from '@/common/event-error-helper'
-import CreateEvents from '@/common/create-events'
+import eventErrorHelper from '@/common/event-error-helper'
+import createEvents from '@/common/create-events'
 import MediaPicker from '@/components/media-picker/MediaPicker'
 import { setHeadNoReferrer } from '@/common/utils'
 
@@ -110,8 +110,8 @@ export default {
         MediaPicker,
     },
     mixins: [
-        EventErrorHelper,
-        CreateEvents,
+        eventErrorHelper,
+        createEvents,
     ],
     data() {
         return {

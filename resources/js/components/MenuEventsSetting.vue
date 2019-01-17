@@ -37,7 +37,7 @@
 import { getResources } from '@/api/wechat'
 import MenuEventsTable from '@/components/MenuEventsTable'
 import { setHeadNoReferrer, uniqueKey } from '@/common/utils'
-import CreateEvents from '@/common/create-events'
+import createEvents from '@/common/create-events'
 
 export default {
     name: 'MenuEventsSetting',
@@ -45,7 +45,7 @@ export default {
         MenuEventsTable,
     },
     mixins: [
-        CreateEvents,
+        createEvents,
     ],
     data() {
         return {

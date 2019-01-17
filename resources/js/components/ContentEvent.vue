@@ -47,7 +47,7 @@
 <script>
 import { uniqueKey } from '@/common/utils'
 import MenuEventsTable from '@/components/MenuEventsTable'
-import CreateEvents from '@/common/create-events'
+import createEvents from '@/common/create-events'
 
 export default {
     name: 'ContentEvent',
@@ -55,7 +55,7 @@ export default {
         MenuEventsTable,
     },
     mixins: [
-        CreateEvents,
+        createEvents,
     ],
     data() {
         return {

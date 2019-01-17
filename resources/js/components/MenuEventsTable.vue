@@ -76,7 +76,7 @@ import CallbackInput from '@/components/CallbackInput'
 import ChangeHandleType from '@/components/ChangeHandleType'
 import { required } from 'vuelidate/lib/validators'
 import { callback, unique } from '@/common/validators'
-import EventErrorHelper from '@/common/event-error-helper'
+import eventErrorHelper from '@/common/event-error-helper'
 import MediaPicker from '@/components/media-picker/MediaPicker'
 
 export default {
@@ -87,7 +87,7 @@ export default {
         MediaPicker,
     },
     mixins: [
-        EventErrorHelper,
+        eventErrorHelper,
     ],
     data() {
         return {
