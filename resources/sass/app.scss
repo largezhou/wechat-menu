@@ -3,9 +3,14 @@
 
 #wechat-menu {
     background: white;
+
     * {
         box-sizing: border-box;
         font-size: 15px;
+    }
+
+    input[type="radio"] {
+        margin: 3px 3px 0px 5px;
     }
 
     .wm-btn {

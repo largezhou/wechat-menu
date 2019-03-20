@@ -1,6 +1,6 @@
 <template>
     <label
-        class="wm-cursor-pointer"
+        class="wm-radio-input wm-cursor-pointer"
     >
         <input
             type="radio"
@@ -27,3 +27,12 @@ export default {
     },
 }
 </script>
+
+<style lang="scss" scoped>
+.wm-radio-input {
+    display: initial;
+    max-width: initial;
+    margin-bottom: initial;
+    font-weight: initial;
+}
+</style>
