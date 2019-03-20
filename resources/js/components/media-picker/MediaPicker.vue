@@ -1,7 +1,7 @@
 <template>
     <form-item
         v-bind="_formItemProps"
-        class="media-picker"
+        class="wm-media-picker"
     >
         <a
             href="javascript:void(0);"
@@ -10,7 +10,7 @@
         >选择素材</a>
         <div
             v-if="type == 'text'"
-            class="text"
+            class="wm-text"
         >
             <w-textarea
                 v-model="value.value"
@@ -78,22 +78,22 @@ export default {
     methods: {
         onPickMaterial() {
             this.$dialog({
-                styleClass: 'media-picker',
+                styleClass: 'wm-media-picker',
                 title: '选择素材',
                 width: '700px',
                 height: '450px',
                 persistent: true,
                 buttons: [
                     {
-                        class: 'btn btn-primary',
+                        class: 'wm-btn wm-btn-primary',
                         text: '确定',
                     },
                     {
-                        class: 'btn',
+                        class: 'wm-btn',
                         text: '取消',
                     },
                     {
-                        class: 'btn btn-danger',
+                        class: 'wm-btn wm-btn-danger',
                         text: '清除',
                     },
                 ],
@@ -137,7 +137,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.text {
+.wm-text {
     width: calc(100% - 100px);
 }
 </style>

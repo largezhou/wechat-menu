@@ -1,11 +1,11 @@
 <template>
     <form-item
         v-bind="_formItemProps"
-        class="radio-item"
+        class="wm-radio-item"
         ref="formItem"
     >
         <div
-            class="radio-group"
+            class="wm-radio-group"
         >
             <slot ref="items"/>
         </div>
@@ -53,13 +53,13 @@ export default {
 <style scoped lang="scss">
 @import "~@/../sass/vars.scss";
 
-.radio-group {
+.wm-radio-group {
     padding: 0 5px;
     line-height: 30px;
     min-height: 30px;
     border: 1px solid transparent;
 
-    &.has-error {
+    &.wm-has-error {
         border: 1px solid $danger-color;
         border-radius: 3px;
     }

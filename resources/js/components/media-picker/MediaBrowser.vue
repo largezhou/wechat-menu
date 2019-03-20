@@ -1,15 +1,15 @@
 <template>
-    <div class="media-browser">
-        <div class="tabs">
+    <div class="wm-media-browser">
+        <div class="wm-tabs">
             <span
-                class="tab"
+                class="wm-tab"
                 v-for="k of Object.keys(types)"
                 :key="k"
-                :class="{ active: curType == k }"
+                :class="{ 'wm-active': curType == k }"
                 @click="curType = k"
             >{{ types[k] }}</span>
         </div>
-        <div class="tab-content">
+        <div class="wm-tab-content">
             <w-textarea
                 v-if="curType == 'text'"
                 rows="5"
@@ -83,8 +83,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.media-browser {
-    .tab {
+.wm-media-browser {
+    .wm-tab {
         text-align: center;
         width: 120px;
     }

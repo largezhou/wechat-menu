@@ -1,12 +1,12 @@
 <template>
     <form-item
         v-bind="_formItemProps"
-        class="w-select"
+        class="wm-w-select"
     >
         <select
             :value="value"
             @input="$emit('input', $event.target.value)"
-            class="input"
+            class="wm-input"
             ref="input"
         >
             <option

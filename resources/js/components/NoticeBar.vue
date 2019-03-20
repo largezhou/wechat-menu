@@ -5,8 +5,8 @@
     >
         <div
             v-show="show"
-            class="notice-bar"
-            :class="[type]"
+            class="wm-notice-bar"
+            :class="['wm-' + type]"
         >
             <render-content
                 v-if="typeof msg == 'function'"
@@ -60,7 +60,7 @@ export default Vue.extend({
 <style scoped lang="scss">
 @import "~@/../sass/vars";
 
-.notice-bar {
+.wm-notice-bar {
     position: fixed;
     top: 10px;
     left: 50%;
@@ -69,29 +69,29 @@ export default Vue.extend({
     background: $grey;
     padding: 15px 20px;
     color: $grey-1;
-    z-index: 1000;
+    z-index: 1988;
     width: 350px;
     word-break: break-all;
 
-    &.success {
+    &.wm-success {
         background-color: #44b549;
         color: #fff;
     }
 
-    &.error {
+    &.wm-error {
         background-color: #f76f73;
         color: #fff;
         border-color: #e1f3d8;
     }
 }
 
-.in-enter-active,
-.in-leave-active {
+.wm-in-enter-active,
+.wm-in-leave-active {
     transition: all .5s;
 }
 
-.in-enter,
-.in-leave-to {
+.wm-in-enter,
+.wm-in-leave-to {
     top: 0;
     opacity: 0;
 }

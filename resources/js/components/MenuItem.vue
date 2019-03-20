@@ -1,26 +1,26 @@
 <template>
     <div
         v-if="add"
-        class="menu add"
+        class="wm-menu wm-add"
         :style="{ width: `${menuWidth}%` }"
     >
-        <span class="name">+</span>
+        <span class="wm-name">+</span>
     </div>
 
     <div
         v-else
-        class="menu"
+        class="wm-menu"
         :style="{ width: `${menuWidth}%` }"
     >
         <span
-            class="name"
-            :class="{ active }"
+            class="wm-name"
+            :class="{ 'wm-active': active }"
             @click="onActive"
         >{{ menu.name }}</span>
         <div
             v-if="isParent"
             v-show="showSub"
-            class="sub-menus"
+            class="wm-sub-menus"
             :style="subMenusStyles"
         >
             <draggable
@@ -41,7 +41,7 @@
                     @click.native="onAddSubMenu(index)"
                 />
             </draggable>
-            <div class="arrow-down"/>
+            <div class="wm-arrow-down"/>
         </div>
     </div>
 </template>
@@ -125,7 +125,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.menu {
+.wm-menu {
     flex-grow: 1;
     text-align: center;
     color: #969696;
@@ -137,19 +137,19 @@ export default {
         border-left: none;
     }
 
-    &.add .name {
+    &.wm-add .wm-name {
         font-size: 35px !important;
         font-weight: 100;
         cursor: pointer;
     }
 }
 
-.sub-menus {
+.wm-sub-menus {
     top: 60px;
     position: absolute;
     width: 100%;
 
-    .menu {
+    .wm-menu {
         border: 1px solid #e7e7eb;
         border-top: none;
 
@@ -159,7 +159,7 @@ export default {
     }
 }
 
-.name {
+.wm-name {
     display: block;
     word-break: keep-all;
     overflow: hidden;
@@ -171,14 +171,14 @@ export default {
         color: #000;
     }
 
-    &.active {
+    &.wm-active {
         border: 2px solid #44b549;
         line-height: 44px;
         color: #44b549;
     }
 }
 
-.arrow-down {
+.wm-arrow-down {
     position: absolute;
     bottom: -6px;
     left: 45%;
@@ -193,7 +193,7 @@ export default {
     border-top-style: solid;
 }
 
-.sortable-ghost > .name {
+.wm-sortable-ghost > .wm-name {
     transform: scale(1.2);
     background: #efefef;
 }

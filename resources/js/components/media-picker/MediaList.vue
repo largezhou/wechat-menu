@@ -1,8 +1,8 @@
 <template>
-    <div class="media-list">
+    <div class="wm-media-list">
         <div
             v-show="loading"
-            class="items-loading"
+            class="wm-items-loading"
         >
             加载中
             <loading-dots
@@ -12,7 +12,7 @@
         </div>
         <div
             v-show="!loading"
-            class="items"
+            class="wm-items"
         >
             <media-item
                 v-for="(item, index) of items"
@@ -22,7 +22,7 @@
                 @click.native="onPickerMedia(item)"
             />
         </div>
-        <div class="paginator">
+        <div class="wm-paginator">
             <paginator
                 :value="material.page"
                 :per="$global.materialPerPage"
@@ -193,23 +193,23 @@ export default {
 <style scoped lang="scss">
 @import "~@/../sass/vars";
 
-.media-list {
+.wm-media-list {
     position: relative;
 }
 
-.items-loading,
-.items {
+.wm-items-loading,
+.wm-items {
     height: 285px;
 }
 
-.items-loading {
+.wm-items-loading {
     text-align: center;
     padding-top: 100px;
     font-size: 20px !important;
     color: $main-color;
 }
 
-.items {
+.wm-items {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 18px;

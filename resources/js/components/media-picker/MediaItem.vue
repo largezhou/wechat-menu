@@ -1,21 +1,21 @@
 <template>
     <div
-        class="item"
-        :class="{ active }"
+        class="wm-item"
+        :class="{ 'wm-active': active }"
     >
         <img
             v-if="imgUrl"
             :src="imgUrl"
-            :class="{ logo: realType == 'voice' || realType == 'video' }"
+            :class="{ 'wm-logo': realType == 'voice' || realType == 'video' }"
         />
         <span
-            class="item-title"
+            class="wm-item-title"
             :title="title"
         >{{ title }}</span>
         <a
             target="_blank"
             :href="viewLink(item, realType)"
-            class="view"
+            class="wm-view"
             @click.stop="onView(item, realType)"
         >
             <loading-dots
@@ -110,7 +110,7 @@ export default {
 <style scoped lang="scss">
 @import "~@/../sass/vars";
 
-.item {
+.wm-item {
     border: 5px solid $grey;
     margin-left: 15px;
     margin-bottom: 15px;
@@ -120,7 +120,7 @@ export default {
     width: 110px;
     position: relative;
 
-    &.active {
+    &.wm-active {
         border-color: $main-color;
     }
 
@@ -128,7 +128,7 @@ export default {
         height: 100%;
         width: 100%;
 
-        &.logo {
+        &.wm-logo {
             position: absolute;
             height: 50%;
             width: 50%;
@@ -137,22 +137,22 @@ export default {
         }
     }
 
-    .item-title,
-    .view {
+    .wm-item-title,
+    .wm-view {
         position: absolute;
         overflow: hidden;
         display: inline-block;
         background: rgba(231, 231, 235, 0.66);
     }
 
-    .item-title {
+    .wm-item-title {
         height: 20px;
         left: 0px;
         bottom: 0px;
         right: 0px;
     }
 
-    .view {
+    .wm-view {
         right: 0px;
         top: 0px;
         padding: 0 3px;
@@ -161,7 +161,7 @@ export default {
     }
 
     &:hover {
-        .view {
+        .wm-view {
             display: initial;
         }
     }

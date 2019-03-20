@@ -1,15 +1,15 @@
 <template>
-    <div class="wechat-menu">
-        <div class="tabs">
+    <div class="wm-wechat-menu">
+        <div class="wm-tabs">
             <a
-                class="tab"
+                class="wm-tab"
                 v-for="k of Object.keys(pageMap)"
                 :key="k"
                 :href="`#${k}`"
-                :class="{ active: hash == k }"
+                :class="{ 'wm-active': hash == k }"
             >{{ pageMap[k] }}</a>
         </div>
-        <div class="tab-content">
+        <div class="wm-tab-content">
             <keep-alive>
                 <component :is="hash"/>
             </keep-alive>
@@ -51,7 +51,7 @@ export default {
 <style scoped lang="scss">
 @import '~@/../sass/vars';
 
-.wechat-menu {
+.wm-wechat-menu {
     width: $page-width;
 }
 </style>

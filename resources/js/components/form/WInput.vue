@@ -6,7 +6,7 @@
             :value="value"
             @input="$emit('input', $event.target.value)"
             :type="type"
-            class="input"
+            class="wm-input"
         >
     </form-item>
 </template>

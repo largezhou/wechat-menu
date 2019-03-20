@@ -61,7 +61,7 @@ export default {
                     },
                     buttons: [
                         {
-                            class: 'btn',
+                            class: 'wm-btn',
                             text: '关闭',
                             callback(dialog) {
                                 dialog.close()

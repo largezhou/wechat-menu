@@ -1,5 +1,5 @@
 <template>
-    <div class="menu-events-setting">
+    <div class="wm-menu-events-setting">
         <menu-events-table
             :events="events"
             ref="menuEventsTable"
@@ -9,24 +9,24 @@
                 slot-scope="{ index, event }"
             >
                 <button
-                    class="btn btn-danger btn-sm"
+                    class="wm-btn wm-btn-danger wm-btn-sm"
                     @click="onRemove(index)"
                 >删除</button>
             </template>
         </menu-events-table>
-        <div class="footer-toolbar">
+        <div class="wm-footer-toolbar">
             <button
-                class="btn btn-primary"
+                class="wm-btn wm-btn-primary"
                 @click="onSave($refs.menuEventsTable.$v, events, 'menu_events')"
                 :disabled="saving"
             >保存</button>
             <refresh :on-refresh="getData"/>
             <button
-                class="btn"
+                class="wm-btn"
                 @click="onReset"
             >重置</button>
             <button
-                class="btn"
+                class="wm-btn"
                 @click="onNewEvent"
             >添加一个</button>
         </div>
@@ -88,6 +88,3 @@ export default {
     },
 }
 </script>
-
-<style scoped lang="scss">
-</style>

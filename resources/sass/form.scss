@@ -2,51 +2,51 @@
 
 #wechat-menu {
     td {
-        .form-item {
-            &.inline {
-                .content {
+        .wm-form-item {
+            &.wm-inline {
+                .wm-content {
                     width: auto;
                 }
             }
         }
     }
 
-    .form-item {
-        + .form-item {
+    .wm-form-item {
+        + .wm-form-item {
             margin-top: 20px;
         }
 
-        .content {
+        .wm-content {
             width: 100%;
             display: block;
             position: relative;
         }
 
-        .error-text {
+        .wm-error-text {
             position: absolute;
             color: $danger-color;
             font-size: 14px;
         }
 
-        &.inline {
-            .content {
+        &.wm-inline {
+            .wm-content {
                 display: inline-block;
                 vertical-align: middle;
                 width: 350px;
             }
         }
 
-        &.has-error {
-            .input {
+        &.wm-has-error {
+            .wm-input {
                 border-color: $danger-color;
             }
 
-            .radio-group {
+            .wm-radio-group {
                 border-color: $danger-color;
             }
 
-            &.media-picker {
-                .content {
+            &.wm-media-picker {
+                .wm-content {
                     a {
                         color: $danger-color !important;
                     }
@@ -54,14 +54,14 @@
             }
         }
 
-        &.media-picker {
-            .error-text {
+        &.wm-media-picker {
+            .wm-error-text {
                 position: initial;
             }
         }
 
-        &.error-inside {
-            .error-text {
+        &.wm-error-inside {
+            .wm-error-text {
                 right: 12px;
                 top: 8px;
                 pointer-events: none;
@@ -69,15 +69,15 @@
             }
         }
 
-        &.w-select {
-            &.error-inside {
-                .error-text {
+        &.wm-w-select {
+            &.wm-error-inside {
+                .wm-error-text {
                     right: 20px;
                 }
             }
         }
 
-        .label {
+        .wm-label {
             display: inline-block;
             height: 40px;
             line-height: 40px;
@@ -85,7 +85,7 @@
             vertical-align: middle;
         }
 
-        .radio-group {
+        .wm-radio-group {
             padding: 0 5px;
             line-height: 30px;
             min-height: 30px;
@@ -93,8 +93,8 @@
             border-radius: 3px;
         }
 
-        &.radio-item {
-            .content {
+        &.wm-radio-item {
+            .wm-content {
                 width: auto;
             }
         }

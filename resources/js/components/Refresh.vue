@@ -1,7 +1,7 @@
 <template>
     <button
-        class="btn"
-        :class="[`btn-${size}`]"
+        class="wm-btn"
+        :class="[`wm-btn-${size}`]"
         @click="onRefresh"
     >刷新</button>
 </template>
@@ -18,7 +18,3 @@ export default {
     },
 }
 </script>
-
-<style scoped>
-
-</style>

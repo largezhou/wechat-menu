@@ -1,45 +1,45 @@
 <template>
     <div
-        class="paginator"
+        class="wm-paginator"
         v-show="totalPage"
     >
         <span
-            class="page"
+            class="wm-page"
             @click="goPage(value - 1)"
         >&lt;</span>
 
         <span
             v-show="veryLeftPage > 1"
-            class="page"
+            class="wm-page"
             @click="goPage(1)"
         >1</span>
 
         <span
             v-show="veryLeftPage > 2"
-            class="page dot"
+            class="wm-page wm-dot"
         >···</span>
 
         <span
-            class="page"
+            class="wm-page"
             v-for="i of pagesInRange"
             :key="i"
-            :class="{ active: value == i }"
+            :class="{ 'wm-active': value == i }"
             @click="goPage(i)"
         >{{ i }}</span>
 
         <span
             v-show="veryRightPage < totalPage - 1"
-            class="page dot"
+            class="wm-page wm-dot"
         >···</span>
 
         <span
             v-show="veryRightPage < totalPage"
-            class="page"
+            class="wm-page"
             @click="goPage(totalPage)"
         >{{ totalPage }}</span>
 
         <span
-            class="page"
+            class="wm-page"
             @click="goPage(value + 1)"
         >&gt;</span>
     </div>
@@ -109,11 +109,11 @@ export default {
 <style scoped lang="scss">
 @import "~@/../sass/vars";
 
-.paginator {
+.wm-paginator {
     display: flex;
 }
 
-.page {
+.wm-page {
     cursor: pointer;
     user-select: none;
     padding: 5px 10px;
@@ -126,17 +126,17 @@ export default {
         margin-left: 0;
     }
 
-    &.active {
+    &.wm-active {
         background-color: $main-color;
         color: white;
         border-color: $main-color;
     }
 
-    &:hover:not(.active) {
+    &:hover:not(.wm-active) {
         color: $main-color;
     }
 
-    &.dot {
+    &.wm-dot {
         cursor: initial;
         &:hover {
             color: initial;

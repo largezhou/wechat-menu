@@ -1,14 +1,14 @@
 <template>
     <div
-        class="form-item"
+        class="wm-form-item"
         :class="classes"
     >
-        <span v-show="label" class="label">{{ label }}</span>
-        <div class="content">
+        <span v-show="label" class="wm-label">{{ label }}</span>
+        <div class="wm-content">
             <slot/>
             <span
                 v-show="errorText"
-                class="error-text"
+                class="wm-error-text"
             >{{ errorText }}</span>
         </div>
     </div>
@@ -27,9 +27,9 @@ export default {
     computed: {
         classes() {
             return {
-                inline: this.inline,
-                'has-error': this.hasError,
-                'error-inside': this.errorInside,
+                'wm-inline': this.inline,
+                'wm-has-error': this.hasError,
+                'wm-error-inside': this.errorInside,
             }
         },
     },

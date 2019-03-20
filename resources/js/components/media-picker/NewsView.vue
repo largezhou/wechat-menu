@@ -1,5 +1,5 @@
 <template>
-    <div class="news-view">
+    <div class="wm-news-view">
         <media-item
             v-for="(item, index) of newsItems"
             :key="index"
@@ -29,7 +29,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.news-view {
+.wm-news-view {
     display: flex;
     flex-wrap: wrap;
 }

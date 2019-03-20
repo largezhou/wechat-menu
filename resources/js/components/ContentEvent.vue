@@ -1,7 +1,7 @@
 <template>
     <div>
         <w-select
-            class="vertical-middle"
+            class="wm-vertical-middle"
             label="选择事件"
             :has-error="hasError"
             :error-text="errorText"
@@ -12,30 +12,30 @@
             value-field="key"
             text-field="remark"
         />
-        <div class="vertical-middle">
+        <div class="wm-vertical-middle">
             <button
                 v-show="!newEvent"
                 type="button"
-                class="btn btn-primary btn-sm"
+                class="wm-btn wm-btn-primary wm-btn-sm"
                 @click="onNewEvent"
             >添加</button>
             <div v-show="newEvent" style="display: inline-block">
                 <button
                     type="button"
-                    class="btn btn-primary btn-sm"
+                    class="wm-btn wm-btn-primary wm-btn-sm"
                     @click="onSaveEvent"
                     :disabled="saving"
                 >确定</button>
                 <button
                     type="button"
-                    class="btn btn-sm"
+                    class="wm-btn wm-btn-sm"
                     @click="newEvent = null"
                 >取消</button>
             </div>
         </div>
 
         <menu-events-table
-            class="new-event"
+            class="wm-new-event"
             v-show="newEvent"
             :events="eventsWithNew"
             :all-events="events"
@@ -110,13 +110,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.click-item {
-    .label {
+.wm-click-item {
+    .wm-label {
         width: 80px;
     }
 }
 
-.new-event {
+.wm-new-event {
     margin-top: 20px;
 }
 </style>

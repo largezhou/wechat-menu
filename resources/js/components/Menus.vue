@@ -1,5 +1,5 @@
 <template>
-    <div class="menus">
+    <div class="wm-menus">
         <draggable
             v-model="menusData"
             :options="{ group: 'column' }"
@@ -132,7 +132,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.menus {
+.wm-menus {
     height: 50px;
     background: #fafafa;
     border-top: 1px solid #e7e7eb;

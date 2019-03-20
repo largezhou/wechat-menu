@@ -5,25 +5,25 @@
     >
         <div
             v-show="show"
-            class="dialog-mask"
-            :class="[{ disabled: persistent }, styleClass]"
+            class="wm-dialog-mask"
+            :class="[{ 'wm-disabled': persistent }, styleClass]"
             @click.self="onClickMask"
         >
             <div
-                class="dialog"
+                class="wm-dialog"
             >
                 <div
                     v-if="title"
-                    class="header"
+                    class="wm-header"
                 >
                     {{ title }}
                     <span
-                        class="header-close"
+                        class="wm-header-close"
                         @click="onCancel"
                     >X</span>
                 </div>
                 <div
-                    class="content"
+                    class="wm-content"
                     :style="styles"
                 >
                     <slot>
@@ -41,7 +41,7 @@
                     </slot>
                 </div>
                 <div
-                    class="footer"
+                    class="wm-footer"
                 >
                     <button
                         v-for="(b, index) of buttons"
@@ -96,11 +96,11 @@ export default {
             default() {
                 return [
                     {
-                        class: 'btn btn-primary',
+                        class: 'wm-btn wm-btn-primary',
                         text: '确定',
                     },
                     {
-                        class: 'btn',
+                        class: 'wm-btn',
                         text: '取消',
                         callback: () => this.onCancel(),
                     },
@@ -167,7 +167,7 @@ export default {
 <style scoped lang="scss">
 @import '~@/../sass/vars';
 
-.dialog-mask {
+.wm-dialog-mask {
     position: fixed;
     left: 0;
     top: 0;
@@ -176,16 +176,16 @@ export default {
     background-color: rgba(0, 0, 0, 0.3);
     z-index: 100;
 
-    &.disabled {
+    &.wm-disabled {
         cursor: not-allowed !important;
 
-        .dialog * {
+        .wm-dialog * {
             cursor: initial;
         }
     }
 }
 
-.dialog {
+.wm-dialog {
     position: fixed;
     top: 100px;
     left: 50%;
@@ -194,23 +194,23 @@ export default {
     border-radius: 3px;
 }
 
-.header {
+.wm-header {
     border-bottom: 2px solid $grey;
     padding: 20px 20px 10px 20px;
     font-size: 18px !important;
 }
 
-.content {
+.wm-content {
     padding: 20px;
     overflow: auto;
 }
 
-.footer {
+.wm-footer {
     padding: 20px;
     text-align: right;
 }
 
-.header-close {
+.wm-header-close {
     float: right;
     padding: 0 10px 0 10px;
     cursor: pointer !important;
@@ -218,13 +218,13 @@ export default {
     color: $grey-1;
 }
 
-.mask-in-enter-active,
-.mask-in-leave-active {
+.wm-mask-in-enter-active,
+.wm-mask-in-leave-active {
     transition: all .2s;
 }
 
-.mask-in-enter,
-.mask-in-leave-to {
+.wm-mask-in-enter,
+.wm-mask-in-leave-to {
     opacity: 0;
 }
 </style>

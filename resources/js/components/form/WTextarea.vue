@@ -7,7 +7,7 @@
             :rows="rows"
             :cols="cols"
             @input="$emit('input', $event.target.value)"
-            class="input"
+            class="wm-input"
             ref="textarea"
             :readonly="readonly"
         />

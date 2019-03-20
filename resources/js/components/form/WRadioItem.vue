@@ -1,6 +1,6 @@
 <template>
     <label
-        class="cursor-pointer"
+        class="wm-cursor-pointer"
     >
         <input
             type="radio"

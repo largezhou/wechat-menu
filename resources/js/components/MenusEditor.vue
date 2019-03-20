@@ -1,21 +1,21 @@
 <template>
-    <div class="menus-editor">
-        <div class="edit-area">
-            <div class="preview">
-                <div class="header">
-                    <span class="text">公众号</span>
+    <div class="wm-menus-editor">
+        <div class="wm-edit-area">
+            <div class="wm-preview">
+                <div class="wm-header">
+                    <span class="wm-text">公众号</span>
                 </div>
                 <menus :menus.sync="menus" :menu-auto-id.sync="menuAutoId"/>
             </div>
             <div
                 v-if="$global.currentMenu"
-                class="form"
+                class="wm-form"
             >
-                <div class="header">
+                <div class="wm-header">
                     <span>{{ $global.currentMenu.name }}</span>
                     <a
                         href="javascript:void(0);"
-                        class="pull-right"
+                        class="wm-pull-right"
                         @click="onRemoveCurrent"
                     >删除菜单</a>
                 </div>
@@ -45,7 +45,7 @@
                 </w-radio>
 
                 <div
-                    class="content-wrapper"
+                    class="wm-content-wrapper"
                     v-show="!currentHasSub"
                 >
                     <component
@@ -58,25 +58,25 @@
                 </div>
 
                 <div v-show="currentHasSub" style="margin-top: 20px;">
-                    <span class="grey-1">已设置子菜单，只能编辑菜单名</span>
+                    <span class="wm-grey-1">已设置子菜单，只能编辑菜单名</span>
                 </div>
             </div>
             <div
                 v-else
-                class="choose-hint"
+                class="wm-choose-hint"
             >在左侧选择菜单编辑
             </div>
         </div>
-        <div class="footer-toolbar">
+        <div class="wm-footer-toolbar">
             <button
-                class="btn btn-primary"
+                class="wm-btn wm-btn-primary"
                 @click="onSave"
                 :disabled="!canSave"
                 :title="emptyMenus ? '至少要有一个菜单才能保存' : ''"
             >保存</button>
             <refresh :on-refresh="getData"/>
             <button
-                class="btn"
+                class="wm-btn"
                 @click="onReset"
             >重置</button>
         </div>
@@ -363,12 +363,12 @@ $preview-width: 300px;
 $margin-right: 20px;
 $form-width: $page-width - $margin-right - $preview-width;
 
-.edit-area {
+.wm-edit-area {
     height: 500px;
     display: flex;
 }
 
-.preview {
+.wm-preview {
     min-width: $preview-width;
     margin-right: $margin-right;
     border: $grey-border;
@@ -376,7 +376,7 @@ $form-width: $page-width - $margin-right - $preview-width;
     flex-direction: column;
     justify-content: space-between;
 
-    .header {
+    .wm-header {
         height: 50px;
         background: #3a3a3e;
         color: white;
@@ -386,13 +386,13 @@ $form-width: $page-width - $margin-right - $preview-width;
     }
 }
 
-.form {
+.wm-form {
     padding: 0 20px;
     border: $grey-border;
     width: $form-width;
     background-color: #f4f5f9;
 
-    .header {
+    .wm-header {
         height: 40px;
         line-height: 40px;
         border-bottom: $grey-border;
@@ -400,7 +400,7 @@ $form-width: $page-width - $margin-right - $preview-width;
         margin-bottom: 20px;
     }
 
-    .content-wrapper {
+    .wm-content-wrapper {
         border: $grey-border;
         background-color: #fff;
         padding: 20px;
@@ -408,18 +408,18 @@ $form-width: $page-width - $margin-right - $preview-width;
     }
 }
 
-.choose-hint {
+.wm-choose-hint {
     width: $form-width;
     text-align: center;
     line-height: 600px;
     color: $hint-color;
 }
 
-.name-item {
+.wm-name-item {
     margin-top: 30px;
 }
 
-.footer-toolbar {
+.wm-footer-toolbar {
     border: none !important;
 }
 </style>

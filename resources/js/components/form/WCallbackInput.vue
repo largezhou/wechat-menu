@@ -5,8 +5,8 @@
     >
         <input
             type="text"
-            class="input"
-            :class="{ 'has-error': hasError }"
+            class="wm-input"
+            :class="{ 'wm-has-error': hasError }"
             :value="value"
             ref="input"
             @focus="focused = true"
@@ -16,11 +16,11 @@
         />
         <div
             v-show="show && filteredCallbacks.length"
-            class="autocomplete"
+            class="wm-autocomplete"
         >
             <template v-show="filteredCallbacks.length">
                 <div
-                    class="item cursor-pointer"
+                    class="wm-item wm-cursor-pointer"
                     v-for="(i, index) of filteredCallbacks"
                     :key="index"
                     @click="onSelect(i)"
@@ -134,7 +134,7 @@ export default {
 <style scoped lang="scss">
 @import "~@/../sass/vars";
 
-.autocomplete {
+.wm-autocomplete {
     width: 100%;
     position: absolute;
     border: $grey-border;
@@ -144,7 +144,7 @@ export default {
     max-height: 200px;
     overflow: auto;
 
-    .item {
+    .wm-item {
         padding: 10px;
 
         &:hover {

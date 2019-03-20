@@ -1,5 +1,5 @@
 <template>
-    <div class="other-events-setting">
+    <div class="wm-other-events-setting">
         <table>
             <tr>
                 <th
@@ -38,7 +38,7 @@
                     <change-handle-type :event="e"/>
                 </td>
                 <td
-                    class="table-content"
+                    class="wm-table-content"
                     :style="{ width: columns[2].width }"
                 >
                     <media-picker
@@ -65,25 +65,25 @@
                 >
                     <button
                         v-if="!isDefaultEvent(e)"
-                        class="btn btn-danger btn-sm"
+                        class="wm-btn wm-btn-danger wm-btn-sm"
                         @click="onRemove(index)"
                     >删除</button>
                 </td>
             </tr>
         </table>
-        <div class="footer-toolbar">
+        <div class="wm-footer-toolbar">
             <button
-                class="btn btn-primary"
+                class="wm-btn wm-btn-primary"
                 @click="onSave($v, events, 'other_events')"
                 :disabled="saving"
             >保存</button>
             <refresh :on-refresh="getData"/>
             <button
-                class="btn"
+                class="wm-btn"
                 @click="onReset"
             >重置</button>
             <button
-                class="btn"
+                class="wm-btn"
                 @click="onNewEvent"
             >添加一个</button>
         </div>

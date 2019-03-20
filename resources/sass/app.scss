@@ -2,12 +2,13 @@
 @import "./form";
 
 #wechat-menu {
+    background: white;
     * {
         box-sizing: border-box;
         font-size: 15px;
     }
 
-    .btn {
+    .wm-btn {
         border: 1px solid $grey;
         background: #fff;
         outline: 0;
@@ -24,12 +25,12 @@
             color: $grey-1;
         }
 
-        + .btn {
+        + .wm-btn {
             margin-left: 10px;
         }
     }
 
-    .btn-primary {
+    .wm-btn-primary {
         border: none;
         background: $main-color;
         color: white;
@@ -44,7 +45,7 @@
         }
     }
 
-    .btn-danger {
+    .wm-btn-danger {
         border: none;
         background: $danger-color;
         color: white;
@@ -59,11 +60,11 @@
         }
     }
 
-    .btn-sm {
+    .wm-btn-sm {
         padding: 6px 10px;
     }
 
-    .btn[disabled] {
+    .wm-btn[disabled] {
         cursor: not-allowed;
     }
 
@@ -72,15 +73,15 @@
         color: #576b95;
     }
 
-    .pull-right {
+    .wm-pull-right {
         float: right !important;
     }
 
-    .pull-left {
+    .wm-pull-left {
         float: left !important;
     }
 
-    .input {
+    .wm-input {
         height: 35px;
         border: $grey-border;
         padding: 0 0 0 10px;
@@ -93,16 +94,16 @@
         }
     }
 
-    .cursor-pointer {
+    .wm-cursor-pointer {
         cursor: pointer;
         user-select: none;
     }
 
-    .grey-1 {
+    .wm-grey-1 {
         color: $grey-1;
     }
 
-    .grey {
+    .wm-grey {
         color: $grey;
     }
 
@@ -124,7 +125,7 @@
     textarea {
         font-family: 'Arial';
 
-        &.input {
+        &.wm-input {
             height: auto;
             padding: 10px;
             min-height: 40px;
@@ -132,7 +133,7 @@
         }
     }
 
-    .footer-toolbar {
+    .wm-footer-toolbar {
         text-align: center;
         color: $grey-1;
         padding: 20px 0;
@@ -140,14 +141,14 @@
         border-top: none;
     }
 
-    .vertical-middle {
+    .wm-vertical-middle {
         display: inline-block;
         vertical-align: middle;
     }
 
     $tab-height: 50px;
 
-    .tabs {
+    .wm-tabs {
         height: $tab-height;
         line-height: $tab-height;
         border-bottom: 3px solid $main-color;
@@ -155,7 +156,7 @@
         margin-bottom: 20px;
     }
 
-    .tab {
+    .wm-tab {
         color: $grey-1 !important;
         display: inline-block;
         padding: 0 20px;
@@ -164,7 +165,7 @@
             background-color: $grey;
         }
 
-        &.active {
+        &.wm-active {
             background-color: $main-color;
             color: #fff !important;
         }
