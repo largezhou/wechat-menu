@@ -9,12 +9,14 @@
             class="wm-input"
             ref="input"
         >
-            <option
-                ref="options"
-                v-for="item of options"
-                :key="item[valueField]"
-                :value="item[valueField]"
-            >{{ item[textField] }}</option>
+            <slot>
+                <option
+                    ref="options"
+                    v-for="item of options"
+                    :key="item[valueField]"
+                    :value="item[valueField]"
+                >{{ item[textField] }}</option>
+            </slot>
         </select>
     </form-item>
 </template>
@@ -35,11 +37,9 @@ export default {
         },
         valueField: {
             type: String,
-            required: true,
         },
         textField: {
             type: String,
-            required: true,
         },
     },
     watch: {

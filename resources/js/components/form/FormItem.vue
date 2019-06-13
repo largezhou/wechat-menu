@@ -37,5 +37,8 @@ export default {
 </script>
 
 <style scoped>
-
+.wm-label {
+    width: 60px;
+    text-align: right;
+}
 </style>

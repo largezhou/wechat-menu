@@ -19,6 +19,7 @@ export const MENU_TYPES = {
     pic_photo_or_album: '拍照或相册发图',
     pic_weixin: '相册发图',
     location_select: '地理位置',
+    miniprogram: '小程序',
 }
 
 export const TYPES_TEXT = {

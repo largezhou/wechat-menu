@@ -28,21 +28,20 @@
                     inline
                 />
 
-                <w-radio
-                    v-show="!currentHasSub"
+                <w-select
+                    class="vertical-middle"
                     label="菜单内容"
-                    inline
                     :has-error="hasError('type')"
                     :error-text="getError('type')"
                     v-model="$global.currentMenu.type"
+                    inline
                 >
-                    <w-radio-item
+                    <option
                         v-for="key of Object.keys(menuTypes)"
                         :key="key"
-                        :label="menuTypes[key]"
                         :value="key"
-                    />
-                </w-radio>
+                    >{{ menuTypes[key] }}</option>
+                </w-select>
 
                 <div
                     class="wm-content-wrapper"
@@ -54,6 +53,8 @@
                         v-if="currentContentComponent"
                         :is="currentContentComponent"
                         :events="events"
+                        :current-v="currentV"
+                        :field-errors="fieldErrors.mini"
                     />
                 </div>
 
@@ -88,8 +89,10 @@ import { postResources, getResources } from '@/api/wechat'
 import Menus from '@/components/Menus'
 import ContentView from '@/components/ContentView'
 import ContentEvent from '@/components/ContentEvent'
+import ContentMini from '@/components/ContentMini'
 import { MENU_TYPES, WECHAT_ERROR_CODES } from '@/common/constants'
 import { required, url } from 'vuelidate/lib/validators'
+import singleErrorHelper from '@/common/single-error-helper'
 
 /**
  * 手动为无限嵌套的每个菜单单独生成验证
@@ -115,15 +118,28 @@ const buildMenusValidations = menus => {
         } else {
             const t = { ...validators }
 
-            if (menu.type == 'view') {
-                t.url = {
-                    required,
-                    url,
-                }
-            } else {
-                t.key = {
-                    required,
-                }
+            switch (menu.type) {
+                case 'view':
+                    t.url = {
+                        required,
+                        url,
+                    }
+                    break
+                case 'miniprogram':
+                    t.appid = {
+                        required,
+                    }
+                    t.pagepath = {
+                        required,
+                    }
+                    t.url = {
+                        required,
+                    }
+                    break
+                default:
+                    t.key = {
+                        required,
+                    }
             }
 
             validations[index] = t
@@ -139,7 +155,11 @@ export default {
         Menus,
         ContentView,
         ContentEvent,
+        ContentMini,
     },
+    mixins: [
+        singleErrorHelper,
+    ],
     validations() {
         return {
             menus: buildMenusValidations(this.menus),
@@ -166,6 +186,18 @@ export default {
                     required: '必须填写',
                     url: '必须是有效的 URL',
                 },
+                mini: {
+                    url: {
+                        required: '必须填写',
+                        url: '必须是有效的 URL',
+                    },
+                    appid: {
+                        required: '必须填写',
+                    },
+                    pagepath: {
+                        required: '必须填写',
+                    },
+                },
             },
         }
     },
@@ -178,7 +210,14 @@ export default {
         },
         currentContentType() {
             let type = this.$global.currentMenu.type
-            return type == 'view' ? 'view' : 'event'
+            switch (type) {
+                case 'view':
+                    return 'view'
+                case 'miniprogram':
+                    return 'mini'
+                default:
+                    return 'event'
+            }
         },
         currentContentComponent() {
             let type = this.currentContentType
@@ -186,7 +225,14 @@ export default {
             return type ? `content-${type}` : null
         },
         currentContentField() {
-            return this.currentContentType == 'view' ? 'url' : 'key'
+            switch (this.currentContentType) {
+                case 'view':
+                    return 'url'
+                case 'mini':
+                    return 'mini'
+                default:
+                    return 'key'
+            }
         },
         /**
          * 当前激活菜单对应的验证相关数据
@@ -322,22 +368,6 @@ export default {
         onReset() {
             this.menus = JSON.parse(this.menusBak)
             this.activeFirstMenu()
-        },
-        hasError(field) {
-            const curV = this.currentV[field]
-            return curV && curV.$invalid
-        },
-        getError(field) {
-            const curV = this.currentV[field]
-            if (!curV) {
-                return
-            }
-
-            for (let i of Object.keys(curV.$params)) {
-                if (!curV[i]) {
-                    return this.fieldErrors[field][i]
-                }
-            }
         },
         getFirstErrorMenu(menus = this.menus, vMenus = this.$v.menus) {
             for (let i = 0; i < menus.length; i++) {
