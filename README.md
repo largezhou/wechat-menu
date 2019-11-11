@@ -4,7 +4,7 @@
 
 ## DEMO
 
-[http://wechat-menu.lzis.me](http://wechat-menu.lzis.me)
+[http://wechat-menu.largezhou.cn/wechat-menu](http://wechat-menu.largezhou.cn/wechat-menu)
 
 ## 更新
 
