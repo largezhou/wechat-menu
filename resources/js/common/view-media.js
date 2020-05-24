@@ -1,6 +1,7 @@
 import { getResources } from '@/api/wechat'
 import Vue from 'vue'
 import axios from '@/api/wechat'
+import { EMPTY_HREF } from '@/common/constants'
 
 export default {
     data() {
@@ -73,10 +74,6 @@ export default {
         },
 
         viewLink(item, realType) {
-            if (!item) {
-                return 'javascript:void(0);'
-            }
-
             switch (realType) {
                 case 'newsItem':
                 case 'image':
@@ -91,7 +88,7 @@ export default {
                         return item.url
                     }
                 default:
-                    return 'javascript:void(0);'
+                    return EMPTY_HREF
             }
         },
     },

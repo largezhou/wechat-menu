@@ -13,13 +13,14 @@
             class="wm-text"
         >
             <w-textarea
+                style="margin-bottom: 0;"
                 v-model="value.value"
             />
         </div>
         <a
             v-else
             :href="viewLink(item, type)"
-            target="_blank"
+            :target="target"
             @click.stop="onView(item, type)"
             title="查看"
         >
@@ -34,7 +35,7 @@
 
 <script>
 import formItemHelper from '@/common/form-item'
-import { AUTO_REPLY_TYPES } from '@/common/constants'
+import { AUTO_REPLY_TYPES, EMPTY_HREF } from '@/common/constants'
 import { objGet } from '@/common/utils'
 import viewMedia from '@/common/view-media'
 
@@ -71,6 +72,13 @@ export default {
                 return this.item || '请设置文字内容'
             } else {
                 return (this.item ? '已选择' : '请选择') + AUTO_REPLY_TYPES[this.type]
+            }
+        },
+        target() {
+            if (this.viewLink(this.item, this.type) === EMPTY_HREF) {
+                return ''
+            } else {
+                return '_blank'
             }
         },
     },

@@ -181,3 +181,11 @@ export default {
     },
 }
 </script>
+
+<style scoped lang="scss">
+td {
+    .wm-form-item {
+        margin-bottom: 0 !important;
+    }
+}
+</style>

@@ -83,3 +83,5 @@ export const AUTO_REPLY_TYPES = {
     voice: '音频',
     video: '视频',
 }
+
+export const EMPTY_HREF = 'javascript:void(0);'

@@ -2,6 +2,7 @@
     <div>
         <w-select
             class="wm-vertical-middle"
+            style="margin-bottom: 0;"
             label="选择事件"
             :has-error="hasError"
             :error-text="errorText"

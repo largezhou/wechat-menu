@@ -12,9 +12,7 @@
     }
 
     .wm-form-item {
-        + .wm-form-item {
-            margin-top: 20px;
-        }
+        margin-bottom: 20px;
 
         .wm-content {
             width: 100%;
@@ -24,6 +22,7 @@
 
         .wm-error-text {
             position: absolute;
+            display: block;
             color: $danger-color;
             font-size: 14px;
         }
@@ -56,6 +55,7 @@
 
         &.wm-media-picker {
             .wm-error-text {
+                display: inline;
                 position: initial;
             }
         }

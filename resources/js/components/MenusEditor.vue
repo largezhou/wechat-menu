@@ -434,7 +434,6 @@ $form-width: $page-width - $margin-right - $preview-width;
         border: $grey-border;
         background-color: #fff;
         padding: 20px;
-        margin-top: 20px;
     }
 }
 

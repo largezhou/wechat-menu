@@ -13,8 +13,8 @@
             :title="title"
         >{{ title }}</span>
         <a
-            target="_blank"
             :href="viewLink(item, realType)"
+            :target="target"
             class="wm-view"
             @click.stop="onView(item, realType)"
         >
@@ -29,6 +29,7 @@
 
 <script>
 import viewMedia from '@/common/view-media'
+import { EMPTY_HREF } from '@/common/constants'
 
 export default {
     name: 'MediaItem',
@@ -90,6 +91,13 @@ export default {
                     return this.item.title
                 default:
                     return this.item.name
+            }
+        },
+        target() {
+            if (this.viewLink(this.item, this.realType) === EMPTY_HREF) {
+                return ''
+            } else {
+                return '_blank'
             }
         },
     },
