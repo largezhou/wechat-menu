@@ -20,6 +20,8 @@ export const MENU_TYPES = {
     pic_weixin: '相册发图',
     location_select: '地理位置',
     miniprogram: '小程序',
+    media_id: '回复素材',
+    view_limited: '打开素材',
 }
 
 export const TYPES_TEXT = {

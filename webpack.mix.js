@@ -26,7 +26,7 @@ mix
     .setResourceRoot('/vendor/wechat-menu')
     .js('resources/js/app.js', target)
     .sass('resources/sass/app.scss', target)
-    .copy(target, '../test_wechat_menu/public/vendor/wechat-menu')
+    .copy(target, '../test-wechat-menu/public/vendor/wechat-menu')
     .version()
     .webpackConfig({
         resolve: {

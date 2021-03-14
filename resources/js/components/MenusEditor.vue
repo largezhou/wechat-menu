@@ -89,8 +89,9 @@ import { postResources, getResources } from '@/api/wechat'
 import Menus from '@/components/Menus'
 import ContentView from '@/components/ContentView'
 import ContentEvent from '@/components/ContentEvent'
+import ContentMedia from '@/components/ContentMedia'
 import ContentMini from '@/components/ContentMini'
-import { MENU_TYPES, WECHAT_ERROR_CODES } from '@/common/constants'
+import { MENU_TYPES } from '@/common/constants'
 import { required, url } from 'vuelidate/lib/validators'
 import singleErrorHelper from '@/common/single-error-helper'
 
@@ -136,6 +137,12 @@ const buildMenusValidations = menus => {
                         required,
                     }
                     break
+                case 'media_id':
+                case 'view_limited':
+                    t.media_id = {
+                        required,
+                    }
+                    break
                 default:
                     t.key = {
                         required,
@@ -155,6 +162,7 @@ export default {
         Menus,
         ContentView,
         ContentEvent,
+        ContentMedia,
         ContentMini,
     },
     mixins: [
@@ -186,6 +194,9 @@ export default {
                     required: '必须填写',
                     url: '必须是有效的 URL',
                 },
+                media_id: {
+                    required: '必须填写',
+                },
                 mini: {
                     url: {
                         required: '必须填写',
@@ -215,6 +226,9 @@ export default {
                     return 'view'
                 case 'miniprogram':
                     return 'mini'
+                case 'media_id':
+                case 'view_limited':
+                    return 'media'
                 default:
                     return 'event'
             }
@@ -230,6 +244,8 @@ export default {
                     return 'url'
                 case 'mini':
                     return 'mini'
+                case 'media':
+                    return 'media_id'
                 default:
                     return 'key'
             }
