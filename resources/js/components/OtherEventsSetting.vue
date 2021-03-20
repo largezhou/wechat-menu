@@ -100,7 +100,6 @@ import { callback } from '@/common/validators'
 import eventErrorHelper from '@/common/event-error-helper'
 import createEvents from '@/common/create-events'
 import MediaPicker from '@/components/media-picker/MediaPicker'
-import { setHeadNoReferrer } from '@/common/utils'
 
 export default {
     name: 'OtherEventsSetting',
@@ -164,7 +163,6 @@ export default {
         },
     },
     created() {
-        setHeadNoReferrer()
         this.getData()
     },
     methods: {

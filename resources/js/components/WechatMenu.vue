@@ -19,6 +19,7 @@
 
 <script>
 import { PAGES } from '@/common/constants'
+import { setHeadNoReferrer } from '@/common/utils'
 
 export default {
     name: 'WechatMenu',
@@ -27,6 +28,9 @@ export default {
             hash: '',
             pageMap: PAGES,
         }
+    },
+    created() {
+        setHeadNoReferrer()
     },
     mounted() {
         this.onHashChange()
