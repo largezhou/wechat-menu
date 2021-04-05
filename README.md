@@ -6,8 +6,11 @@
 
 [http://wechat-menu.largezhou.cn/wechat-menu](http://wechat-menu.largezhou.cn/wechat-menu)
 
+demo 站点的代码：[largezhou/test-wechat-menu](https://github.com/largezhou/test-wechat-menu)
+
 ## 更新
 
+- 菜单可直接选择图片或图文。(2021-3-20)
 - 菜单可选择跳转小程序。 (2019-6-13)
 - 自动回复消息，现已支持回复纯文本以及图文、图片、音频和视频永久素材消息。永久素材需要在公众号后台添加。 (2019-1-16)
 
