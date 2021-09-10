@@ -2,7 +2,7 @@
     <div>
         <media-picker
             :value="{
-                type: '',
+                type: 'news',
                 value: {
                     media_id: $global.currentMenu.media_id,
                 },
@@ -37,8 +37,7 @@ export default {
     },
     methods: {
         handlePicked(item) {
-            log(item)
-            this.$global.currentMenu.media_id = objGet(item, 'value.media_id')
+            this.$set(this.$global.currentMenu, 'media_id', objGet(item, 'value.media_id'))
         },
     },
 }
