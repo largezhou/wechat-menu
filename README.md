@@ -4,7 +4,7 @@
 
 ## DEMO
 
-[http://wechat-menu.largezhou.cn/wechat-menu](http://wechat-menu.largezhou.cn/wechat-menu)
+[http://test-wechat-menu.largezhou.com/](http://test-wechat-menu.largezhou.com/)
 
 demo 站点的代码：[largezhou/test-wechat-menu](https://github.com/largezhou/test-wechat-menu)
 
